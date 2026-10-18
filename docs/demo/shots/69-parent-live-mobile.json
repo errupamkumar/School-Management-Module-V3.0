@@ -1,0 +1,27 @@
+{
+ "id": "69-parent-live-mobile",
+ "width": 390,
+ "height": 844,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Distance and arrival time to your stop",
+   "box": {
+    "x": 4.1,
+    "y": 19.19,
+    "w": 91.79,
+    "h": 50.59
+   }
+  },
+  {
+   "n": 2,
+   "note": "The bus and your stop on the map",
+   "box": {
+    "x": 4.36,
+    "y": 31.75,
+    "w": 91.28,
+    "h": 37.91
+   }
+  }
+ ]
+}

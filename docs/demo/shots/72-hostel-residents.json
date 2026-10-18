@@ -1,0 +1,37 @@
+{
+ "id": "72-hostel-residents",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Give a student a bed",
+   "box": {
+    "x": 87.96,
+    "y": 42.78,
+    "w": 8.64,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Move to another room",
+   "box": {
+    "x": 84.7,
+    "y": 55.89,
+    "w": 5.53,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 3,
+   "note": "Vacate (fee stops from next invoice)",
+   "box": {
+    "x": 90.52,
+    "y": 55.89,
+    "w": 6.08,
+    "h": 3.56
+   }
+  }
+ ]
+}

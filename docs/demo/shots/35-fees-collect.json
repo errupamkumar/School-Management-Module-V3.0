@@ -1,0 +1,57 @@
+{
+ "id": "35-fees-collect",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Collect for all siblings",
+   "box": {
+    "x": 56.75,
+    "y": 28.11,
+    "w": 11.23,
+    "h": 2.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Amount",
+   "box": {
+    "x": 72.57,
+    "y": 44,
+    "w": 23.75,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 3,
+   "note": "Tick the invoices being paid",
+   "box": {
+    "x": 21.46,
+    "y": 46.22,
+    "w": 1.25,
+    "h": 2
+   }
+  },
+  {
+   "n": 4,
+   "note": "Cash, UPI, card, cheque…",
+   "box": {
+    "x": 72.57,
+    "y": 52.67,
+    "w": 23.75,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 5,
+   "note": "Print recent receipts",
+   "box": {
+    "x": 72.57,
+    "y": 89.56,
+    "w": 7.33,
+    "h": 2.22
+   }
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "id": "51-store",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Scan or search",
+   "box": {
+    "x": 20.9,
+    "y": 26.33,
+    "w": 35.97,
+    "h": 4
+   }
+  },
+  {
+   "n": 2,
+   "note": "Cart and payment",
+   "box": {
+    "x": 71.18,
+    "y": 25,
+    "w": 26.53,
+    "h": 7.44
+   }
+  }
+ ]
+}

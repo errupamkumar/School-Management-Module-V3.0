@@ -1,0 +1,27 @@
+{
+ "id": "73-hostel-family-mobile",
+ "width": 390,
+ "height": 844,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Hostel, room, bed and monthly fee",
+   "box": {
+    "x": 4.1,
+    "y": 19.19,
+    "w": 91.79,
+    "h": 65.76
+   }
+  },
+  {
+   "n": 2,
+   "note": "Call the warden",
+   "box": {
+    "x": 9.49,
+    "y": 72.51,
+    "w": 81.03,
+    "h": 4.5
+   }
+  }
+ ]
+}

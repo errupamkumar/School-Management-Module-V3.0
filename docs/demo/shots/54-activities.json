@@ -1,0 +1,17 @@
+{
+ "id": "54-activities",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Join a club (or waitlist)",
+   "box": {
+    "x": 21.46,
+    "y": 45,
+    "w": 22.27,
+    "h": 3.56
+   }
+  }
+ ]
+}

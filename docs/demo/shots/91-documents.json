@@ -1,0 +1,37 @@
+{
+ "id": "91-documents",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Licences expiring within 30 days",
+   "box": {
+    "x": 20,
+    "y": 18.44,
+    "w": 77.78,
+    "h": 5.11
+   }
+  },
+  {
+   "n": 2,
+   "note": "Choose who can open each document",
+   "box": {
+    "x": 85.63,
+    "y": 11.33,
+    "w": 12.15,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Folders, versions and validity",
+   "box": {
+    "x": 36.74,
+    "y": 32.22,
+    "w": 67.31,
+    "h": 66.22
+   }
+  }
+ ]
+}

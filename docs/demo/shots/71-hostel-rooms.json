@@ -1,0 +1,47 @@
+{
+ "id": "71-hostel-rooms",
+ "width": 1440,
+ "height": 1100,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Occupancy across all hostels",
+   "box": {
+    "x": 46.3,
+    "y": 15.09,
+    "w": 25.19,
+    "h": 8.55
+   }
+  },
+  {
+   "n": 2,
+   "note": "Add a hostel",
+   "box": {
+    "x": 88.91,
+    "y": 31.45,
+    "w": 8.87,
+    "h": 3.64
+   }
+  },
+  {
+   "n": 3,
+   "note": "Add a room with beds and monthly fee",
+   "box": {
+    "x": 79.79,
+    "y": 31.45,
+    "w": 8.57,
+    "h": 3.64
+   }
+  },
+  {
+   "n": 4,
+   "note": "Each room: beds taken, free beds, fee (click to edit)",
+   "box": {
+    "x": 21.46,
+    "y": 69.36,
+    "w": 11.78,
+    "h": 11.27
+   }
+  }
+ ]
+}

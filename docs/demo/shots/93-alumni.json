@@ -1,0 +1,37 @@
+{
+ "id": "93-alumni",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Public self-registration link",
+   "box": {
+    "x": 61.63,
+    "y": 11.33,
+    "w": 11.47,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Bring in passed-out students",
+   "box": {
+    "x": 73.65,
+    "y": 11.33,
+    "w": 13.6,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Careers, mentors and contact consent",
+   "box": {
+    "x": 20.07,
+    "y": 25.33,
+    "w": 77.64,
+    "h": 45.44
+   }
+  }
+ ]
+}

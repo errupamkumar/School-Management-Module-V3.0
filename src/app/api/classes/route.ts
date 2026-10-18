@@ -1,52 +1,55 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { z } from 'zod';
+import { body, owned, route } from '@/server/api';
+import { classLabel, displayName } from '@/server/common';
+import { fromPaise } from '@/server/services/money';
+import { money } from '@/lib/validators';
 
-// GET all classes with sections
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const campusId = searchParams.get('campusId');
+const classSchema = z.object({
+  name: z.string().trim().min(1, 'Class name is required').max(30),
+  numericOrder: z.coerce.number().int().min(0).max(100),
+  campusId: z.string().min(1).optional(),
+  monthlyFee: money.default(0),
+  sections: z.array(z.string().trim().toUpperCase().min(1).max(10)).max(20).optional(),
+});
 
-    const where: any = { isActive: true };
-    if (campusId) where.campusId = campusId;
-
-    const classes = await prisma.class.findMany({
-      where,
-      include: {
-        sections: { include: { classTeacher: { select: { firstName: true, lastName: true } }, _count: { select: { students: true } } } },
-        _count: { select: { students: true } },
-      },
-      orderBy: { numericOrder: 'asc' },
-    });
-
-    return NextResponse.json({ success: true, data: classes });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
-
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-
-    const classRecord = await prisma.class.create({
-      data: {
-        name: body.name,
-        numericOrder: body.numericOrder,
-        campusId: body.campusId,
-        sections: {
-          create: (body.sections || ['A']).map((s: string) => ({
-            name: s,
-            campusId: body.campusId,
-            capacity: body.capacity || 40,
-          })),
+export const GET = route({ module: 'academics' }, async (ctx) => {
+  const classes = await ctx.db.class.findMany({
+    orderBy: { numericOrder: 'asc' },
+    include: {
+      campus: { select: { name: true } },
+      sections: {
+        orderBy: { name: 'asc' },
+        include: {
+          classTeacher: { select: { id: true, firstName: true, lastName: true } },
+          _count: { select: { students: { where: { status: 'ACTIVE' } } } },
         },
       },
-      include: { sections: true },
-    });
+      subjects: { include: { subject: { select: { id: true, name: true, code: true } } } },
+    },
+  });
+  return classes.map((c) => ({
+    ...c,
+    label: classLabel(c),
+    students: c.sections.reduce((a, s) => a + s._count.students, 0),
+    sections: c.sections.map((s) => ({ ...s, students: s._count.students, classTeacherName: s.classTeacher ? displayName(s.classTeacher) : null })),
+  }));
+});
 
-    return NextResponse.json({ success: true, data: classRecord }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
+export const POST = route({ module: 'academics', action: 'create' }, async (ctx, req) => {
+  const input = await body(req, classSchema);
+  const campusId = input.campusId ?? (await ctx.db.campus.findFirstOrThrow({ where: { isMain: true } })).id;
+  await owned(ctx.db.campus, campusId, 'Campus');
+  const sections = input.sections?.length ? [...new Set(input.sections)] : ['A'];
+  const cls = await ctx.db.class.create({
+    data: {
+      schoolId: ctx.user.schoolId,
+      campusId,
+      name: input.name,
+      numericOrder: input.numericOrder,
+      monthlyFee: fromPaise(Math.round(input.monthlyFee * 100)),
+      sections: { create: sections.map((name) => ({ schoolId: ctx.user.schoolId, name })) },
+    },
+  });
+  await ctx.audit('CREATE', 'Class', cls.id, `${input.name} with sections ${sections.join(', ')}`);
+  return cls;
+});

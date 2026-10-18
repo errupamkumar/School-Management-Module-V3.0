@@ -1,0 +1,27 @@
+{
+ "id": "94-placements-student",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Application status from the placement cell",
+   "box": {
+    "x": 59.44,
+    "y": 18.44,
+    "w": 38.33,
+    "h": 21.61
+   }
+  },
+  {
+   "n": 2,
+   "note": "Apply in one tap",
+   "box": {
+    "x": 52.89,
+    "y": 29.67,
+    "w": 3.98,
+    "h": 3.56
+   }
+  }
+ ]
+}

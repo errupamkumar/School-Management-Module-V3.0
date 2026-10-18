@@ -1,0 +1,47 @@
+{
+ "id": "05-dashboard-parent-mobile",
+ "width": 390,
+ "height": 844,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Choose the child",
+   "box": {
+    "x": 19.97,
+    "y": 22.51,
+    "w": 14.4,
+    "h": 3.55
+   }
+  },
+  {
+   "n": 2,
+   "note": "Attendance, fees due, homework, result",
+   "box": {
+    "x": 4.1,
+    "y": 27.96,
+    "w": 91.79,
+    "h": 13.51
+   }
+  },
+  {
+   "n": 3,
+   "note": "Homework due",
+   "box": {
+    "x": 4.1,
+    "y": 58.77,
+    "w": 91.79,
+    "h": 13.51
+   }
+  },
+  {
+   "n": 4,
+   "note": "Menu",
+   "box": {
+    "x": 3.08,
+    "y": 1.6,
+    "w": 9.23,
+    "h": 4.27
+   }
+  }
+ ]
+}

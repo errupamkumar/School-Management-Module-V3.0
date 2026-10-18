@@ -1,0 +1,37 @@
+{
+ "id": "52-certificates",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Issue · Register · Templates · ID cards",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Template",
+   "box": {
+    "x": 21.46,
+    "y": 52.44,
+    "w": 25.21,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 3,
+   "note": "Issue with QR code",
+   "box": {
+    "x": 63.33,
+    "y": 61.11,
+    "w": 9.66,
+    "h": 4.44
+   }
+  }
+ ]
+}

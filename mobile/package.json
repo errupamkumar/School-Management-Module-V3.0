@@ -1,0 +1,24 @@
+{
+  "name": "vidyalaya-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android and iOS store wrapper for Vidyalaya ERP (loads the hosted web app).",
+  "scripts": {
+    "prepare-www": "node -e \"require('fs').mkdirSync('www',{recursive:true});require('fs').writeFileSync('www/index.html','<!doctype html><meta http-equiv=refresh content=0;url=/dashboard>')\"",
+    "add:android": "npm run prepare-www && npx cap add android",
+    "add:ios": "npm run prepare-www && npx cap add ios",
+    "sync": "npx cap sync",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.1.2",
+    "@capacitor/core": "6.1.2",
+    "@capacitor/ios": "6.1.2",
+    "@capacitor/push-notifications": "6.0.2",
+    "@capacitor/splash-screen": "6.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "6.1.2"
+  }
+}

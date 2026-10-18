@@ -1,0 +1,17 @@
+{
+ "id": "64-print-receipt",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Print or save as PDF",
+   "box": {
+    "x": 65.08,
+    "y": 2.67,
+    "w": 11.37,
+    "h": 4.44
+   }
+  }
+ ]
+}

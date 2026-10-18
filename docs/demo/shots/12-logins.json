@@ -1,0 +1,37 @@
+{
+ "id": "12-logins",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Students / Parents",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Search accounts",
+   "box": {
+    "x": 20.9,
+    "y": 26.33,
+    "w": 22.22,
+    "h": 4
+   }
+  },
+  {
+   "n": 3,
+   "note": "Reset password · Unlock · Disable",
+   "box": {
+    "x": 85.88,
+    "y": 38.33,
+    "w": 2.22,
+    "h": 3.56
+   }
+  }
+ ]
+}

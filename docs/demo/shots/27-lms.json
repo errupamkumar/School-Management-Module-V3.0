@@ -1,0 +1,27 @@
+{
+ "id": "27-lms",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Search material",
+   "box": {
+    "x": 21.46,
+    "y": 19.89,
+    "w": 22.22,
+    "h": 4
+   }
+  },
+  {
+   "n": 2,
+   "note": "Add notes, video or link",
+   "box": {
+    "x": 88.01,
+    "y": 11.33,
+    "w": 9.77,
+    "h": 4.44
+   }
+  }
+ ]
+}

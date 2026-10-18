@@ -1,0 +1,27 @@
+{
+ "id": "47-calendar",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Today",
+   "box": {
+    "x": 62.63,
+    "y": 20.33,
+    "w": 9.8,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "Holiday, PTM, exam, event",
+   "box": {
+    "x": 89.17,
+    "y": 11.33,
+    "w": 8.61,
+    "h": 4.44
+   }
+  }
+ ]
+}

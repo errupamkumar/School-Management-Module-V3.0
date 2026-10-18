@@ -1,0 +1,17 @@
+{
+ "id": "38-fee-structure",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Roll over with % increase",
+   "box": {
+    "x": 83.39,
+    "y": 27,
+    "w": 12.93,
+    "h": 3.56
+   }
+  }
+ ]
+}

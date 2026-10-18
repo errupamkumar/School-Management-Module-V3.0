@@ -1,80 +1,39 @@
 import './globals.css';
-import { Toaster } from 'react-hot-toast';
-import AuthProvider from '@/components/providers/AuthProvider';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { LanguageProvider } from '@/components/providers/LanguageProvider';
-import { CampusProvider } from '@/components/providers/CampusProvider';
-
 import type { Metadata, Viewport } from 'next';
+import { Inter, Noto_Sans_Devanagari } from 'next/font/google';
+import { Providers } from '@/components/providers';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const devanagari = Noto_Sans_Devanagari({ subsets: ['devanagari'], weight: ['400', '500', '600', '700'], variable: '--font-hindi', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Vidyalaya - School Management System',
-  description: 'Complete School Management System for Indian Schools',
+  title: { default: 'Vidyalaya — School ERP', template: '%s · Vidyalaya' },
+  description: 'Cloud school management software for Indian schools: admissions, fees, attendance, exams, transport and parent app.',
   applicationName: 'Vidyalaya',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Vidyalaya',
-  },
-  formatDetection: {
-    telephone: true,
-    date: true,
-    address: true,
-    email: true,
-  },
+  appleWebApp: { capable: true, title: 'Vidyalaya', statusBarStyle: 'default' },
+  icons: { apple: '/icons/apple-touch-icon.png' },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#020617' },
+    { media: '(prefers-color-scheme: light)', color: '#f6f7fb' },
+    { media: '(prefers-color-scheme: dark)', color: '#090b14' },
   ],
 };
 
+// Applies the saved theme before first paint to avoid a light/dark flash.
+const themeScript = `try{var t=localStorage.getItem('vidyalaya-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');var l=localStorage.getItem('vidyalaya-lang');if(l)document.documentElement.lang=l;}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${devanagari.variable}`}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-        <meta name="HandheldFriendly" content="true" />
-        <meta name="MobileOptimized" content="width" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('school-ms-theme');
-                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  if (theme === 'dark' || (!theme && prefersDark)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                  var lang = localStorage.getItem('school-ms-lang');
-                  if (lang) {
-                    document.documentElement.lang = lang;
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <AuthProvider>
-          <LanguageProvider>
-            <ThemeProvider>
-              <CampusProvider>
-                {children}
-                <Toaster position="top-right" toastOptions={{ duration: 3000, style: { fontSize: '14px' } }} />
-              </CampusProvider>
-            </ThemeProvider>
-          </LanguageProvider>
-        </AuthProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

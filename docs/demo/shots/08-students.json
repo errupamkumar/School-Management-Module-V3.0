@@ -1,0 +1,57 @@
+{
+ "id": "08-students",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Search",
+   "box": {
+    "x": 20.9,
+    "y": 19.89,
+    "w": 26.67,
+    "h": 4
+   }
+  },
+  {
+   "n": 2,
+   "note": "Filter by class and section",
+   "box": {
+    "x": 48.13,
+    "y": 19.89,
+    "w": 11.11,
+    "h": 4
+   }
+  },
+  {
+   "n": 3,
+   "note": "Bulk import (CSV)",
+   "box": {
+    "x": 79.18,
+    "y": 11.33,
+    "w": 7.07,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 4,
+   "note": "Session-end promotion",
+   "box": {
+    "x": 63.01,
+    "y": 11.33,
+    "w": 7.94,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 5,
+   "note": "Admit one student",
+   "box": {
+    "x": 86.81,
+    "y": 11.33,
+    "w": 10.97,
+    "h": 4.44
+   }
+  }
+ ]
+}

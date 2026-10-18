@@ -1,0 +1,2281 @@
+{
+ "password": "Demo@12345",
+ "vars": {
+  "kabirId": {
+   "as": "owner",
+   "url": "/api/students?search=ADM00066",
+   "pick": "data.0.id"
+  },
+  "teacherEmpId": {
+   "as": "owner",
+   "url": "/api/employees?search=Mukesh",
+   "pick": "data.0.id"
+  },
+  "examId": {
+   "as": "owner",
+   "url": "/api/exams",
+   "pick": "data.0.id"
+  },
+  "receiptId": {
+   "as": "owner",
+   "url": "/api/fees/payments?pageSize=1&status=SUCCESS",
+   "pick": "data.0.id"
+  },
+  "nurserySection": {
+   "as": "teacher",
+   "url": "/api/lookups?include=classes&mine=1",
+   "pick": "data.classes.0.sections.0.id"
+  },
+  "kabirSection": {
+   "as": "parent",
+   "url": "/api/me",
+   "pick": "data.children.1.sectionId"
+  },
+  "certCode": {
+   "as": "owner",
+   "url": "/api/certificates/issued",
+   "pick": "data.0.verifyCode"
+  },
+  "debtorId": {
+   "as": "owner",
+   "url": "/api/fees/defaulters",
+   "pick": "data.rows.0.studentId"
+  }
+ },
+ "shots": [
+  {
+   "id": "01-login",
+   "path": "/login",
+   "markers": [
+    {
+     "sel": "#school",
+     "note": "School code"
+    },
+    {
+     "sel": "#identifier",
+     "note": "Username, email or mobile"
+    },
+    {
+     "sel": "#password",
+     "note": "Password (eye icon shows it)"
+    },
+    {
+     "text": "Sign in securely",
+     "note": "Sign in"
+    }
+   ]
+  },
+  {
+   "id": "02-app-frame",
+   "user": "owner",
+   "path": "/dashboard",
+   "markers": [
+    {
+     "sel": "aside nav",
+     "note": "Sidebar: only the modules your role can open"
+    },
+    {
+     "text": "Collapse",
+     "note": "Collapse the sidebar to icons"
+    },
+    {
+     "sel": "header > button.flex-1",
+     "note": "Search any page (Ctrl K)"
+    },
+    {
+     "sel": "header button[aria-label='Switch language']",
+     "note": "English / हिन्दी"
+    },
+    {
+     "sel": "header button[aria-label='Notifications']",
+     "note": "Notifications"
+    },
+    {
+     "sel": "header button.ml-1",
+     "note": "My profile, change password, sign out"
+    }
+   ]
+  },
+  {
+   "id": "03-dashboard-admin",
+   "user": "owner",
+   "path": "/dashboard",
+   "markers": [
+    {
+     "text": "Students",
+     "within": "main",
+     "closest": ".card",
+     "note": "Today's KPIs"
+    },
+    {
+     "text": "3 leave requests awaiting approval",
+     "closest": "a,button",
+     "note": "Things that need action today"
+    },
+    {
+     "text": "Fee collection",
+     "closest": ".card",
+     "note": "Six-month fee trend"
+    },
+    {
+     "text": "Collect fee",
+     "note": "Jump to the fee counter"
+    },
+    {
+     "text": "Absent today",
+     "closest": ".card",
+     "note": "Absentees (or attendance not marked)"
+    }
+   ],
+   "height": 1250
+  },
+  {
+   "id": "04-dashboard-teacher",
+   "user": "teacher",
+   "path": "/dashboard",
+   "markers": [
+    {
+     "text": "Today’s periods",
+     "note": "Your periods today",
+     "closest": ".card"
+    },
+    {
+     "text": "My classes",
+     "note": "Your class-teacher section",
+     "closest": ".card"
+    },
+    {
+     "text": "Mark now",
+     "note": "Open attendance for your section"
+    },
+    {
+     "text": "Quick actions",
+     "note": "Shortcuts",
+     "closest": ".card"
+    }
+   ],
+   "height": 1100
+  },
+  {
+   "id": "05-dashboard-parent-mobile",
+   "user": "parent",
+   "path": "/dashboard",
+   "width": 390,
+   "markers": [
+    {
+     "text": "Kabir",
+     "within": "main",
+     "note": "Choose the child"
+    },
+    {
+     "text": "Attendance this month",
+     "closest": ".card",
+     "note": "Attendance, fees due, homework, result"
+    },
+    {
+     "text": "Homework due",
+     "closest": ".card",
+     "note": "Homework due"
+    },
+    {
+     "sel": "header button[aria-label='Open menu']",
+     "note": "Menu"
+    }
+   ]
+  },
+  {
+   "id": "06-admissions",
+   "user": "reception",
+   "path": "/admissions",
+   "markers": [
+    {
+     "text": "Enquiry",
+     "within": "main",
+     "note": "Pipeline stages"
+    },
+    {
+     "ph": "Name, phone",
+     "note": "Search applications"
+    },
+    {
+     "text": "Pipeline",
+     "note": "Pipeline / Closed"
+    },
+    {
+     "text": "Copy online form link",
+     "note": "Share the online form"
+    },
+    {
+     "text": "New enquiry",
+     "note": "Record a walk-in or phone enquiry"
+    }
+   ]
+  },
+  {
+   "id": "07-admission-detail",
+   "user": "reception",
+   "path": "/admissions",
+   "steps": [
+    {
+     "click": {
+      "text": "Pranav Tiwari",
+      "within": "main"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "text": "Move to stage",
+     "note": "Move to the next stage"
+    },
+    {
+     "text": "Notes",
+     "nth": 0,
+     "note": "Call log, documents, test score"
+    },
+    {
+     "text": "Next follow-up",
+     "note": "Follow-up date"
+    },
+    {
+     "text": "Admit now",
+     "note": "Enrol the applicant"
+    }
+   ]
+  },
+  {
+   "id": "08-students",
+   "user": "admin",
+   "path": "/students",
+   "markers": [
+    {
+     "ph": "Name, admission no.",
+     "note": "Search"
+    },
+    {
+     "text": "All classes",
+     "note": "Filter by class and section"
+    },
+    {
+     "text": "Import",
+     "note": "Bulk import (CSV)"
+    },
+    {
+     "text": "Promote",
+     "note": "Session-end promotion"
+    },
+    {
+     "text": "New admission",
+     "note": "Admit one student"
+    }
+   ]
+  },
+  {
+   "id": "09-new-admission",
+   "user": "admin",
+   "path": "/students/new",
+   "markers": [
+    {
+     "text": "Student details",
+     "note": "Student details"
+    },
+    {
+     "text": "Admission & class",
+     "note": "Class, section, admission no."
+    },
+    {
+     "text": "Parents / guardian",
+     "note": "Primary mobile links siblings"
+    }
+   ]
+  },
+  {
+   "id": "10-student-profile",
+   "user": "admin",
+   "path": "/students/{kabirId}",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Profile · Attendance · Fees · Results · Behaviour · Logins"
+    },
+    {
+     "text": "Fee due",
+     "note": "Summary tiles",
+     "closest": ".card"
+    },
+    {
+     "text": "Collect fee",
+     "note": "Collect this student's fees"
+    },
+    {
+     "text": "Edit",
+     "within": "main",
+     "nth": 0,
+     "note": "Edit details"
+    },
+    {
+     "text": "More",
+     "within": "main",
+     "note": "Admission letter, status / leaving, delete"
+    }
+   ]
+  },
+  {
+   "id": "11-promote",
+   "user": "admin",
+   "path": "/students/promote",
+   "markers": [
+    {
+     "text": "From class",
+     "note": "Class to promote"
+    },
+    {
+     "text": "Action",
+     "note": "Promote / Detain / Pass out"
+    },
+    {
+     "text": "To class",
+     "note": "Destination class"
+    }
+   ]
+  },
+  {
+   "id": "12-logins",
+   "user": "admin",
+   "path": "/students/logins",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Students / Parents"
+    },
+    {
+     "ph": "Search name",
+     "note": "Search accounts"
+    },
+    {
+     "sel": "main table tbody tr:first-child button[aria-label='Account actions']",
+     "note": "Reset password · Unlock · Disable"
+    }
+   ]
+  },
+  {
+   "id": "13-guardians",
+   "user": "admin",
+   "path": "/guardians",
+   "markers": [
+    {
+     "ph": "Parent, mobile",
+     "note": "Search families"
+    },
+    {
+     "text": "Parent logins",
+     "note": "Parent accounts"
+    },
+    {
+     "text": "Export page",
+     "note": "Export"
+    }
+   ]
+  },
+  {
+   "id": "14-employees",
+   "user": "admin",
+   "path": "/employees",
+   "markers": [
+    {
+     "sel": "[role=radiogroup]",
+     "nth": 0,
+     "note": "All / Teaching / Non-teaching"
+    },
+    {
+     "ph": "Name, code",
+     "note": "Search staff"
+    },
+    {
+     "text": "Staff logins",
+     "note": "Staff accounts"
+    },
+    {
+     "text": "Add employee",
+     "note": "Hire"
+    }
+   ]
+  },
+  {
+   "id": "15-employee-profile",
+   "user": "admin",
+   "path": "/employees/{teacherEmpId}",
+   "markers": [
+    {
+     "text": "Teaching load",
+     "note": "Sections and subjects"
+    },
+    {
+     "text": "Job letter",
+     "note": "Print appointment letter"
+    },
+    {
+     "text": "Edit",
+     "within": "main",
+     "nth": 0,
+     "note": "Edit or mark inactive"
+    }
+   ]
+  },
+  {
+   "id": "16-academics",
+   "user": "admin",
+   "path": "/academics",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Classes · Subjects · Teacher allocation · Years · Chapters"
+    },
+    {
+     "text": "Add class",
+     "note": "Add a class"
+    },
+    {
+     "sel": "main button[aria-label='Class actions']",
+     "nth": 0,
+     "note": "Subjects & marks, add section"
+    }
+   ]
+  },
+  {
+   "id": "17-teacher-allocation",
+   "user": "admin",
+   "path": "/academics",
+   "steps": [
+    {
+     "click": {
+      "text": "Teacher allocation"
+     }
+    },
+    {
+     "click": {
+      "sel": "main select",
+      "nth": 0
+     },
+     "after": 300
+    },
+    {
+     "press": "ArrowDown"
+    },
+    {
+     "press": "Enter",
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "sel": "main select",
+     "nth": 0,
+     "note": "Choose a section"
+    },
+    {
+     "text": "Save allocation",
+     "note": "Save who teaches each subject"
+    }
+   ]
+  },
+  {
+   "id": "18-attendance-mark",
+   "user": "teacher",
+   "path": "/attendance?sectionId={nurserySection}",
+   "markers": [
+    {
+     "label": "Class & section",
+     "note": "Your section"
+    },
+    {
+     "text": "Mark all present",
+     "note": "Mark everyone present"
+    },
+    {
+     "sel": "main [data-on]",
+     "nth": 1,
+     "note": "P / A / L / H / LV per student"
+    },
+    {
+     "text": "Save",
+     "within": "main",
+     "nth": 0,
+     "note": "Save (absent alerts go to parents)"
+    }
+   ],
+   "steps": [
+    {
+     "type": "16102026",
+     "target": {
+      "sel": "main input[type=date]"
+     },
+     "after": 2000
+    }
+   ]
+  },
+  {
+   "id": "19-attendance-scan",
+   "user": "teacher",
+   "path": "/attendance",
+   "steps": [
+    {
+     "click": {
+      "text": "Scan cards"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "ph": "Scan or type",
+     "note": "Scanner input"
+    },
+    {
+     "text": "Recent scans",
+     "note": "Scanned students"
+    }
+   ]
+  },
+  {
+   "id": "20-attendance-register",
+   "user": "admin",
+   "path": "/attendance?sectionId={kabirSection}",
+   "steps": [
+    {
+     "click": {
+      "text": "Monthly register"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "text": "Month",
+     "within": "main",
+     "nth": 0,
+     "note": "Month"
+    },
+    {
+     "text": "Print",
+     "within": "main",
+     "note": "Print"
+    },
+    {
+     "text": "CSV",
+     "within": "main",
+     "note": "Export"
+    }
+   ]
+  },
+  {
+   "id": "21-staff-attendance",
+   "user": "admin",
+   "path": "/staff-attendance",
+   "markers": [
+    {
+     "text": "All present",
+     "note": "Mark all present"
+    },
+    {
+     "text": "P",
+     "within": "main",
+     "nth": 0,
+     "note": "Status per employee (P / A / L / H / LV)"
+    },
+    {
+     "text": "Save",
+     "within": "main",
+     "nth": 0,
+     "note": "Save"
+    }
+   ]
+  },
+  {
+   "id": "22-leave",
+   "user": "admin",
+   "path": "/leave",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "My applications / To review"
+    },
+    {
+     "text": "Approve",
+     "nth": 0,
+     "note": "Approve"
+    },
+    {
+     "text": "Reject",
+     "nth": 0,
+     "note": "Reject"
+    },
+    {
+     "text": "Apply for leave",
+     "note": "Apply"
+    }
+   ]
+  },
+  {
+   "id": "23-timetable",
+   "user": "admin",
+   "path": "/timetable",
+   "steps": [
+    {
+     "click": {
+      "sel": "main select",
+      "nth": 0
+     },
+     "after": 300
+    },
+    {
+     "press": "ArrowDown"
+    },
+    {
+     "press": "ArrowDown"
+    },
+    {
+     "press": "Enter",
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Timetable · Periods · Rooms"
+    },
+    {
+     "sel": "main select",
+     "nth": 0,
+     "note": "Class or teacher"
+    },
+    {
+     "text": "Auto-generate",
+     "note": "Draft automatically"
+    },
+    {
+     "text": "Print",
+     "within": "main",
+     "note": "Print"
+    }
+   ]
+  },
+  {
+   "id": "24-homework",
+   "user": "teacher",
+   "path": "/homework",
+   "markers": [
+    {
+     "text": "Give homework",
+     "note": "Post homework"
+    },
+    {
+     "text": "All my sections",
+     "note": "Filter"
+    }
+   ]
+  },
+  {
+   "id": "25-give-homework",
+   "user": "teacher",
+   "path": "/homework",
+   "steps": [
+    {
+     "click": {
+      "text": "Give homework"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "text": "Class & section",
+     "note": "Section"
+    },
+    {
+     "text": "Subject",
+     "within": "[role=dialog]",
+     "nth": 0,
+     "note": "Subject"
+    },
+    {
+     "text": "Title",
+     "within": "[role=dialog]",
+     "nth": 0,
+     "note": "Title"
+    },
+    {
+     "text": "Due on",
+     "note": "Due date"
+    },
+    {
+     "text": "Post homework",
+     "note": "Post"
+    }
+   ]
+  },
+  {
+   "id": "26-homework-student-mobile",
+   "user": "student",
+   "path": "/homework",
+   "width": 390,
+   "markers": [
+    {
+     "text": "Submit online",
+     "nth": 0,
+     "note": "Submit from the phone"
+    }
+   ]
+  },
+  {
+   "id": "27-lms",
+   "user": "teacher",
+   "path": "/lms",
+   "markers": [
+    {
+     "ph": "Search",
+     "note": "Search material"
+    },
+    {
+     "text": "Add material",
+     "note": "Add notes, video or link"
+    }
+   ]
+  },
+  {
+   "id": "28-live-classes",
+   "user": "teacher",
+   "path": "/live-classes",
+   "markers": [
+    {
+     "sel": "[role=radiogroup]",
+     "nth": 0,
+     "note": "Upcoming / Past"
+    },
+    {
+     "text": "Schedule class",
+     "note": "Schedule"
+    }
+   ]
+  },
+  {
+   "id": "29-exams",
+   "user": "admin",
+   "path": "/exams",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Exams / Grading & pass criteria"
+    },
+    {
+     "text": "Date sheet",
+     "nth": 0,
+     "note": "Date sheet"
+    },
+    {
+     "text": "Marks",
+     "nth": 0,
+     "note": "Marks entry"
+    },
+    {
+     "text": "Results",
+     "within": "main",
+     "nth": 1,
+     "note": "Results"
+    },
+    {
+     "text": "New exam",
+     "note": "Create exam"
+    }
+   ]
+  },
+  {
+   "id": "30-marks-entry",
+   "user": "teacher",
+   "path": "/exams/{examId}?tab=marks",
+   "markers": [
+    {
+     "sel": "main select",
+     "nth": 0,
+     "note": "Section"
+    },
+    {
+     "sel": "main select",
+     "nth": 1,
+     "note": "Subject"
+    },
+    {
+     "sel": "main input[type=number]",
+     "nth": 0,
+     "note": "Marks per student (tick Absent if absent)"
+    },
+    {
+     "text": "Results are published",
+     "note": "Read-only for teachers once results are published"
+    }
+   ]
+  },
+  {
+   "id": "31-results",
+   "user": "admin",
+   "path": "/exams/{examId}?tab=results",
+   "steps": [
+    {
+     "click": {
+      "sel": "main select",
+      "nth": 0
+     },
+     "after": 300
+    },
+    {
+     "press": "ArrowDown"
+    },
+    {
+     "press": "Enter",
+     "after": 2500
+    }
+   ],
+   "markers": [
+    {
+     "text": "Students",
+     "within": "main",
+     "nth": 0,
+     "note": "Pass / fail summary"
+    },
+    {
+     "text": "Subject-wise average %",
+     "note": "Subject averages"
+    },
+    {
+     "text": "Result sheet",
+     "note": "Print result sheet"
+    },
+    {
+     "text": "Report cards (section)",
+     "note": "Print report cards"
+    },
+    {
+     "text": "Withhold",
+     "note": "Publish results / Withhold (shown once published)"
+    }
+   ]
+  },
+  {
+   "id": "32-class-tests",
+   "user": "teacher",
+   "path": "/class-tests",
+   "markers": [
+    {
+     "text": "New test",
+     "note": "Create a quick test"
+    },
+    {
+     "text": "Enter marks",
+     "nth": 0,
+     "note": "Enter marks"
+    }
+   ]
+  },
+  {
+   "id": "33-question-bank",
+   "user": "teacher",
+   "path": "/question-bank",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Question bank / Question papers"
+    },
+    {
+     "text": "Build question paper",
+     "note": "Paper builder"
+    },
+    {
+     "text": "Answer key",
+     "nth": 0,
+     "note": "Print the paper or its answer key"
+    }
+   ],
+   "steps": [
+    {
+     "click": {
+      "text": "Question papers",
+      "within": "[role=tablist]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "34-behaviour",
+   "user": "teacher",
+   "path": "/behaviour",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Ratings / Observations"
+    },
+    {
+     "text": "Save ratings",
+     "note": "Save"
+    }
+   ]
+  },
+  {
+   "id": "35-fees-collect",
+   "user": "accountant",
+   "path": "/fees?tab=collect&studentId={debtorId}",
+   "settle": 2500,
+   "markers": [
+    {
+     "text": "Whole family",
+     "note": "Collect for all siblings"
+    },
+    {
+     "text": "Amount received",
+     "note": "Amount"
+    },
+    {
+     "sel": "main input[type=checkbox], main button[role=checkbox]",
+     "nth": 0,
+     "note": "Tick the invoices being paid"
+    },
+    {
+     "text": "Payment mode",
+     "note": "Cash, UPI, card, cheque…"
+    },
+    {
+     "text": "Recent receipts",
+     "note": "Print recent receipts"
+    }
+   ]
+  },
+  {
+   "id": "36-fees-invoices",
+   "user": "accountant",
+   "path": "/fees?tab=invoices",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Collect · Invoices · Receipts · Defaulters · Report · Structure · Heads"
+    },
+    {
+     "text": "Generate invoices",
+     "note": "Monthly invoice run"
+    },
+    {
+     "ph": "Invoice no.",
+     "note": "Search"
+    }
+   ]
+  },
+  {
+   "id": "37-fees-defaulters",
+   "user": "accountant",
+   "path": "/fees?tab=defaulters",
+   "markers": [
+    {
+     "text": "Apply late fees",
+     "note": "Late fees"
+    },
+    {
+     "text": "Remind",
+     "note": "SMS / WhatsApp reminders"
+    },
+    {
+     "text": "Export",
+     "within": "main",
+     "nth": 0,
+     "note": "Export"
+    }
+   ]
+  },
+  {
+   "id": "38-fee-structure",
+   "user": "accountant",
+   "path": "/fees?tab=structure",
+   "markers": [
+    {
+     "text": "Copy from another year",
+     "note": "Roll over with % increase"
+    }
+   ]
+  },
+  {
+   "id": "39-fees-report",
+   "user": "accountant",
+   "path": "/fees?tab=report",
+   "markers": [
+    {
+     "text": "Today only",
+     "note": "Day-book"
+    },
+    {
+     "text": "By class",
+     "note": "Collection by class"
+    }
+   ]
+  },
+  {
+   "id": "40-fees-parent-mobile",
+   "user": "parent",
+   "path": "/fees",
+   "width": 390,
+   "markers": [
+    {
+     "text": "Due now",
+     "note": "Due, paid, billed",
+     "closest": ".card"
+    },
+    {
+     "text": "Pay online",
+     "note": "UPI, cards, net banking"
+    }
+   ]
+  },
+  {
+   "id": "41-accounts",
+   "user": "accountant",
+   "path": "/accounts",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Statement · Income · Expenses · Chart of accounts"
+    },
+    {
+     "text": "This financial year",
+     "note": "Date range"
+    },
+    {
+     "text": "Closing balance",
+     "note": "Balances",
+     "closest": ".card"
+    },
+    {
+     "text": "By account head",
+     "note": "Breakdown"
+    }
+   ]
+  },
+  {
+   "id": "42-payroll",
+   "user": "accountant",
+   "path": "/payroll",
+   "markers": [
+    {
+     "text": "Salary month",
+     "note": "Month"
+    },
+    {
+     "text": "Payable",
+     "within": "main",
+     "nth": 0,
+     "note": "Payable vs paid"
+    },
+    {
+     "text": "Bank sheet (CSV)",
+     "note": "Bank transfer file"
+    }
+   ]
+  },
+  {
+   "id": "43-payslips-staff",
+   "user": "staff",
+   "path": "/payroll",
+   "markers": [
+    {
+     "text": "My payslips",
+     "note": "Own payslips only"
+    }
+   ]
+  },
+  {
+   "id": "44-notices",
+   "user": "admin",
+   "path": "/notices",
+   "markers": [
+    {
+     "text": "Rules & regulations",
+     "note": "School rules"
+    },
+    {
+     "text": "New notice",
+     "note": "Post a notice"
+    }
+   ]
+  },
+  {
+   "id": "45-messages",
+   "user": "parent",
+   "path": "/messages",
+   "markers": [
+    {
+     "text": "New message",
+     "note": "Message a teacher or the office"
+    }
+   ]
+  },
+  {
+   "id": "46-sms",
+   "user": "admin",
+   "path": "/sms",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Compose · Delivery log · Templates"
+    },
+    {
+     "text": "Send to",
+     "note": "Audience"
+    },
+    {
+     "text": "Use a template",
+     "note": "DLT template"
+    },
+    {
+     "text": "Send",
+     "within": "main",
+     "nth": 0,
+     "note": "Send"
+    }
+   ]
+  },
+  {
+   "id": "47-calendar",
+   "user": "admin",
+   "path": "/calendar",
+   "markers": [
+    {
+     "text": "Today",
+     "within": "main",
+     "nth": 0,
+     "note": "Today"
+    },
+    {
+     "text": "Add event",
+     "note": "Holiday, PTM, exam, event"
+    }
+   ]
+  },
+  {
+   "id": "48-meetings",
+   "user": "parent",
+   "path": "/meetings",
+   "markers": [
+    {
+     "sel": "[role=radiogroup]",
+     "nth": 0,
+     "note": "Upcoming / Past"
+    },
+    {
+     "text": "Request meeting",
+     "note": "Book a teacher"
+    }
+   ]
+  },
+  {
+   "id": "49-transport",
+   "user": "transport",
+   "path": "/transport",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Vehicles · Routes & stops · Students"
+    },
+    {
+     "text": "Insurance",
+     "nth": 0,
+     "note": "Compliance expiry dates"
+    }
+   ],
+   "steps": [
+    {
+     "click": {
+      "text": "Vehicles",
+      "within": "[role=tablist]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "50-library",
+   "user": "librarian",
+   "path": "/library",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "nth": 0,
+     "note": "Circulation / Catalogue"
+    },
+    {
+     "text": "Issue book",
+     "note": "Issue"
+    },
+    {
+     "text": "Return",
+     "nth": 0,
+     "note": "Return (fine calculated)"
+    }
+   ]
+  },
+  {
+   "id": "51-store",
+   "user": "store",
+   "path": "/store",
+   "markers": [
+    {
+     "ph": "Search or scan SKU",
+     "note": "Scan or search"
+    },
+    {
+     "text": "Bill",
+     "within": "main",
+     "nth": 0,
+     "note": "Cart and payment"
+    }
+   ]
+  },
+  {
+   "id": "51b-assets",
+   "user": "store",
+   "path": "/assets",
+   "markers": [
+    {
+     "text": "Asset lines",
+     "note": "Register summary"
+    },
+    {
+     "text": "Export",
+     "within": "main",
+     "nth": 0,
+     "note": "Export the register"
+    }
+   ]
+  },
+  {
+   "id": "52-certificates",
+   "user": "reception",
+   "path": "/certificates",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Issue · Register · Templates · ID cards"
+    },
+    {
+     "text": "Certificate",
+     "within": "main",
+     "nth": 0,
+     "note": "Template"
+    },
+    {
+     "text": "Issue & print",
+     "note": "Issue with QR code"
+    }
+   ]
+  },
+  {
+   "id": "53-reports",
+   "user": "admin",
+   "path": "/reports",
+   "markers": [
+    {
+     "text": "Student information",
+     "nth": 0,
+     "note": "Report list"
+    },
+    {
+     "text": "Export CSV",
+     "note": "Export"
+    },
+    {
+     "text": "Print",
+     "within": "main",
+     "nth": 0,
+     "note": "Print"
+    }
+   ]
+  },
+  {
+   "id": "54-activities",
+   "user": "student",
+   "path": "/activities",
+   "markers": [
+    {
+     "text": "Join",
+     "nth": 0,
+     "note": "Join a club (or waitlist)"
+    }
+   ]
+  },
+  {
+   "id": "55-study-tools",
+   "user": "student",
+   "path": "/study-tools",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Focus timer · Study log · Doubt desk"
+    },
+    {
+     "text": "25 min",
+     "note": "Choose a duration"
+    },
+    {
+     "text": "Start",
+     "within": "main",
+     "note": "Start the timer"
+    }
+   ]
+  },
+  {
+   "id": "56-ai-assistant",
+   "user": "teacher",
+   "path": "/ai-assistant",
+   "markers": [
+    {
+     "ph": "Ask anything",
+     "note": "Ask a question"
+    },
+    {
+     "text": "Create a 20-mark quiz",
+     "note": "Suggested prompts for your role"
+    }
+   ]
+  },
+  {
+   "id": "57-settings",
+   "user": "owner",
+   "path": "/settings",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Profile · Academic · Fees · SMS · Campuses · Rules · Numbering & AI"
+    },
+    {
+     "text": "Logo",
+     "nth": 0,
+     "note": "Branding"
+    },
+    {
+     "text": "Subscription",
+     "nth": 0,
+     "note": "Plan"
+    }
+   ]
+  },
+  {
+   "id": "58-access-control",
+   "user": "owner",
+   "path": "/access-control",
+   "steps": [
+    {
+     "click": {
+      "text": "Role permissions"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Modules / Role permissions"
+    },
+    {
+     "text": "Save",
+     "within": "main",
+     "nth": 0,
+     "note": "Save changes"
+    }
+   ]
+  },
+  {
+   "id": "59-audit-log",
+   "user": "owner",
+   "path": "/audit-logs",
+   "markers": [
+    {
+     "ph": "Search details",
+     "note": "Search"
+    },
+    {
+     "text": "All actions",
+     "note": "Filter by action and record"
+    },
+    {
+     "text": "Export page",
+     "note": "Export"
+    }
+   ]
+  },
+  {
+   "id": "60-profile",
+   "user": "teacher",
+   "path": "/profile",
+   "markers": [
+    {
+     "text": "Change password",
+     "within": "main",
+     "nth": 0,
+     "note": "Change password"
+    },
+    {
+     "text": "Sign out everywhere",
+     "note": "End all sessions"
+    }
+   ]
+  },
+  {
+   "id": "61-apply-form",
+   "path": "/apply/DEMO",
+   "markers": [
+    {
+     "text": "Full name",
+     "note": "Child's name"
+    },
+    {
+     "text": "Class applying for",
+     "note": "Class"
+    },
+    {
+     "text": "Submit application",
+     "note": "Submit"
+    }
+   ]
+  },
+  {
+   "id": "62-verify",
+   "path": "/verify/{certCode}",
+   "markers": []
+  },
+  {
+   "id": "63-platform",
+   "user": "platform",
+   "school": "",
+   "path": "/platform",
+   "markers": [
+    {
+     "sel": "[role=tablist]",
+     "note": "Overview · Schools · Plans"
+    },
+    {
+     "ph": "Search name",
+     "note": "Find a school"
+    },
+    {
+     "text": "Onboard school",
+     "note": "Create a school"
+    }
+   ],
+   "steps": [
+    {
+     "click": {
+      "text": "Schools",
+      "within": "[role=tablist]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "64-print-receipt",
+   "user": "accountant",
+   "path": "/print/receipt/{receiptId}",
+   "markers": [
+    {
+     "text": "Print / Save PDF",
+     "note": "Print or save as PDF"
+    }
+   ]
+  },
+  {
+   "id": "65-report-card",
+   "user": "parent",
+   "path": "/print/report-card?examIds={examId}&studentId={kabirId}",
+   "settle": 2500,
+   "markers": []
+  },
+  {
+   "id": "66-dark-mode",
+   "user": "owner",
+   "path": "/dashboard",
+   "dark": true,
+   "markers": []
+  },
+  {
+   "id": "67-hindi",
+   "user": "teacher",
+   "path": "/dashboard",
+   "lang": "hi",
+   "markers": []
+  },
+  {
+   "id": "68-live-board",
+   "user": "transport",
+   "path": "/transport",
+   "settle": 2500,
+   "steps": [
+    {
+     "click": {
+      "text": "Live map",
+      "within": "[role=tablist]"
+     },
+     "after": 5000
+    }
+   ],
+   "markers": [
+    {
+     "sel": ".leaflet-marker-icon",
+     "nth": 0,
+     "note": "Each bus, with its direction of travel"
+    },
+    {
+     "text": "Fleet",
+     "closest": ".card",
+     "note": "Live status, running trip and last-seen time for every vehicle"
+    },
+    {
+     "text": "Live map",
+     "within": "[role=tablist]",
+     "note": "Live map tab"
+    }
+   ]
+  },
+  {
+   "id": "69-parent-live-mobile",
+   "user": "9952077917",
+   "path": "/transport",
+   "width": 390,
+   "settle": 6000,
+   "markers": [
+    {
+     "text": "Bus is about",
+     "closest": ".card",
+     "note": "Distance and arrival time to your stop"
+    },
+    {
+     "sel": ".leaflet-container",
+     "note": "The bus and your stop on the map"
+    }
+   ],
+   "storage": {
+    "vidyalaya-child": "cmvcpky2200v6120k9po0ledk"
+   }
+  },
+  {
+   "id": "70-driver-mobile",
+   "user": "staff",
+   "path": "/driver",
+   "width": 390,
+   "settle": 13000,
+   "geo": {
+    "lat": 25.6352,
+    "lng": 85.1012
+   },
+   "markers": [
+    {
+     "text": "Pickup trip running",
+     "closest": "div.rounded-2xl",
+     "note": "Trip status (parents can see the bus)"
+    },
+    {
+     "text": "End trip",
+     "note": "End the trip when the bus reaches school"
+    },
+    {
+     "text": "Location sharing",
+     "closest": ".card",
+     "note": "What is sent: time, speed, GPS accuracy, connection"
+    }
+   ]
+  },
+  {
+   "id": "71-hostel-rooms",
+   "user": "admin",
+   "path": "/hostel",
+   "settle": 2500,
+   "height": 1100,
+   "markers": [
+    {
+     "text": "Beds occupied",
+     "closest": ".card",
+     "note": "Occupancy across all hostels"
+    },
+    {
+     "text": "Add hostel",
+     "note": "Add a hostel"
+    },
+    {
+     "text": "Add room",
+     "note": "Add a room with beds and monthly fee"
+    },
+    {
+     "text": "Room 101",
+     "closest": "button",
+     "note": "Each room: beds taken, free beds, fee (click to edit)"
+    }
+   ]
+  },
+  {
+   "id": "72-hostel-residents",
+   "user": "admin",
+   "path": "/hostel",
+   "steps": [
+    {
+     "click": {
+      "text": "Residents",
+      "within": "[role=tablist]"
+     },
+     "after": 2000
+    }
+   ],
+   "markers": [
+    {
+     "text": "Allot room",
+     "note": "Give a student a bed"
+    },
+    {
+     "text": "Move",
+     "within": "main",
+     "nth": 0,
+     "note": "Move to another room"
+    },
+    {
+     "text": "Vacate",
+     "within": "main",
+     "nth": 0,
+     "note": "Vacate (fee stops from next invoice)"
+    }
+   ]
+  },
+  {
+   "id": "73-hostel-family-mobile",
+   "user": "6890129724",
+   "path": "/hostel",
+   "width": 390,
+   "settle": 2500,
+   "markers": [
+    {
+     "text": "Room",
+     "within": "main",
+     "nth": 0,
+     "closest": ".card",
+     "note": "Hostel, room, bed and monthly fee"
+    },
+    {
+     "text": "Warden",
+     "closest": "a",
+     "note": "Call the warden"
+    }
+   ]
+  },
+  {
+   "id": "74-settings-app",
+   "user": "owner",
+   "path": "/settings",
+   "height": 1300,
+   "steps": [
+    {
+     "click": {
+      "text": "Languages & app",
+      "within": "[role=tablist]"
+     },
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "text": "Languages",
+     "within": "main",
+     "nth": 0,
+     "closest": ".card",
+     "note": "Choose languages and the default"
+    },
+    {
+     "text": "Phone notifications",
+     "closest": ".card",
+     "note": "Phone alerts on/off"
+    },
+    {
+     "text": "Live bus tracking",
+     "closest": ".card",
+     "note": "Tracking, parent visibility, interval, alert distance, history"
+    },
+    {
+     "text": "Map tiles",
+     "closest": ".card",
+     "note": "Map provider"
+    }
+   ]
+  },
+  {
+   "id": "75-language-menu",
+   "user": "teacher",
+   "path": "/dashboard",
+   "steps": [
+    {
+     "click": {
+      "sel": "header button[aria-label='Language']"
+     },
+     "after": 800
+    }
+   ],
+   "markers": [
+    {
+     "sel": "[role=menu]",
+     "note": "Pick from the languages your school offers"
+    }
+   ]
+  },
+  {
+   "id": "76-tamil-dashboard",
+   "user": "teacher",
+   "path": "/dashboard",
+   "lang": "ta",
+   "markers": []
+  },
+  {
+   "id": "77-profile-app-mobile",
+   "user": "parent",
+   "path": "/profile",
+   "width": 390,
+   "settle": 2500,
+   "steps": [
+    {
+     "reveal": {
+      "text": "App & notifications"
+     }
+    }
+   ],
+   "markers": [
+    {
+     "text": "App & notifications",
+     "closest": ".card",
+     "note": "Install the app and turn on phone alerts"
+    }
+   ]
+  },
+  {
+   "id": "78-tally-menu",
+   "user": "accountant",
+   "path": "/accounts",
+   "steps": [
+    {
+     "click": {
+      "text": "Tally",
+      "within": "main"
+     },
+     "after": 800
+    }
+   ],
+   "markers": [
+    {
+     "sel": "[role=menu]",
+     "note": "1. Ledgers once, 2. vouchers for the chosen period"
+    }
+   ]
+  },
+  {
+   "id": "79-device-link",
+   "user": "transport",
+   "path": "/transport",
+   "steps": [
+    {
+     "click": {
+      "text": "Vehicles",
+      "within": "[role=tablist]"
+     },
+     "after": 1500
+    },
+    {
+     "click": {
+      "sel": "main table tbody tr:first-child button[aria-label='Actions']"
+     },
+     "after": 600
+    },
+    {
+     "click": {
+      "text": "GPS device link"
+     },
+     "after": 800
+    },
+    {
+     "click": {
+      "text": "Create or rotate link"
+     },
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "text": "Device URL (GPS hardware: HTTP / OsmAnd protocol)",
+     "closest": "div.space-y-1\\.5, label",
+     "note": "Secret link for GPS hardware"
+    },
+    {
+     "text": "Using a phone as the tracker (Traccar Client app)",
+     "up": 1,
+     "note": "Or use any phone with the free Traccar Client app"
+    }
+   ]
+  },
+  {
+   "id": "80-gate-visitors",
+   "user": "reception",
+   "path": "/gate",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "New visitor",
+     "note": "Check a visitor in; a numbered pass prints"
+    },
+    {
+     "text": "On campus now",
+     "closest": ".card",
+     "note": "Who is still inside right now"
+    },
+    {
+     "sel": "main table",
+     "note": "Register with in/out times; guard checks visitors out"
+    }
+   ]
+  },
+  {
+   "id": "81-gate-pass",
+   "user": "reception",
+   "path": "/gate",
+   "steps": [
+    {
+     "click": {
+      "text": "Student gate passes",
+      "within": "[role=tablist]"
+     },
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "text": "Issue gate pass",
+     "note": "Early leave: who collects the child and why"
+    },
+    {
+     "sel": "main table",
+     "note": "Parent is alerted on issue and when the child leaves"
+    }
+   ]
+  },
+  {
+   "id": "82-discipline",
+   "user": "admin",
+   "path": "/discipline",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "Record incident",
+     "note": "Record facts, severity and action taken"
+    },
+    {
+     "text": "Open incidents",
+     "closest": ".card",
+     "note": "Open, action taken and serious cases at a glance"
+    },
+    {
+     "sel": "main table",
+     "note": "Choose per incident whether parents see it"
+    }
+   ]
+  },
+  {
+   "id": "83-online-exam-create",
+   "user": "admin",
+   "path": "/online-exams",
+   "steps": [
+    {
+     "click": {
+      "text": "New online exam",
+      "within": "main"
+     },
+     "after": 1500
+    },
+    {
+     "click": {
+      "text": "Questions from the bank"
+     },
+     "after": 300
+    }
+   ],
+   "markers": [
+    {
+     "text": "Questions from the bank",
+     "up": 1,
+     "note": "Pick questions from the question bank"
+    },
+    {
+     "text": "Negative marks per wrong answer",
+     "closest": "div",
+     "note": "Optional negative marking"
+    },
+    {
+     "text": "Shuffle question order for each student",
+     "closest": "label",
+     "note": "Different order for every student"
+    }
+   ]
+  },
+  {
+   "id": "84-online-exam-take",
+   "user": "student",
+   "path": "/online-exams",
+   "steps": [
+    {
+     "click": {
+      "text": "Start exam",
+      "within": "main"
+     },
+     "after": 3500
+    }
+   ],
+   "markers": [
+    {
+     "sel": "main .sticky",
+     "note": "Countdown and progress; answers save automatically"
+    },
+    {
+     "sel": "main .flex.flex-wrap.gap-1\\.5",
+     "note": "Jump to any question"
+    },
+    {
+     "text": "Next",
+     "note": "Submits itself when time runs out"
+    }
+   ]
+  },
+  {
+   "id": "85-polls-family",
+   "user": "parent",
+   "path": "/polls",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "Which Saturday suits you for the PTM?",
+     "closest": ".card",
+     "note": "Vote; results show after voting"
+    },
+    {
+     "text": "Fill in",
+     "note": "Forms (consent, surveys) open in a dialog"
+    }
+   ]
+  },
+  {
+   "id": "86-polls-create",
+   "user": "admin",
+   "path": "/polls",
+   "steps": [
+    {
+     "click": {
+      "text": "New poll or form"
+     },
+     "after": 1200
+    }
+   ],
+   "markers": [
+    {
+     "text": "Quick poll",
+     "closest": "div",
+     "note": "Quick poll or a full form with many question types"
+    },
+    {
+     "text": "Who can answer",
+     "up": 1,
+     "note": "Choose roles and classes"
+    },
+    {
+     "text": "Anonymous",
+     "closest": "label",
+     "note": "Anonymous, editable answers, private results"
+    }
+   ]
+  },
+  {
+   "id": "87-discussions",
+   "user": "parent",
+   "path": "/discussions",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "New discussion",
+     "note": "Families start topics for their own class"
+    },
+    {
+     "sel": "main ul",
+     "note": "Pinned topics first; teachers moderate"
+    }
+   ]
+  },
+  {
+   "id": "88-gallery",
+   "user": "parent",
+   "path": "/gallery",
+   "settle": 2500,
+   "markers": [
+    {
+     "sel": "main .grid",
+     "note": "Event albums shared with families"
+    }
+   ]
+  },
+  {
+   "id": "89-blog",
+   "user": "admin",
+   "path": "/blog",
+   "settle": 2500,
+   "markers": [
+    {
+     "text": "Write a post",
+     "note": "Teachers and students write; editors review"
+    },
+    {
+     "text": "Public page",
+     "note": "Optional public news page for the website"
+    },
+    {
+     "text": "Review",
+     "within": "[role=tablist]",
+     "note": "Posts waiting for review"
+    }
+   ]
+  },
+  {
+   "id": "90-tasks",
+   "user": "admin",
+   "path": "/tasks",
+   "steps": [
+    {
+     "click": {
+      "text": "All",
+      "within": "main"
+     },
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "text": "New task",
+     "note": "Assign to one or more staff with a due date"
+    },
+    {
+     "sel": "main ul",
+     "note": "Priority, due date and overdue highlighted"
+    }
+   ]
+  },
+  {
+   "id": "91-documents",
+   "user": "admin",
+   "path": "/documents",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "Renewals due:",
+     "closest": "div",
+     "note": "Licences expiring within 30 days"
+    },
+    {
+     "text": "Upload document",
+     "note": "Choose who can open each document"
+    },
+    {
+     "sel": "main table",
+     "note": "Folders, versions and validity"
+    }
+   ]
+  },
+  {
+   "id": "92-reminders",
+   "user": "admin",
+   "path": "/reminders",
+   "steps": [
+    {
+     "click": {
+      "text": "Everyone’s",
+      "within": "main"
+     },
+     "after": 1500
+    }
+   ],
+   "markers": [
+    {
+     "text": "New reminder",
+     "note": "Once or repeating; app, SMS or email"
+    },
+    {
+     "sel": "main table",
+     "note": "Who it is for and how it is sent"
+    }
+   ]
+  },
+  {
+   "id": "93-alumni",
+   "user": "admin",
+   "path": "/alumni",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "Registration link",
+     "note": "Public self-registration link"
+    },
+    {
+     "text": "Add former students",
+     "note": "Bring in passed-out students"
+    },
+    {
+     "sel": "main table",
+     "note": "Careers, mentors and contact consent"
+    }
+   ]
+  },
+  {
+   "id": "94-placements-student",
+   "user": "student",
+   "path": "/placements",
+   "settle": 2000,
+   "markers": [
+    {
+     "text": "Tata Consultancy Services",
+     "closest": ".card",
+     "note": "Application status from the placement cell"
+    },
+    {
+     "text": "Apply",
+     "note": "Apply in one tap"
+    }
+   ]
+  },
+  {
+   "id": "95-instant-invoice",
+   "user": "accountant",
+   "path": "/fees",
+   "steps": [
+    {
+     "click": {
+      "text": "Invoices",
+      "within": "[role=tablist]"
+     },
+     "after": 1500
+    },
+    {
+     "click": {
+      "text": "Instant invoice"
+     },
+     "after": 1200
+    }
+   ],
+   "markers": [
+    {
+     "text": "What is it for?",
+     "up": 1,
+     "note": "One-off charge outside the fee structure"
+    },
+    {
+     "text": "Bill to",
+     "up": 1,
+     "note": "Chosen students, a class or a section"
+    },
+    {
+     "text": "Items",
+     "up": 1,
+     "note": "Advance balances are used automatically"
+    }
+   ]
+  },
+  {
+   "id": "96-report-builder",
+   "user": "admin",
+   "path": "/reports",
+   "steps": [
+    {
+     "click": {
+      "text": "Report builder",
+      "within": "nav"
+     },
+     "after": 1500
+    },
+    {
+     "click": {
+      "text": "Run report"
+     },
+     "after": 2500
+    }
+   ],
+   "markers": [
+    {
+     "text": "Columns",
+     "up": 1,
+     "note": "Pick any allowed columns"
+    },
+    {
+     "text": "Run report",
+     "note": "Run, export or save and share"
+    },
+    {
+     "sel": "main table",
+     "note": "Results (up to 5000 rows)"
+    }
+   ]
+  },
+  {
+   "id": "97-settings-integrations",
+   "user": "owner",
+   "path": "/settings?tab=integrations",
+   "settle": 2500,
+   "markers": [
+    {
+     "text": "Single sign-on",
+     "closest": ".card",
+     "note": "Google / Microsoft sign-in"
+    },
+    {
+     "text": "Public pages",
+     "closest": ".card",
+     "note": "News page and alumni registration"
+    },
+    {
+     "text": "Apps (App Frame)",
+     "closest": ".card",
+     "note": "Other tools inside the app"
+    }
+   ]
+  },
+  {
+   "id": "98-apps",
+   "user": "teacher",
+   "path": "/apps",
+   "settle": 2000,
+   "markers": [
+    {
+     "sel": "main .grid",
+     "note": "School-chosen tools for this role"
+    }
+   ]
+  },
+  {
+   "id": "99-sms-email",
+   "user": "admin",
+   "path": "/sms",
+   "steps": [
+    {
+     "click": {
+      "text": "Email",
+      "within": "main"
+     },
+     "after": 800
+    }
+   ],
+   "markers": [
+    {
+     "text": "Subject",
+     "up": 1,
+     "note": "Email channel with subject"
+    },
+    {
+     "text": "Send to",
+     "up": 1,
+     "note": "Parents, classes, staff or custom addresses"
+    }
+   ]
+  }
+ ]
+}

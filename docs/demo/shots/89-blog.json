@@ -1,0 +1,37 @@
+{
+ "id": "89-blog",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Teachers and students write; editors review",
+   "box": {
+    "x": 88.31,
+    "y": 11.33,
+    "w": 9.47,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Optional public news page for the website",
+   "box": {
+    "x": 78.27,
+    "y": 11.33,
+    "w": 9.48,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Posts waiting for review",
+   "box": {
+    "x": 34.42,
+    "y": 18.44,
+    "w": 6.68,
+    "h": 5.11
+   }
+  }
+ ]
+}

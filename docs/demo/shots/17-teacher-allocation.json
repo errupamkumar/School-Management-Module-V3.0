@@ -1,0 +1,27 @@
+{
+ "id": "17-teacher-allocation",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Choose a section",
+   "box": {
+    "x": 21.46,
+    "y": 35.11,
+    "w": 22.22,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Save who teaches each subject",
+   "box": {
+    "x": 87.06,
+    "y": 81.11,
+    "w": 9.26,
+    "h": 4.44
+   }
+  }
+ ]
+}

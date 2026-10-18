@@ -1,0 +1,37 @@
+{
+ "id": "63-platform",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Overview · Schools · Plans",
+   "box": {
+    "x": 2.78,
+    "y": 9.89,
+    "w": 94.44,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Find a school",
+   "box": {
+    "x": 3.96,
+    "y": 17.78,
+    "w": 17.78,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Create a school",
+   "box": {
+    "x": 84.77,
+    "y": 17.78,
+    "w": 11.28,
+    "h": 4.44
+   }
+  }
+ ]
+}

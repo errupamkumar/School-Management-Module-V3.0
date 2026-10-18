@@ -1,0 +1,20 @@
+{
+  "appId": "in.vidyalaya.app",
+  "appName": "Vidyalaya",
+  "webDir": "www",
+  "server": {
+    "url": "https://YOUR-DEPLOYMENT-DOMAIN",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 800,
+      "backgroundColor": "#4f46e5",
+      "showSpinner": false
+    }
+  }
+}

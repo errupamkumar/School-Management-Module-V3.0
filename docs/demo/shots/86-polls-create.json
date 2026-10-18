@@ -1,0 +1,37 @@
+{
+ "id": "86-polls-create",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Quick poll or a full form with many question types",
+   "box": {
+    "x": 20.35,
+    "y": 19.89,
+    "w": 15.05,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Choose roles and classes",
+   "box": {
+    "x": 59.65,
+    "y": 19.89,
+    "w": 20,
+    "h": 38.22
+   }
+  },
+  {
+   "n": 3,
+   "note": "Anonymous, editable answers, private results",
+   "box": {
+    "x": 59.65,
+    "y": 68.56,
+    "w": 20,
+    "h": 2.67
+   }
+  }
+ ]
+}

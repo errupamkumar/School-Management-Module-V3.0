@@ -1,0 +1,57 @@
+{
+ "id": "31-results",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Pass / fail summary",
+   "box": {
+    "x": 25.62,
+    "y": 42.33,
+    "w": 11.53,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 2,
+   "note": "Subject averages",
+   "box": {
+    "x": 21.46,
+    "y": 57.22,
+    "w": 11.44,
+    "h": 2.22
+   }
+  },
+  {
+   "n": 3,
+   "note": "Print result sheet",
+   "box": {
+    "x": 80.49,
+    "y": 31,
+    "w": 8.38,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 4,
+   "note": "Print report cards",
+   "box": {
+    "x": 67.59,
+    "y": 31,
+    "w": 12.34,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 5,
+   "note": "Publish results / Withhold (shown once published)",
+   "box": {
+    "x": 89.42,
+    "y": 31,
+    "w": 6.89,
+    "h": 3.56
+   }
+  }
+ ]
+}

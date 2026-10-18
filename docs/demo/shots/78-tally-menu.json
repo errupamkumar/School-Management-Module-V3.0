@@ -1,0 +1,17 @@
+{
+ "id": "78-tally-menu",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "1. Ledgers once, 2. vouchers for the chosen period",
+   "box": {
+    "x": 74.51,
+    "y": 31.89,
+    "w": 15.91,
+    "h": 12.67
+   }
+  }
+ ]
+}

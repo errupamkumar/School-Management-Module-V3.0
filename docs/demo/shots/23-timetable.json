@@ -1,0 +1,47 @@
+{
+ "id": "23-timetable",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Timetable · Periods · Rooms",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Class or teacher",
+   "box": {
+    "x": 69.62,
+    "y": 26.78,
+    "w": 11.11,
+    "h": 4
+   }
+  },
+  {
+   "n": 3,
+   "note": "Draft automatically",
+   "box": {
+    "x": 81.29,
+    "y": 27,
+    "w": 9.14,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 4,
+   "note": "Print",
+   "box": {
+    "x": 90.99,
+    "y": 27,
+    "w": 5.33,
+    "h": 3.56
+   }
+  }
+ ]
+}

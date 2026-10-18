@@ -1,0 +1,37 @@
+{
+ "id": "37-fees-defaulters",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Late fees",
+   "box": {
+    "x": 73.96,
+    "y": 26.56,
+    "w": 9.4,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "SMS / WhatsApp reminders",
+   "box": {
+    "x": 90.56,
+    "y": 26.56,
+    "w": 6.32,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 3,
+   "note": "Export",
+   "box": {
+    "x": 83.92,
+    "y": 26.56,
+    "w": 6.08,
+    "h": 3.56
+   }
+  }
+ ]
+}

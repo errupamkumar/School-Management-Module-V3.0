@@ -1,0 +1,27 @@
+{
+ "id": "60-profile",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Change password",
+   "box": {
+    "x": 63.96,
+    "y": 20.33,
+    "w": 23.5,
+    "h": 2.22
+   }
+  },
+  {
+   "n": 2,
+   "note": "End all sessions",
+   "box": {
+    "x": 60.9,
+    "y": 81,
+    "w": 13.61,
+    "h": 4.44
+   }
+  }
+ ]
+}

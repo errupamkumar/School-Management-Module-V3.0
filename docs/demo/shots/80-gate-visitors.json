@@ -1,0 +1,37 @@
+{
+ "id": "80-gate-visitors",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Check a visitor in; a numbered pass prints",
+   "box": {
+    "x": 89.07,
+    "y": 40,
+    "w": 7.8,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "Who is still inside right now",
+   "box": {
+    "x": 46.3,
+    "y": 18.44,
+    "w": 25.19,
+    "h": 10.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Register with in/out times; guard checks visitors out",
+   "box": {
+    "x": 20.07,
+    "y": 45.11,
+    "w": 77.64,
+    "h": 33.78
+   }
+  }
+ ]
+}

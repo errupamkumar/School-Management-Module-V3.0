@@ -1,0 +1,37 @@
+{
+ "id": "82-discipline",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Record facts, severity and action taken",
+   "box": {
+    "x": 86.61,
+    "y": 11.33,
+    "w": 11.17,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Open, action taken and serious cases at a glance",
+   "box": {
+    "x": 20,
+    "y": 18.44,
+    "w": 25.18,
+    "h": 10.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Choose per incident whether parents see it",
+   "box": {
+    "x": 20.07,
+    "y": 38.44,
+    "w": 77.64,
+    "h": 40.44
+   }
+  }
+ ]
+}

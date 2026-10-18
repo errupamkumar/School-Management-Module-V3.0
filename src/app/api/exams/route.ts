@@ -1,126 +1,48 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { z } from 'zod';
+import { badRequest, body, route } from '@/server/api';
+import { currentAcademicYear } from '@/server/common';
+import { ownClassSectionPairs } from '@/server/scope';
+import { toDate, zDate } from '@/server/crud';
 
-// GET /api/exams: List exams with class associations and result counts
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const classId = searchParams.get('classId');
-    const academicYear = searchParams.get('academicYear');
-    const campusId = searchParams.get('campusId');
+export const GET = route({ module: 'exams' }, async (ctx, req) => {
+  const year = req.nextUrl.searchParams.get('academicYear') ?? (await currentAcademicYear(ctx));
+  const family = ctx.user.role === 'PARENT' || ctx.user.role === 'STUDENT';
+  const classIds = family ? (await ownClassSectionPairs(ctx)).map((p) => p.classId) : null;
+  const exams = await ctx.db.exam.findMany({
+    where: { academicYear: year, ...(family ? { isPublished: true, schedules: { some: { classId: { in: classIds! } } } } : {}) },
+    orderBy: { startDate: 'asc' },
+    include: { _count: { select: { marks: true } }, schedules: { select: { classId: true } } },
+  });
+  return exams.map((e) => ({ ...e, classCount: new Set(e.schedules.map((s) => s.classId)).size, schedules: undefined }));
+});
 
-    const where: any = {};
-    if (academicYear) where.academicYear = academicYear;
-
-    if (classId) {
-      where.OR = [
-        { classId },
-        { classes: { some: { classId } } },
-      ];
+export const POST = route({ module: 'exams', action: 'create' }, async (ctx, req) => {
+  const input = await body(
+    req,
+    z.object({
+      name: z.string().trim().min(2, 'Exam name is required').max(80),
+      term: z.string().trim().max(20).optional().nullable(),
+      startDate: zDate,
+      endDate: zDate,
+      academicYear: z.string().regex(/^\d{4}-\d{2}$/).optional(),
+      classIds: z.array(z.string()).max(50).optional(),
+      maxMarks: z.coerce.number().min(1).max(1000).default(100),
+    })
+  );
+  if (input.endDate < input.startDate) throw badRequest('End date must be after start date.');
+  const year = input.academicYear ?? (await currentAcademicYear(ctx));
+  const exam = await ctx.db.$transaction(async (tx) => {
+    const e = await tx.exam.create({ data: { schoolId: ctx.user.schoolId, name: input.name, term: input.term ?? null, startDate: toDate(input.startDate)!, endDate: toDate(input.endDate)!, academicYear: year } });
+    // Seed the date sheet from each class's subject list so setup is one click away.
+    if (input.classIds?.length) {
+      const subjects = await tx.classSubject.findMany({ where: { classId: { in: input.classIds } } });
+      const pass = (max: number) => Math.round((max * ctx.school.settings.exams.subjectPassPercent) / 100);
+      await tx.examSchedule.createMany({
+        data: subjects.map((s) => ({ schoolId: ctx.user.schoolId, examId: e.id, classId: s.classId, subjectId: s.subjectId, maxMarks: input.maxMarks, passMarks: pass(input.maxMarks) })),
+      });
     }
-
-    if (campusId && campusId !== 'ALL') {
-      where.class = { campusId };
-    }
-
-    const exams = await prisma.exam.findMany({
-      where,
-      include: {
-        class: true,
-        classes: {
-          include: { class: true },
-        },
-        subjects: {
-          include: { subject: true },
-        },
-        _count: {
-          select: { results: true },
-        },
-      },
-      orderBy: { startDate: 'desc' },
-    });
-
-    return NextResponse.json({ success: true, data: exams });
-  } catch (error: any) {
-    console.error('Fetch exams error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
-
-// POST /api/exams: Create exam with multi-class associations (SA-09)
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const {
-      name,
-      examType = 'HALF_YEARLY',
-      academicYear = '2025-26',
-      startDate,
-      endDate,
-      classIds = [],
-      classId,
-      description,
-      subjects = [],
-    } = body;
-
-    if (!name || !name.trim()) {
-      return NextResponse.json({ success: false, error: 'Exam name is required' }, { status: 400 });
-    }
-
-    // Resolve primary classId
-    let primaryClassId = classId || (classIds.length > 0 ? classIds[0] : null);
-    if (!primaryClassId) {
-      const defaultClass = await prisma.class.findFirst();
-      if (defaultClass) primaryClassId = defaultClass.id;
-    }
-
-    if (!primaryClassId) {
-      return NextResponse.json({ success: false, error: 'At least one class must be associated with the exam' }, { status: 400 });
-    }
-
-    // All classes to link (combine primary and any selected classIds)
-    const allLinkedClassIds = Array.from(new Set([primaryClassId, ...(classIds || [])]));
-
-    const exam = await prisma.exam.create({
-      data: {
-        name: name.trim(),
-        examType,
-        academicYear,
-        startDate: new Date(startDate || new Date()),
-        endDate: new Date(endDate || new Date()),
-        classId: primaryClassId,
-        description: description || null,
-        classes: {
-          create: allLinkedClassIds.map((cId) => ({
-            classId: cId,
-          })),
-        },
-        subjects: Array.isArray(subjects) && subjects.length > 0 ? {
-          create: subjects.map((s: any) => ({
-            subjectId: s.subjectId,
-            examDate: new Date(s.examDate || startDate),
-            startTime: s.startTime || null,
-            endTime: s.endTime || null,
-            maxMarks: Number(s.maxMarks) || 100,
-            passingMarks: Number(s.passingMarks) || 33,
-            room: s.room || null,
-          })),
-        } : undefined,
-      },
-      include: {
-        class: true,
-        classes: {
-          include: { class: true },
-        },
-        subjects: {
-          include: { subject: true },
-        },
-      },
-    });
-
-    return NextResponse.json({ success: true, data: exam, message: 'Exam scheduled with class associations' }, { status: 201 });
-  } catch (error: any) {
-    console.error('Create exam error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
+    return e;
+  });
+  await ctx.audit('CREATE', 'Exam', exam.id, `${input.name} (${year})`);
+  return exam;
+});

@@ -1,0 +1,57 @@
+{
+ "id": "06-admissions",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Pipeline stages",
+   "box": {
+    "x": 20.9,
+    "y": 28.69,
+    "w": 3.61,
+    "h": 2.22
+   }
+  },
+  {
+   "n": 2,
+   "note": "Search applications",
+   "box": {
+    "x": 20.9,
+    "y": 19.89,
+    "w": 22.22,
+    "h": 4
+   }
+  },
+  {
+   "n": 3,
+   "note": "Pipeline / Closed",
+   "box": {
+    "x": 85.97,
+    "y": 20.11,
+    "w": 4.83,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 4,
+   "note": "Share the online form",
+   "box": {
+    "x": 73.57,
+    "y": 11.33,
+    "w": 13.87,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 5,
+   "note": "Record a walk-in or phone enquiry",
+   "box": {
+    "x": 88,
+    "y": 11.33,
+    "w": 9.78,
+    "h": 4.44
+   }
+  }
+ ]
+}

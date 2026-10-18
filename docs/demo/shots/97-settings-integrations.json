@@ -1,0 +1,37 @@
+{
+ "id": "97-settings-integrations",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Google / Microsoft sign-in",
+   "box": {
+    "x": 20,
+    "y": 24.89,
+    "w": 38.33,
+    "h": 51.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "News page and alumni registration",
+   "box": {
+    "x": 59.44,
+    "y": 24.89,
+    "w": 38.33,
+    "h": 51.56
+   }
+  },
+  {
+   "n": 3,
+   "note": "Other tools inside the app",
+   "box": {
+    "x": 20,
+    "y": 78.22,
+    "w": 77.78,
+    "h": 58
+   }
+  }
+ ]
+}

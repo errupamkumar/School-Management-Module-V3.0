@@ -1,0 +1,67 @@
+{
+ "id": "02-app-frame",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Sidebar: only the modules your role can open",
+   "box": {
+    "x": 0,
+    "y": 7.11,
+    "w": 17.71,
+    "h": 86.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "Collapse the sidebar to icons",
+   "box": {
+    "x": 0.83,
+    "y": 95.11,
+    "w": 16.04,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 3,
+   "note": "Search any page (Ctrl K)",
+   "box": {
+    "x": 19.44,
+    "y": 1.28,
+    "w": 26.67,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 4,
+   "note": "English / हिन्दी",
+   "box": {
+    "x": 73.61,
+    "y": 1.5,
+    "w": 2.5,
+    "h": 4
+   }
+  },
+  {
+   "n": 5,
+   "note": "Notifications",
+   "box": {
+    "x": 79.72,
+    "y": 1.5,
+    "w": 2.5,
+    "h": 4
+   }
+  },
+  {
+   "n": 6,
+   "note": "My profile, change password, sign out",
+   "box": {
+    "x": 83.06,
+    "y": 1.18,
+    "w": 15.28,
+    "h": 4.64
+   }
+  }
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "id": "03-dashboard-admin",
+ "width": 1440,
+ "height": 1250,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Today's KPIs",
+   "box": {
+    "x": 20,
+    "y": 15.2,
+    "w": 18.61,
+    "h": 9.12
+   }
+  },
+  {
+   "n": 2,
+   "note": "Things that need action today",
+   "box": {
+    "x": 59.17,
+    "y": 25.6,
+    "w": 38.61,
+    "h": 3.68
+   }
+  },
+  {
+   "n": 3,
+   "note": "Six-month fee trend",
+   "box": {
+    "x": 20,
+    "y": 39.84,
+    "w": 51.3,
+    "h": 33.52
+   }
+  },
+  {
+   "n": 4,
+   "note": "Jump to the fee counter",
+   "box": {
+    "x": 62.22,
+    "y": 41.2,
+    "w": 7.62,
+    "h": 2.56
+   }
+  },
+  {
+   "n": 5,
+   "note": "Absentees (or attendance not marked)",
+   "box": {
+    "x": 72.96,
+    "y": 75.28,
+    "w": 24.82,
+    "h": 29.84
+   }
+  }
+ ]
+}

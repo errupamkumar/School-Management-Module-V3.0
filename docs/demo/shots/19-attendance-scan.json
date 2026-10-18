@@ -1,0 +1,27 @@
+{
+ "id": "19-attendance-scan",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Scanner input",
+   "box": {
+    "x": 21.46,
+    "y": 36.89,
+    "w": 35.14,
+    "h": 5.33
+   }
+  },
+  {
+   "n": 2,
+   "note": "Scanned students",
+   "box": {
+    "x": 61.18,
+    "y": 26.78,
+    "w": 6.32,
+    "h": 2.22
+   }
+  }
+ ]
+}

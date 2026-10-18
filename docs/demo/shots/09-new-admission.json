@@ -1,0 +1,37 @@
+{
+ "id": "09-new-admission",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Student details",
+   "box": {
+    "x": 21.46,
+    "y": 20.33,
+    "w": 7.07,
+    "h": 2.22
+   }
+  },
+  {
+   "n": 2,
+   "note": "Class, section, admission no.",
+   "box": {
+    "x": 21.46,
+    "y": 76.67,
+    "w": 8.52,
+    "h": 2.22
+   }
+  },
+  {
+   "n": 3,
+   "note": "Primary mobile links siblings",
+   "box": {
+    "x": 24.51,
+    "y": 125,
+    "w": 48.34,
+    "h": 2.22
+   }
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "id": "32-class-tests",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Create a quick test",
+   "box": {
+    "x": 89.79,
+    "y": 11.33,
+    "w": 7.99,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Enter marks",
+   "box": {
+    "x": 86.82,
+    "y": 27.11,
+    "w": 6.44,
+    "h": 3.56
+   }
+  }
+ ]
+}

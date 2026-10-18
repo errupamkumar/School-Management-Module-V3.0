@@ -1,0 +1,27 @@
+{
+ "id": "99-sms-email",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Email channel with subject",
+   "box": {
+    "x": 21.46,
+    "y": 56.89,
+    "w": 50.97,
+    "h": 6.89
+   }
+  },
+  {
+   "n": 2,
+   "note": "Parents, classes, staff or custom addresses",
+   "box": {
+    "x": 21.46,
+    "y": 39.56,
+    "w": 50.97,
+    "h": 6.89
+   }
+  }
+ ]
+}

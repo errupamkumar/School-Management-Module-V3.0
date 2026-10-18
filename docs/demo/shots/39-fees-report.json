@@ -1,0 +1,27 @@
+{
+ "id": "39-fees-report",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Day-book",
+   "box": {
+    "x": 46.95,
+    "y": 27.67,
+    "w": 6.16,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "Collection by class",
+   "box": {
+    "x": 21.46,
+    "y": 134.56,
+    "w": 3.91,
+    "h": 2.22
+   }
+  }
+ ]
+}

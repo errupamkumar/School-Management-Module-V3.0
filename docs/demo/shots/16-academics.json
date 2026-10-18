@@ -1,0 +1,37 @@
+{
+ "id": "16-academics",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Classes · Subjects · Teacher allocation · Years · Chapters",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Add a class",
+   "box": {
+    "x": 89.34,
+    "y": 24.89,
+    "w": 8.44,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Subjects & marks, add section",
+   "box": {
+    "x": 41.5,
+    "y": 33,
+    "w": 2.22,
+    "h": 3.56
+   }
+  }
+ ]
+}

@@ -12,3 +12,14 @@ prisma/*.db
 .backup-original/
 ~$*
 
+
+# Uploaded files (served via /api/files)
+storage/
+.env.backup-*
+tests/tmp/
+# Added by code-review-graph
+.code-review-graph/
+
+# Playwright output
+test-results/
+playwright-report/

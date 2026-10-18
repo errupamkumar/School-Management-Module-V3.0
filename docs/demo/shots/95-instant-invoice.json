@@ -1,0 +1,37 @@
+{
+ "id": "95-instant-invoice",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "One-off charge outside the fee structure",
+   "box": {
+    "x": 28.13,
+    "y": 31.33,
+    "w": 30.42,
+    "h": 6.89
+   }
+  },
+  {
+   "n": 2,
+   "note": "Chosen students, a class or a section",
+   "box": {
+    "x": 28.13,
+    "y": 40,
+    "w": 43.75,
+    "h": 7.11
+   }
+  },
+  {
+   "n": 3,
+   "note": "Advance balances are used automatically",
+   "box": {
+    "x": 28.13,
+    "y": 56,
+    "w": 43.75,
+    "h": 12
+   }
+  }
+ ]
+}

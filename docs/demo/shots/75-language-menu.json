@@ -1,0 +1,17 @@
+{
+ "id": "75-language-menu",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Pick from the languages your school offers",
+   "box": {
+    "x": 65.76,
+    "y": 6.22,
+    "w": 13.33,
+    "h": 28.67
+   }
+  }
+ ]
+}

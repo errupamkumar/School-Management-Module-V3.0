@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You are offline · Vidyalaya</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f8fafc; --fg: #0f172a; --muted: #64748b; --accent: #4f46e5; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0b1120; --fg: #e2e8f0; --muted: #94a3b8; --accent: #818cf8; } }
+  body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, "Segoe UI", "Nirmala UI", sans-serif; padding: 24px; box-sizing: border-box; text-align: center; }
+  img { width: 72px; height: 72px; }
+  h1 { font-size: 22px; margin: 16px 0 6px; }
+  p { color: var(--muted); max-width: 30em; margin: 0 auto; }
+  button { margin-top: 20px; font: 600 15px system-ui, sans-serif; color: #fff; background: var(--accent); border: 0; border-radius: 999px; padding: 12px 22px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <main>
+    <img src="/icons/icon-192.png" alt="">
+    <h1>You are offline</h1>
+    <p>Vidyalaya needs an internet connection to show live school data. Check your mobile data or Wi-Fi and try again.</p>
+    <p lang="hi" style="margin-top:8px">इंटरनेट कनेक्शन नहीं है। कृपया दोबारा प्रयास करें।</p>
+    <button type="button" onclick="location.reload()">Try again</button>
+  </main>
+</body>
+</html>

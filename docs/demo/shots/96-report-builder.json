@@ -1,0 +1,37 @@
+{
+ "id": "96-report-builder",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Pick any allowed columns",
+   "box": {
+    "x": 40.63,
+    "y": 35.11,
+    "w": 55.69,
+    "h": 10.89
+   }
+  },
+  {
+   "n": 2,
+   "note": "Run, export or save and share",
+   "box": {
+    "x": 40.63,
+    "y": 47.78,
+    "w": 8.79,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Results (up to 5000 rows)",
+   "box": {
+    "x": 39.24,
+    "y": 62.78,
+    "w": 58.47,
+    "h": 714.78
+   }
+  }
+ ]
+}

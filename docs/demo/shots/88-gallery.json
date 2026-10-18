@@ -1,0 +1,17 @@
+{
+ "id": "88-gallery",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Event albums shared with families",
+   "box": {
+    "x": 20,
+    "y": 18.44,
+    "w": 77.78,
+    "h": 33.06
+   }
+  }
+ ]
+}

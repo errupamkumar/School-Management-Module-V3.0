@@ -1,0 +1,47 @@
+{
+ "id": "41-accounts",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Statement · Income · Expenses · Chart of accounts",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Date range",
+   "box": {
+    "x": 46.95,
+    "y": 27.67,
+    "w": 9.09,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 3,
+   "note": "Balances",
+   "box": {
+    "x": 79.17,
+    "y": 36.67,
+    "w": 18.61,
+    "h": 10.44
+   }
+  },
+  {
+   "n": 4,
+   "note": "Breakdown",
+   "box": {
+    "x": 74.79,
+    "y": 51.67,
+    "w": 7.86,
+    "h": 2.22
+   }
+  }
+ ]
+}

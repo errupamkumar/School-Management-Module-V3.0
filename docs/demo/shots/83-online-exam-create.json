@@ -1,0 +1,37 @@
+{
+ "id": "83-online-exam-create",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Pick questions from the question bank",
+   "box": {
+    "x": 50.83,
+    "y": 20.32,
+    "w": 28.82,
+    "h": 60.92
+   }
+  },
+  {
+   "n": 2,
+   "note": "Optional negative marking",
+   "box": {
+    "x": 35.31,
+    "y": 54.99,
+    "w": 13.85,
+    "h": 6.89
+   }
+  },
+  {
+   "n": 3,
+   "note": "Different order for every student",
+   "box": {
+    "x": 20.35,
+    "y": 78.57,
+    "w": 28.82,
+    "h": 2.67
+   }
+  }
+ ]
+}

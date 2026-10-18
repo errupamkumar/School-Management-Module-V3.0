@@ -1,124 +1,36 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import type { Prisma } from '@prisma/client';
+import { z } from 'zod';
+import { body, forbidden, owned, query, route } from '@/server/api';
+import { classLabel, displayName } from '@/server/common';
+import { studentWhere } from '@/server/scope';
+import { notifyUsers } from '@/server/services/notify';
 
-export interface StudentDoubt {
-  id: string;
-  studentId: string;
-  studentName: string;
-  studentClass: string;
-  subject: string;
-  teacherName: string;
-  chapter: string;
-  question: string;
-  status: 'RESOLVED' | 'PENDING';
-  teacherReply?: string;
-  repliedAt?: string;
-  urgency: 'HIGH' | 'NORMAL';
-  createdAt: string;
-}
+/** Doubt desk: students ask, teachers of their sections answer. Visibility follows the student scope. */
+export const GET = route({ module: 'study_tools' }, async (ctx, req) => {
+  const q = query(req, z.object({ status: z.enum(['OPEN', 'ANSWERED', 'CLOSED', 'ALL']).default('ALL'), studentId: z.string().optional() }));
+  const students = await ctx.db.student.findMany({ where: { AND: [await studentWhere(ctx), q.studentId ? { id: q.studentId } : {}] }, select: { id: true } });
+  const where: Prisma.DoubtWhereInput = { studentId: { in: students.map((s) => s.id) }, ...(q.status !== 'ALL' ? { status: q.status } : {}) };
+  const rows = await ctx.db.doubt.findMany({ where, orderBy: [{ status: 'asc' }, { createdAt: 'desc' }], take: 200 });
+  const [kids, subjects] = await Promise.all([
+    ctx.db.student.findMany({ where: { id: { in: rows.map((r) => r.studentId) } }, select: { id: true, firstName: true, lastName: true, class: { select: { name: true } }, section: { select: { name: true } } } }),
+    ctx.db.subject.findMany({ where: { id: { in: rows.map((r) => r.subjectId).filter((x): x is string => !!x) } }, select: { id: true, name: true } }),
+  ]);
+  return rows.map((r) => {
+    const k = kids.find((x) => x.id === r.studentId);
+    return { ...r, studentName: k ? displayName(k) : '', classLabel: k ? classLabel(k.class, k.section) : '', subject: subjects.find((s) => s.id === r.subjectId)?.name ?? null, mine: r.askedById === ctx.user.id };
+  });
+});
 
-let doubtsStore: StudentDoubt[] = [
-  {
-    id: 'd-1',
-    studentId: 'student-1',
-    studentName: 'Aarav Sharma',
-    studentClass: 'Class 10-A',
-    subject: 'Mathematics',
-    teacherName: 'Mr. Arun Sharma',
-    chapter: 'Quadratic Equations (Exercise 4.3)',
-    question: 'Sir, I am confused about completing the square method when coefficient of x² is not 1. Can we divide the entire equation by a first?',
-    status: 'RESOLVED',
-    teacherReply: 'Yes, exactly Aarav! Always divide the entire equation by "a" so the x² coefficient becomes 1, then add and subtract (b/2a)². Check Page 78 of your NCERT exemplar.',
-    repliedAt: 'Yesterday, 04:30 PM',
-    urgency: 'NORMAL',
-    createdAt: '2026-09-23T10:15:00.000Z',
-  },
-  {
-    id: 'd-2',
-    studentId: 'student-1',
-    studentName: 'Aarav Sharma',
-    studentClass: 'Class 10-A',
-    subject: 'Science (Physics)',
-    teacherName: 'Mr. Deepak Verma',
-    chapter: 'Light - Reflection & Refraction',
-    question: 'Sir, for the concave mirror ray diagram when object is placed between Focus (F) and Pole (P), is the virtual image formed behind the mirror magnified or diminished?',
-    status: 'RESOLVED',
-    teacherReply: 'It is always virtual, erect, and highly ENLARGED (magnified). This is the exact principle used by dentists and for shaving mirrors!',
-    repliedAt: '2 days ago',
-    urgency: 'HIGH',
-    createdAt: '2026-09-22T14:20:00.000Z',
-  },
-  {
-    id: 'd-3',
-    studentId: 'student-1',
-    studentName: 'Aarav Sharma',
-    studentClass: 'Class 10-A',
-    subject: 'Social Science',
-    teacherName: 'Mrs. Kavita Mishra',
-    chapter: 'Nationalism in India',
-    question: 'Ma\'am, in the 5-mark question for Poona Pact 1932, do we also need to mention the Communal Award by Ramsay MacDonald?',
-    status: 'PENDING',
-    urgency: 'NORMAL',
-    createdAt: '2026-09-24T18:00:00.000Z',
-  }
-];
-
-export async function GET(req: NextRequest) {
-  try {
-    const session = await getServerSession(authOptions);
-    const { searchParams } = new URL(req.url);
-    const subject = searchParams.get('subject');
-
-    let result = [...doubtsStore];
-    if (subject && subject !== 'ALL') {
-      result = result.filter(d => d.subject.toLowerCase() === subject.toLowerCase());
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: result,
-      total: result.length,
-      resolvedCount: result.filter(d => d.status === 'RESOLVED').length,
-      pendingCount: result.filter(d => d.status === 'PENDING').length,
-    });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
-
-export async function POST(req: NextRequest) {
-  try {
-    const session = await getServerSession(authOptions);
-    const body = await req.json();
-    const { subject, teacherName, chapter, question, urgency } = body;
-
-    if (!subject || !question) {
-      return NextResponse.json({ success: false, error: 'Subject and Question are required.' }, { status: 400 });
-    }
-
-    const newDoubt: StudentDoubt = {
-      id: `d-${Date.now()}`,
-      studentId: (session?.user as any)?.id || 'student-1',
-      studentName: session?.user?.name || 'Aarav Sharma',
-      studentClass: 'Class 10-A',
-      subject,
-      teacherName: teacherName || 'Subject Faculty',
-      chapter: chapter || 'General Chapter Query',
-      question,
-      status: 'PENDING',
-      urgency: urgency || 'NORMAL',
-      createdAt: new Date().toISOString(),
-    };
-
-    doubtsStore.unshift(newDoubt);
-
-    return NextResponse.json({
-      success: true,
-      message: `Your doubt has been submitted to ${newDoubt.teacherName}. You will receive an alert once answered!`,
-      data: newDoubt,
-    });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
+export const POST = route({ module: 'study_tools', action: 'create' }, async (ctx, req) => {
+  if (ctx.user.role !== 'STUDENT' || !ctx.user.studentId) throw forbidden('Only students can ask on the doubt desk.');
+  const input = await body(req, z.object({ subjectId: z.string().optional().nullable(), question: z.string().trim().min(10, 'Describe the doubt in a little more detail').max(2000) }));
+  if (input.subjectId) await owned(ctx.db.subject, input.subjectId, 'subject');
+  const open = await ctx.db.doubt.count({ where: { studentId: ctx.user.studentId, status: 'OPEN' } });
+  if (open >= 10) throw forbidden('You already have 10 open doubts. Close answered ones first.');
+  const d = await ctx.db.doubt.create({ data: { schoolId: ctx.user.schoolId, studentId: ctx.user.studentId, askedById: ctx.user.id, subjectId: input.subjectId || null, question: input.question } });
+  // Tell the class teacher and subject teachers of the student's section.
+  const s = await ctx.db.student.findUniqueOrThrow({ where: { id: ctx.user.studentId }, select: { sectionId: true, section: { select: { classTeacher: { select: { userId: true } } } } } });
+  const teachers = await ctx.db.teacherAssignment.findMany({ where: { sectionId: s.sectionId, ...(input.subjectId ? { subjectId: input.subjectId } : {}) }, select: { employee: { select: { userId: true } } } });
+  await notifyUsers(ctx.db, ctx.user.schoolId, [s.section.classTeacher?.userId, ...teachers.map((t) => t.employee.userId)], { title: 'New doubt from a student', body: input.question.slice(0, 140), link: '/study-tools' });
+  return d;
+});

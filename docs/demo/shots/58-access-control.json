@@ -1,0 +1,27 @@
+{
+ "id": "58-access-control",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Modules / Role permissions",
+   "box": {
+    "x": 19.72,
+    "y": 18.44,
+    "w": 78.33,
+    "h": 5.11
+   }
+  },
+  {
+   "n": 2,
+   "note": "Save changes",
+   "box": {
+    "x": 91.31,
+    "y": 27.67,
+    "w": 5.29,
+    "h": 3.56
+   }
+  }
+ ]
+}

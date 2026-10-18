@@ -1,0 +1,47 @@
+{
+ "id": "04-dashboard-teacher",
+ "width": 1440,
+ "height": 1100,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Your periods today",
+   "box": {
+    "x": 20,
+    "y": 17.27,
+    "w": 51.3,
+    "h": 20.82
+   }
+  },
+  {
+   "n": 2,
+   "note": "Your class-teacher section",
+   "box": {
+    "x": 72.96,
+    "y": 17.27,
+    "w": 24.82,
+    "h": 20.82
+   }
+  },
+  {
+   "n": 3,
+   "note": "Open attendance for your section",
+   "box": {
+    "x": 90.71,
+    "y": 25.09,
+    "w": 5.61,
+    "h": 2.91
+   }
+  },
+  {
+   "n": 4,
+   "note": "Shortcuts",
+   "box": {
+    "x": 72.96,
+    "y": 40.27,
+    "w": 24.82,
+    "h": 37.77
+   }
+  }
+ ]
+}

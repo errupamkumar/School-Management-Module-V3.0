@@ -1,0 +1,37 @@
+{
+ "id": "11-promote",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Class to promote",
+   "box": {
+    "x": 21.46,
+    "y": 20.78,
+    "w": 14.08,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 2,
+   "note": "Promote / Detain / Pass out",
+   "box": {
+    "x": 51.85,
+    "y": 20.78,
+    "w": 14.08,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 3,
+   "note": "Destination class",
+   "box": {
+    "x": 67.04,
+    "y": 20.78,
+    "w": 14.08,
+    "h": 1.78
+   }
+  }
+ ]
+}

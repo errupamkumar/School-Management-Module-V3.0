@@ -1,0 +1,31 @@
+import { ROLE_LABELS } from '@/lib/modules';
+import type { FieldDef } from '@/components/resource';
+
+export const EMPLOYEE_FIELDS = (roles: string[]): FieldDef[] => [
+  { name: 'firstName', label: 'First name', required: true },
+  { name: 'lastName', label: 'Last name' },
+  { name: 'gender', label: 'Gender', type: 'select', required: true, options: [{ value: 'MALE', label: 'Male' }, { value: 'FEMALE', label: 'Female' }, { value: 'OTHER', label: 'Other' }] },
+  { name: 'dob', label: 'Date of birth', type: 'date' },
+  { name: 'designation', label: 'Designation', required: true, placeholder: 'PGT Physics, Clerk, Driver…' },
+  { name: 'department', label: 'Department', placeholder: 'Science, Administration…' },
+  { name: 'isTeaching', label: 'Teaching staff', type: 'switch' },
+  { name: 'joiningDate', label: 'Date of joining', type: 'date', required: true },
+  { name: 'phone', label: 'Mobile (SMS / WhatsApp)', type: 'tel' },
+  { name: 'email', label: 'Email', type: 'email' },
+  { name: 'qualification', label: 'Qualification', placeholder: 'M.Sc., B.Ed.' },
+  { name: 'experienceYears', label: 'Experience (years)', type: 'number' },
+  { name: 'fatherSpouseName', label: "Father's / spouse's name" },
+  { name: 'bloodGroup', label: 'Blood group' },
+  { name: 'aadhaar', label: 'Aadhaar', hint: 'Encrypted; leave blank to keep unchanged' },
+  { name: 'panNo', label: 'PAN' },
+  { name: 'uan', label: 'EPF UAN' },
+  { name: 'bankName', label: 'Bank name' },
+  { name: 'bankAccount', label: 'Bank account no.', hint: 'Leave blank to keep unchanged' },
+  { name: 'ifsc', label: 'IFSC' },
+  { name: 'basicSalary', label: 'Basic salary (monthly)', type: 'money' },
+  { name: 'allowances', label: 'Allowances (HRA/DA)', type: 'money' },
+  { name: 'deductions', label: 'Deductions (PF/ESI/TDS)', type: 'money' },
+  { name: 'address', label: 'Address', type: 'textarea' },
+  { name: 'loginRole', label: 'Create login with role', type: 'select', createOnly: true, options: roles.map((r) => ({ value: r, label: ROLE_LABELS[r as keyof typeof ROLE_LABELS] })), hint: 'Leave empty for staff who do not need to sign in' },
+  { name: 'username', label: 'Username (optional)', createOnly: true, hint: 'Defaults to the employee code', visible: (v) => !!v.loginRole },
+];

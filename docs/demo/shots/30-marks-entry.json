@@ -1,0 +1,47 @@
+{
+ "id": "30-marks-entry",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Section",
+   "box": {
+    "x": 21.18,
+    "y": 32.56,
+    "w": 12.22,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Subject",
+   "box": {
+    "x": 34.24,
+    "y": 32.56,
+    "w": 13.33,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 3,
+   "note": "Marks per student (tick Absent if absent)",
+   "box": {
+    "x": 80.76,
+    "y": 43.44,
+    "w": 6.67,
+    "h": 4
+   }
+  },
+  {
+   "n": 4,
+   "note": "Read-only for teachers once results are published",
+   "box": {
+    "x": 20.07,
+    "y": 38.89,
+    "w": 77.64,
+    "h": 3.67
+   }
+  }
+ ]
+}

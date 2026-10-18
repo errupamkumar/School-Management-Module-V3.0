@@ -1,246 +1,197 @@
-import { Role } from '@prisma/client';
-import { SidebarItem } from '@/types';
+import type { LucideIcon } from 'lucide-react';
+import {
+  AlarmClock,
+  AppWindow,
+  BriefcaseBusiness,
+  DoorOpen,
+  FolderOpen,
+  Gavel,
+  Images,
+  ListTodo,
+  MonitorCheck,
+  Newspaper,
+  Contact,
+  Vote,
+  Award,
+  BadgeIndianRupee,
+  Banknote,
+  BedDouble,
+  BarChart3,
+  Bell,
+  BookMarked,
+  BookOpen,
+  Bot,
+  Briefcase,
+  Bus,
+  Navigation,
+  CalendarCheck,
+  CalendarDays,
+  CalendarOff,
+  ClipboardCheck,
+  ClipboardList,
+  FileQuestion,
+  FileText,
+  GraduationCap,
+  HeartHandshake,
+  History,
+  IdCard,
+  Landmark,
+  LayoutDashboard,
+  Library,
+  Megaphone,
+  MessageSquare,
+  MessagesSquare,
+  Package,
+  School,
+  Settings,
+  ShieldCheck,
+  ShoppingCart,
+  Sparkles,
+  Star,
+  Timer,
+  Trophy,
+  UserCheck,
+  UserPlus,
+  Users,
+  Video,
+} from 'lucide-react';
+import { hasPerm, type AppRole, type ModuleGroup, type ModuleKey, type PermissionMap } from './modules';
 
-export const sidebarItems: SidebarItem[] = [
-  // Dashboards per role
-  { title: 'Dashboard', titleHi: 'डैशबोर्ड', href: '/dashboard/admin', icon: 'LayoutDashboard', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Dashboard', titleHi: 'डैशबोर्ड', href: '/dashboard/teacher', icon: 'LayoutDashboard', roles: [Role.TEACHER] },
-  { title: 'Dashboard', titleHi: 'डैशबोर्ड', href: '/dashboard/parent', icon: 'LayoutDashboard', roles: [Role.PARENT] },
-  { title: 'Dashboard', titleHi: 'डैशबोर्ड', href: '/dashboard/student', icon: 'LayoutDashboard', roles: [Role.STUDENT] },
-
-  // AI Assistant
-  { title: 'AI Assistant', titleHi: 'एआई सहायक', href: '/ai-assistant', icon: 'Sparkles', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT, Role.ACCOUNTANT] },
-
-  // USP: Principal & Leadership Connect (1:1 Meeting Booking) - STRICTLY EXCLUDES STUDENT
-  {
-    title: 'Principal Connect (1:1)',
-    titleHi: 'प्रधानाचार्य संवाद (1:1)',
-    href: '/meetings',
-    icon: 'CalendarCheck',
-    roles: [Role.PARENT, Role.TEACHER, Role.SUPER_ADMIN, Role.ADMIN],
-  },
-
-  // USP: Exam Prep Booster (Flashcards, Mock Tests, Syllabus Countdown)
-  {
-    title: 'Exam Prep Booster',
-    titleHi: 'परीक्षा तैयारी बूस्टर',
-    href: '/exam-prep',
-    icon: 'Zap',
-    roles: [Role.STUDENT, Role.PARENT, Role.TEACHER, Role.SUPER_ADMIN, Role.ADMIN],
-  },
-
-  // USP: Co-Curricular & Extra Activities Hub
-  {
-    title: 'Extra Activities & Clubs',
-    titleHi: 'अतिरिक्त गतिविधियाँ एवं क्लब',
-    href: '/activities',
-    icon: 'Trophy',
-    roles: [Role.STUDENT, Role.PARENT, Role.TEACHER, Role.SUPER_ADMIN, Role.ADMIN],
-  },
-
-  // USP: Pomodoro Focus Studio & Study History Log
-  {
-    title: 'Focus Studio & Pomodoro',
-    titleHi: 'पोमोडोरो अध्ययन स्टूडियो',
-    href: '/pomodoro',
-    icon: 'Timer',
-    roles: [Role.STUDENT, Role.PARENT, Role.TEACHER],
-  },
-
-  // Core Academic Navigation
-  {
-    title: 'Timetable',
-    titleHi: 'समय सारणी',
-    href: '/timetable',
-    icon: 'Clock',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT],
-  },
-  {
-    title: 'Daily Homework',
-    titleHi: 'दैनिक गृहकार्य',
-    href: '/homework',
-    icon: 'BookMarked',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT],
-  },
-  {
-    title: 'Exam Results & Marks',
-    titleHi: 'परीक्षा परिणाम एवं अंक',
-    href: '/exams/results',
-    icon: 'Award',
-    roles: [Role.STUDENT, Role.PARENT],
-  },
-  {
-    title: 'Study Materials (LMS)',
-    titleHi: 'अध्ययन सामग्री',
-    href: '/lms',
-    icon: 'Library',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT],
-  },
-  {
-    title: 'Manage Attendance',
-    titleHi: 'उपस्थिति',
-    href: '/attendance',
-    icon: 'CheckSquare',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.PARENT],
-  },
-  {
-    title: 'Online Classes',
-    titleHi: 'ऑनलाइन कक्षा',
-    href: '/online-class',
-    icon: 'Video',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT],
-  },
-
-  // Notices & Notifications
-  {
-    title: 'Noticeboard',
-    titleHi: 'सूचना पट्ट',
-    href: '/notices',
-    icon: 'Megaphone',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT],
-  },
-  {
-    title: 'Notifications',
-    titleHi: 'अधिसूचनाएं',
-    href: '/notifications',
-    icon: 'Bell',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STUDENT, Role.PARENT, Role.ACCOUNTANT],
-  },
-
-  // Administration & Operations
-  {
-    title: 'Admission Management',
-    titleHi: 'प्रवेश प्रबंधन',
-    href: '/admission',
-    icon: 'UserPlus',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN],
-    children: [
-      { title: 'New Admission', titleHi: 'नया प्रवेश', href: '/admission/new', icon: 'Plus', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Bulk Admission', titleHi: 'बल्क प्रवेश', href: '/admission/bulk', icon: 'Upload', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Admission Requests', titleHi: 'प्रवेश अनुरोध', href: '/admission/requests', icon: 'ClipboardList', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Inquiries', titleHi: 'पूछताछ', href: '/admission/inquiries', icon: 'HelpCircle', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Print Form', titleHi: 'फॉर्म प्रिंट', href: '/admission/print', icon: 'Printer', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-    ],
-  },
-  {
-    title: 'Student Management',
-    titleHi: 'छात्र प्रबंधन',
-    href: '/students',
-    icon: 'GraduationCap',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER],
-    children: [
-      { title: 'Student Information', titleHi: 'छात्र जानकारी', href: '/students', icon: 'Users', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER] },
-      { title: 'Promotion', titleHi: 'प्रोन्नति', href: '/students/promotion', icon: 'ArrowUpCircle', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Transfer', titleHi: 'स्थानांतरण', href: '/students/transfer', icon: 'ArrowRightLeft', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-    ],
-  },
-  { title: 'Parent Accounts', titleHi: 'अभिभावक खाते', href: '/parents', icon: 'Users2', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  {
-    title: 'Staff Management',
-    titleHi: 'कर्मचारी प्रबंधन',
-    href: '/staff',
-    icon: 'Briefcase',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN],
-    children: [
-      { title: 'Teachers', titleHi: 'शिक्षक', href: '/staff/teachers', icon: 'GraduationCap', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Other Staff', titleHi: 'अन्य कर्मचारी', href: '/staff/other', icon: 'UserCog', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-    ],
-  },
-  { title: 'Classes & Sections', titleHi: 'कक्षा और अनुभाग', href: '/classes', icon: 'School', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Subjects', titleHi: 'विषय', href: '/subjects', icon: 'BookOpen', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  {
-    title: 'Fee Management',
-    titleHi: 'शुल्क प्रबंधन',
-    href: '/fees/collect',
-    icon: 'IndianRupee',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT],
-    children: [
-      { title: 'Pay / Collect Fee', titleHi: 'शुल्क भुगतान एवं संग्रह', href: '/fees/collect', icon: 'Receipt', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-      { title: 'Fee Structure', titleHi: 'शुल्क संरचना', href: '/fees/structure', icon: 'Settings', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Fee Report', titleHi: 'शुल्क रिपोर्ट', href: '/fees/report', icon: 'BarChart2', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-      { title: 'Due List', titleHi: 'बकाया सूची', href: '/fees/dues', icon: 'AlertTriangle', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-    ],
-  },
-  {
-    title: 'My School Fees',
-    titleHi: 'मेरी स्कूल फीस',
-    href: '/fees/my-dues',
-    icon: 'IndianRupee',
-    roles: [Role.STUDENT],
-  },
-  {
-    title: 'Ward Fee Dues & Pay',
-    titleHi: 'छात्र शुल्क एवं भुगतान',
-    href: '/fees/my-dues',
-    icon: 'IndianRupee',
-    roles: [Role.PARENT],
-  },
-  {
-    title: 'Accounting',
-    titleHi: 'लेखांकन',
-    href: '/accounting',
-    icon: 'Calculator',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT],
-    children: [
-      { title: 'Overview & Ledger', titleHi: 'अवलोकन एवं खाता', href: '/accounting', icon: 'Calculator', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-      { title: 'Expense Manager', titleHi: 'व्यय प्रबंधन', href: '/accounting/expenses', icon: 'TrendingDown', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-      { title: 'Staff Salary', titleHi: 'वेतन प्रबंधन', href: '/salary', icon: 'Wallet', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.ACCOUNTANT] },
-    ],
-  },
-  {
-    title: 'Exam Management',
-    titleHi: 'परीक्षा प्रबंधन',
-    href: '/exams',
-    icon: 'FileText',
-    roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER],
-    children: [
-      { title: 'Exams', titleHi: 'परीक्षाएं', href: '/exams', icon: 'FileText', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-      { title: 'Marks Entry', titleHi: 'अंक प्रविष्टि', href: '/exams/marks', icon: 'Edit', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER] },
-      { title: 'Results', titleHi: 'परिणाम', href: '/exams/results', icon: 'Award', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER] },
-    ],
-  },
-  { title: 'Certification', titleHi: 'प्रमाण पत्र', href: '/certification', icon: 'Award', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Leave Management', titleHi: 'अवकाश प्रबंधन', href: '/leave', icon: 'CalendarOff', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER] },
-  { title: 'Transport', titleHi: 'परिवहन', href: '/transport', icon: 'Bus', roles: [Role.SUPER_ADMIN, Role.ADMIN, Role.TRANSPORT_MANAGER] },
-  { title: 'ID Card Generation', titleHi: 'पहचान पत्र', href: '/idcard', icon: 'CreditCard', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Stock & Inventory', titleHi: 'स्टॉक और इन्वेंटरी', href: '/inventory', icon: 'Package', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Biometric Devices', titleHi: 'बायोमेट्रिक उपकरण', href: '/biometric', icon: 'Fingerprint', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Reports', titleHi: 'रिपोर्ट', href: '/reports', icon: 'PieChart', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-  { title: 'Manage Campus', titleHi: 'कैम्पस प्रबंधन', href: '/campus', icon: 'Building2', roles: [Role.SUPER_ADMIN] },
-  { title: 'Settings', titleHi: 'सेटिंग्स', href: '/settings', icon: 'Settings', roles: [Role.SUPER_ADMIN, Role.ADMIN] },
-];
-
-export function getMenuForRole(role: Role): SidebarItem[] {
-  return sidebarItems
-    .filter((item) => item.roles.includes(role))
-    .map((item) => {
-      let title = item.title;
-      let titleHi = item.titleHi;
-      let icon = item.icon;
-
-      if (item.href === '/meetings') {
-        if (role === Role.TEACHER) {
-          title = 'Teacher Parent Meeting';
-          titleHi = 'शिक्षक-अभिभावक बैठक';
-          icon = 'Users';
-        } else if (role === Role.ADMIN || role === Role.SUPER_ADMIN) {
-          title = 'Principal Connect & PTM Hub';
-          titleHi = 'प्रधानाचार्य संवाद एवं पीटीएम';
-          icon = 'CalendarCheck';
-        } else if (role === Role.PARENT) {
-          title = 'Teacher & Principal Connect';
-          titleHi = 'शिक्षक एवं प्रधानाचार्य संवाद';
-          icon = 'CalendarCheck';
-        }
-      }
-
-      return {
-        ...item,
-        title,
-        titleHi,
-        icon,
-        children: item.children?.filter((child) => child.roles.includes(role)),
-      };
-    });
+export interface NavItem {
+  href: string;
+  label: string;
+  labelHi: string;
+  icon: LucideIcon;
+  module: ModuleKey;
+  /** Only show to these roles (portal-specific screens). */
+  roles?: AppRole[];
+  /** Hide from these roles. */
+  hideFor?: AppRole[];
+  /** Shown to a vehicle's assigned driver (and Transport editors) when live tracking is on. */
+  driver?: boolean;
+  /** Only shown when the school has added apps for this role (App Frame). */
+  apps?: boolean;
+  group: ModuleGroup | 'My School';
 }
 
+const FAMILY: AppRole[] = ['PARENT', 'STUDENT'];
+
+export const NAV: NavItem[] = [
+  { href: '/dashboard', label: 'Dashboard', labelHi: 'डैशबोर्ड', icon: LayoutDashboard, module: 'dashboard', group: 'Overview' },
+  { href: '/apps', label: 'Apps', labelHi: 'ऐप्स', icon: AppWindow, module: 'apps', apps: true, group: 'Overview' },
+
+  // ---------------- Family portal ----------------
+  { href: '/attendance', label: 'Attendance', labelHi: 'उपस्थिति', icon: UserCheck, module: 'attendance', roles: FAMILY, group: 'My School' },
+  { href: '/homework', label: 'Homework', labelHi: 'गृहकार्य', icon: BookMarked, module: 'homework', roles: FAMILY, group: 'My School' },
+  { href: '/timetable', label: 'Timetable', labelHi: 'समय सारणी', icon: CalendarDays, module: 'timetable', roles: FAMILY, group: 'My School' },
+  { href: '/exams', label: 'Results', labelHi: 'परिणाम', icon: Award, module: 'exams', roles: FAMILY, group: 'My School' },
+  { href: '/class-tests', label: 'Class Tests', labelHi: 'कक्षा परीक्षण', icon: ClipboardCheck, module: 'class_tests', roles: FAMILY, group: 'My School' },
+  { href: '/fees', label: 'Fees', labelHi: 'शुल्क', icon: BadgeIndianRupee, module: 'fees', roles: FAMILY, group: 'My School' },
+  { href: '/lms', label: 'Study Material', labelHi: 'अध्ययन सामग्री', icon: BookOpen, module: 'lms', roles: FAMILY, group: 'My School' },
+  { href: '/live-classes', label: 'Live Classes', labelHi: 'लाइव कक्षाएं', icon: Video, module: 'live_classes', roles: FAMILY, group: 'My School' },
+  { href: '/behaviour', label: 'Behaviour & Skills', labelHi: 'व्यवहार एवं कौशल', icon: Star, module: 'behaviour', roles: FAMILY, group: 'My School' },
+  { href: '/transport', label: 'Transport', labelHi: 'परिवहन', icon: Bus, module: 'transport', roles: FAMILY, group: 'My School' },
+  { href: '/library', label: 'Library', labelHi: 'पुस्तकालय', icon: Library, module: 'library', roles: FAMILY, group: 'My School' },
+  { href: '/hostel', label: 'Hostel', labelHi: 'छात्रावास', icon: BedDouble, module: 'hostel', roles: FAMILY, group: 'My School' },
+  { href: '/leave', label: 'Leave', labelHi: 'अवकाश', icon: CalendarOff, module: 'leave', roles: ['PARENT'], group: 'My School' },
+  { href: '/online-exams', label: 'Online Exams', labelHi: 'ऑनलाइन परीक्षा', icon: MonitorCheck, module: 'online_exams', roles: FAMILY, group: 'My School' },
+  { href: '/discipline', label: 'Discipline', labelHi: 'अनुशासन', icon: Gavel, module: 'discipline', roles: FAMILY, group: 'My School' },
+  { href: '/placements', label: 'Placements', labelHi: 'प्लेसमेंट', icon: BriefcaseBusiness, module: 'placements', roles: ['STUDENT'], group: 'My School' },
+  { href: '/blog', label: 'News & Blog', labelHi: 'समाचार एवं ब्लॉग', icon: Newspaper, module: 'blog', roles: FAMILY, group: 'My School' },
+  { href: '/gallery', label: 'Gallery', labelHi: 'गैलरी', icon: Images, module: 'gallery', roles: FAMILY, group: 'My School' },
+  { href: '/polls', label: 'Polls & Forms', labelHi: 'मतदान एवं फ़ॉर्म', icon: Vote, module: 'polls', roles: FAMILY, group: 'My School' },
+  { href: '/discussions', label: 'Discussions', labelHi: 'चर्चा मंच', icon: MessageSquare, module: 'discussion', roles: FAMILY, group: 'My School' },
+  { href: '/documents', label: 'Documents', labelHi: 'दस्तावेज़', icon: FolderOpen, module: 'documents', roles: FAMILY, group: 'My School' },
+
+  // ---------------- Staff ----------------
+  { href: '/admissions', label: 'Admissions', labelHi: 'प्रवेश', icon: UserPlus, module: 'admissions', group: 'Front Office' },
+  { href: '/gate', label: 'Gate & Visitors', labelHi: 'गेट एवं आगंतुक', icon: DoorOpen, module: 'gate', group: 'Front Office' },
+  { href: '/students', label: 'Students', labelHi: 'छात्र', icon: GraduationCap, module: 'students', hideFor: FAMILY, group: 'People' },
+  { href: '/guardians', label: 'Parents & Families', labelHi: 'अभिभावक', icon: HeartHandshake, module: 'guardians', hideFor: FAMILY, group: 'People' },
+  { href: '/employees', label: 'Employees', labelHi: 'कर्मचारी', icon: Briefcase, module: 'employees', group: 'People' },
+  { href: '/staff-attendance', label: 'Staff Attendance', labelHi: 'कर्मचारी उपस्थिति', icon: ClipboardList, module: 'staff_attendance', group: 'People' },
+  { href: '/leave', label: 'Leave', labelHi: 'अवकाश', icon: CalendarOff, module: 'leave', hideFor: FAMILY, group: 'People' },
+  { href: '/alumni', label: 'Alumni', labelHi: 'पूर्व छात्र', icon: Contact, module: 'alumni', hideFor: FAMILY, group: 'People' },
+
+  { href: '/academics', label: 'Classes & Subjects', labelHi: 'कक्षाएं एवं विषय', icon: School, module: 'academics', hideFor: FAMILY, group: 'Academics' },
+  { href: '/attendance', label: 'Attendance', labelHi: 'उपस्थिति', icon: UserCheck, module: 'attendance', hideFor: FAMILY, group: 'Academics' },
+  { href: '/timetable', label: 'Timetable', labelHi: 'समय सारणी', icon: CalendarDays, module: 'timetable', hideFor: FAMILY, group: 'Academics' },
+  { href: '/homework', label: 'Homework', labelHi: 'गृहकार्य', icon: BookMarked, module: 'homework', hideFor: FAMILY, group: 'Academics' },
+  { href: '/lms', label: 'Study Material', labelHi: 'अध्ययन सामग्री', icon: BookOpen, module: 'lms', hideFor: FAMILY, group: 'Academics' },
+  { href: '/live-classes', label: 'Live Classes', labelHi: 'लाइव कक्षाएं', icon: Video, module: 'live_classes', hideFor: FAMILY, group: 'Academics' },
+
+  { href: '/exams', label: 'Exams & Results', labelHi: 'परीक्षा एवं परिणाम', icon: Award, module: 'exams', hideFor: FAMILY, group: 'Examinations' },
+  { href: '/class-tests', label: 'Class Tests', labelHi: 'कक्षा परीक्षण', icon: ClipboardCheck, module: 'class_tests', hideFor: FAMILY, group: 'Examinations' },
+  { href: '/question-bank', label: 'Question Papers', labelHi: 'प्रश्न पत्र', icon: FileQuestion, module: 'question_bank', group: 'Examinations' },
+  { href: '/online-exams', label: 'Online Exams', labelHi: 'ऑनलाइन परीक्षा', icon: MonitorCheck, module: 'online_exams', hideFor: FAMILY, group: 'Examinations' },
+  { href: '/behaviour', label: 'Behaviour & Skills', labelHi: 'व्यवहार एवं कौशल', icon: Star, module: 'behaviour', hideFor: FAMILY, group: 'Examinations' },
+
+  { href: '/fees', label: 'Fees', labelHi: 'शुल्क', icon: BadgeIndianRupee, module: 'fees', hideFor: FAMILY, group: 'Finance' },
+  { href: '/accounts', label: 'Accounts', labelHi: 'लेखा', icon: Landmark, module: 'accounts', group: 'Finance' },
+  { href: '/payroll', label: 'Payroll', labelHi: 'वेतन', icon: Banknote, module: 'payroll', group: 'Finance' },
+
+  { href: '/notices', label: 'Noticeboard', labelHi: 'सूचना पट्ट', icon: Megaphone, module: 'notices', group: 'Communication' },
+  { href: '/messages', label: 'Messages', labelHi: 'संदेश', icon: MessagesSquare, module: 'messaging', group: 'Communication' },
+  { href: '/sms', label: 'SMS, WhatsApp & Email', labelHi: 'एसएमएस, व्हाट्सएप एवं ईमेल', icon: MessageSquare, module: 'sms', group: 'Communication' },
+  { href: '/calendar', label: 'Calendar', labelHi: 'कैलेंडर', icon: CalendarCheck, module: 'events', group: 'Communication' },
+  { href: '/meetings', label: 'Parent Meetings', labelHi: 'अभिभावक बैठक', icon: Users, module: 'meetings', group: 'Communication' },
+  { href: '/polls', label: 'Polls & Forms', labelHi: 'मतदान एवं फ़ॉर्म', icon: Vote, module: 'polls', hideFor: FAMILY, group: 'Communication' },
+  { href: '/discussions', label: 'Discussions', labelHi: 'चर्चा मंच', icon: MessageSquare, module: 'discussion', hideFor: FAMILY, group: 'Communication' },
+  { href: '/blog', label: 'News & Blog', labelHi: 'समाचार एवं ब्लॉग', icon: Newspaper, module: 'blog', hideFor: FAMILY, group: 'Communication' },
+  { href: '/gallery', label: 'Gallery', labelHi: 'गैलरी', icon: Images, module: 'gallery', hideFor: FAMILY, group: 'Communication' },
+  { href: '/reminders', label: 'Reminders', labelHi: 'अनुस्मारक', icon: AlarmClock, module: 'reminders', group: 'Communication' },
+
+  { href: '/transport', label: 'Transport', labelHi: 'परिवहन', icon: Bus, module: 'transport', hideFor: FAMILY, group: 'Operations' },
+  { href: '/driver', label: 'Driver mode', labelHi: 'ड्राइवर मोड', icon: Navigation, module: 'transport', driver: true, hideFor: FAMILY, group: 'Operations' },
+  { href: '/library', label: 'Library', labelHi: 'पुस्तकालय', icon: Library, module: 'library', hideFor: FAMILY, group: 'Operations' },
+  { href: '/store', label: 'Store & POS', labelHi: 'स्टोर', icon: ShoppingCart, module: 'store', group: 'Operations' },
+  { href: '/assets', label: 'Assets', labelHi: 'संपत्ति', icon: Package, module: 'inventory', group: 'Operations' },
+  { href: '/hostel', label: 'Hostel', labelHi: 'छात्रावास', icon: BedDouble, module: 'hostel', hideFor: FAMILY, group: 'Operations' },
+
+  { href: '/activities', label: 'Clubs & Activities', labelHi: 'क्लब एवं गतिविधियाँ', icon: Trophy, module: 'activities', group: 'Student Life' },
+  { href: '/study-tools', label: 'Study Tools', labelHi: 'अध्ययन उपकरण', icon: Timer, module: 'study_tools', group: 'Student Life' },
+  { href: '/ai-assistant', label: 'AI Assistant', labelHi: 'एआई सहायक', icon: Sparkles, module: 'ai_assistant', group: 'Student Life' },
+  { href: '/discipline', label: 'Discipline', labelHi: 'अनुशासन', icon: Gavel, module: 'discipline', hideFor: FAMILY, group: 'Student Life' },
+  { href: '/placements', label: 'Placements', labelHi: 'प्लेसमेंट', icon: BriefcaseBusiness, module: 'placements', hideFor: FAMILY, group: 'Student Life' },
+
+  { href: '/certificates', label: 'Certificates & ID Cards', labelHi: 'प्रमाण पत्र', icon: IdCard, module: 'certificates', group: 'Administration' },
+  { href: '/reports', label: 'Reports', labelHi: 'रिपोर्ट', icon: BarChart3, module: 'reports', group: 'Administration' },
+  { href: '/tasks', label: 'Tasks', labelHi: 'कार्य', icon: ListTodo, module: 'tasks', group: 'Administration' },
+  { href: '/documents', label: 'Documents', labelHi: 'दस्तावेज़', icon: FolderOpen, module: 'documents', hideFor: FAMILY, group: 'Administration' },
+  { href: '/settings', label: 'School Settings', labelHi: 'सेटिंग्स', icon: Settings, module: 'settings', group: 'Administration' },
+  { href: '/access-control', label: 'Roles & Permissions', labelHi: 'भूमिकाएं एवं अनुमतियाँ', icon: ShieldCheck, module: 'access_control', group: 'Administration' },
+  { href: '/audit-logs', label: 'Audit Log', labelHi: 'ऑडिट लॉग', icon: History, module: 'audit_logs', group: 'Administration' },
+];
+
+export const EXTRA_ICONS = { Bell, Bot, FileText };
+
+export interface NavContext {
+  isDriver?: boolean;
+  trackingEnabled?: boolean;
+  appCount?: number;
+}
+
+/** Whether a driver-only item (Driver mode) is available to this user. */
+export function driverAccess(perms: PermissionMap, ctx: NavContext = {}): boolean {
+  return !!ctx.trackingEnabled && (!!ctx.isDriver || hasPerm(perms, 'transport', 'edit'));
+}
+
+export function navFor(role: AppRole, perms: PermissionMap, ctx: NavContext = {}): NavItem[] {
+  const seen = new Set<string>();
+  return NAV.filter((item) => {
+    if (item.roles && !item.roles.includes(role)) return false;
+    if (item.hideFor?.includes(role)) return false;
+    if (item.driver) {
+      if (!driverAccess(perms, ctx)) return false;
+    } else if (!hasPerm(perms, item.module, 'view')) return false;
+    if (item.apps && !ctx.appCount) return false;
+    if (seen.has(item.href)) return false;
+    seen.add(item.href);
+    return true;
+  });
+}
+
+/** The nav item that owns a pathname (longest matching prefix). */
+export function navForPath(pathname: string): NavItem | undefined {
+  return [...NAV].sort((a, b) => b.href.length - a.href.length).find((n) => pathname === n.href || pathname.startsWith(n.href + '/'));
+}

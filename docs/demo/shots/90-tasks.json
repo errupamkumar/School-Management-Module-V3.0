@@ -1,0 +1,27 @@
+{
+ "id": "90-tasks",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Assign to one or more staff with a due date",
+   "box": {
+    "x": 89.58,
+    "y": 11.33,
+    "w": 8.2,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Priority, due date and overdue highlighted",
+   "box": {
+    "x": 20.07,
+    "y": 25.11,
+    "w": 77.64,
+    "h": 21.56
+   }
+  }
+ ]
+}

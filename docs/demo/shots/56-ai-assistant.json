@@ -1,0 +1,27 @@
+{
+ "id": "56-ai-assistant",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Ask a question",
+   "box": {
+    "x": 20.9,
+    "y": 86.19,
+    "w": 72.08,
+    "h": 4.97
+   }
+  },
+  {
+   "n": 2,
+   "note": "Suggested prompts for your role",
+   "box": {
+    "x": 59.17,
+    "y": 38.56,
+    "w": 23.06,
+    "h": 7.33
+   }
+  }
+ ]
+}

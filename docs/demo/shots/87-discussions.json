@@ -1,0 +1,27 @@
+{
+ "id": "87-discussions",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Families start topics for their own class",
+   "box": {
+    "x": 86.55,
+    "y": 11.33,
+    "w": 11.23,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Pinned topics first; teachers moderate",
+   "box": {
+    "x": 20.07,
+    "y": 25.33,
+    "w": 77.64,
+    "h": 10.89
+   }
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "id": "07-admission-detail",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Move to the next stage",
+   "box": {
+    "x": 57.01,
+    "y": 19,
+    "w": 41.6,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 2,
+   "note": "Call log, documents, test score",
+   "box": {
+    "x": 57.01,
+    "y": 31.67,
+    "w": 41.6,
+    "h": 15.67
+   }
+  },
+  {
+   "n": 3,
+   "note": "Follow-up date",
+   "box": {
+    "x": 57.01,
+    "y": 49.56,
+    "w": 33.28,
+    "h": 1.78
+   }
+  },
+  {
+   "n": 4,
+   "note": "Enrol the applicant",
+   "box": {
+    "x": 58.19,
+    "y": 73.67,
+    "w": 8.83,
+    "h": 4.44
+   }
+  }
+ ]
+}

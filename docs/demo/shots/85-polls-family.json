@@ -1,0 +1,27 @@
+{
+ "id": "85-polls-family",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Vote; results show after voting",
+   "box": {
+    "x": 59.44,
+    "y": 22,
+    "w": 38.33,
+    "h": 31.11
+   }
+  },
+  {
+   "n": 2,
+   "note": "Forms (consent, surveys) open in a dialog",
+   "box": {
+    "x": 21.46,
+    "y": 47.22,
+    "w": 3.72,
+    "h": 3.56
+   }
+  }
+ ]
+}

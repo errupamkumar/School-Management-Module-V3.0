@@ -1,0 +1,57 @@
+{
+ "id": "10-student-profile",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Profile · Attendance · Fees · Results · Behaviour · Logins",
+   "box": {
+    "x": 19.72,
+    "y": 45.78,
+    "w": 78.33,
+    "h": 4.67
+   }
+  },
+  {
+   "n": 2,
+   "note": "Summary tiles",
+   "box": {
+    "x": 39.72,
+    "y": 34.44,
+    "w": 18.61,
+    "h": 8.67
+   }
+  },
+  {
+   "n": 3,
+   "note": "Collect this student's fees",
+   "box": {
+    "x": 78.46,
+    "y": 25.89,
+    "w": 7.76,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 4,
+   "note": "Edit details",
+   "box": {
+    "x": 86.78,
+    "y": 25.89,
+    "w": 4.84,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 5,
+   "note": "Admission letter, status / leaving, delete",
+   "box": {
+    "x": 92.18,
+    "y": 25.89,
+    "w": 3.87,
+    "h": 3.56
+   }
+  }
+ ]
+}

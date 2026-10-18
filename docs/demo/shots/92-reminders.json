@@ -1,0 +1,27 @@
+{
+ "id": "92-reminders",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Once or repeating; app, SMS or email",
+   "box": {
+    "x": 87.36,
+    "y": 11.33,
+    "w": 10.41,
+    "h": 4.44
+   }
+  },
+  {
+   "n": 2,
+   "note": "Who it is for and how it is sent",
+   "box": {
+    "x": 20.07,
+    "y": 25.11,
+    "w": 77.64,
+    "h": 29.67
+   }
+  }
+ ]
+}

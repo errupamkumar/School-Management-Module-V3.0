@@ -1,0 +1,37 @@
+{
+ "id": "21-staff-attendance",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Mark all present",
+   "box": {
+    "x": 88.72,
+    "y": 27,
+    "w": 7.6,
+    "h": 3.56
+   }
+  },
+  {
+   "n": 2,
+   "note": "Status per employee (P / A / L / H / LV)",
+   "box": {
+    "x": 65.49,
+    "y": 34.03,
+    "w": 2.5,
+    "h": 4
+   }
+  },
+  {
+   "n": 3,
+   "note": "Save",
+   "box": {
+    "x": 91.82,
+    "y": 174.78,
+    "w": 4.5,
+    "h": 4.44
+   }
+  }
+ ]
+}

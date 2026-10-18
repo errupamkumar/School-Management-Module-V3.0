@@ -1,0 +1,17 @@
+{
+ "id": "43-payslips-staff",
+ "width": 1440,
+ "height": 900,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Own payslips only",
+   "box": {
+    "x": 21.46,
+    "y": 20.33,
+    "w": 5.64,
+    "h": 2.22
+   }
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "77-profile-app-mobile",
+ "width": 390,
+ "height": 844,
+ "markers": [
+  {
+   "n": 1,
+   "note": "Install the app and turn on phone alerts",
+   "box": {
+    "x": 4.1,
+    "y": 48.58,
+    "w": 91.79,
+    "h": 40.88
+   }
+  }
+ ]
+}
