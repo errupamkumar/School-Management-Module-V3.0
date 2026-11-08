@@ -11,7 +11,7 @@ export const POST = publicRoute({ name: 'website-lead', limit: 8, windowSec: 360
   } catch {
     throw badRequest('Request body must be valid JSON.');
   }
-  const { website, consent: _consent, features, ...input } = leadSchema.parse(raw);
+  const { website, consent: _consent, features, attribution, ...input } = leadSchema.parse(raw);
   // Bots fill the hidden field; answer as if accepted so they learn nothing.
   if (website) return { received: true };
 
@@ -20,7 +20,12 @@ export const POST = publicRoute({ name: 'website-lead', limit: 8, windowSec: 360
   if (dup) return { received: true };
 
   await prisma.websiteLead.create({
-    data: { ...input, features: features.filter((f) => f in FEATURE_MAP), ip },
+    data: {
+      ...input,
+      features: features.filter((f) => f in FEATURE_MAP),
+      attribution: attribution && Object.values(attribution).some(Boolean) ? attribution : undefined,
+      ip,
+    },
   });
   return { received: true };
 });

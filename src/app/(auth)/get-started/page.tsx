@@ -7,8 +7,9 @@ import { Reveal } from '@/website/components/motion';
 import { LeadForm } from '@/website/components/lead-form';
 
 export const metadata: Metadata = {
-  title: 'Start free trial',
+  title: 'Start a Free Trial or Book a Demo',
   description: 'Start a free Vidyalaya trial or book a live demo. We set up your school and import your data.',
+  alternates: { canonical: '/get-started' },
 };
 
 /** Sign up: one focused card, styled like the sign-in page. */

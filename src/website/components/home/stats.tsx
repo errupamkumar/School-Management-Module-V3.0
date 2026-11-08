@@ -1,17 +1,25 @@
 'use client';
 
-import { Boxes, Languages, School, ShieldCheck, Users } from 'lucide-react';
+import { Boxes, GraduationCap, Languages, LayoutGrid, School, ShieldCheck, Users } from 'lucide-react';
 import { FACTS } from '../../content/site';
-import { ADOPTION } from '../../content/placeholder';
+import { FEATURES } from '../../content/features';
+import { ADOPTION, SHOW_SAMPLE_CONTENT } from '../../content/placeholder';
 import { CountUp, Stagger, StaggerItem } from '../motion';
 
-const STATS = [
+const PRODUCT_STATS = [
   { icon: Boxes, value: FACTS.modules, suffix: '', label: 'Modules in one product', tone: 'from-indigo-500 to-violet-500' },
   { icon: ShieldCheck, value: FACTS.roles, suffix: '', label: 'School roles, each with its own view', tone: 'from-emerald-500 to-teal-500' },
   { icon: Languages, value: FACTS.languages, suffix: '', label: 'Indian languages', tone: 'from-amber-400 to-orange-500' },
+];
+const SAMPLE_STATS = [
   { icon: School, value: ADOPTION.schools, suffix: '+', label: 'Schools on Vidyalaya', tone: 'from-rose-500 to-pink-500' },
   { icon: Users, value: ADOPTION.users / 100000, suffix: 'L+', label: 'Students, parents and staff', tone: 'from-sky-500 to-blue-600', decimals: 1 },
 ];
+const MORE_FACTS = [
+  { icon: LayoutGrid, value: FEATURES.length, suffix: '', label: 'Solutions, each with its own page', tone: 'from-rose-500 to-pink-500' },
+  { icon: GraduationCap, value: 6, suffix: '', label: 'Boards: CBSE, ICSE, State, IB, Cambridge, NIOS', tone: 'from-sky-500 to-blue-600' },
+];
+const STATS: { icon: typeof Boxes; value: number; suffix: string; label: string; tone: string; decimals?: number }[] = [...PRODUCT_STATS, ...(SHOW_SAMPLE_CONTENT ? SAMPLE_STATS : MORE_FACTS)];
 
 export function Stats() {
   return (

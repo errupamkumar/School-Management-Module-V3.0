@@ -376,8 +376,9 @@ npx playwright test           # browser smoke test of every menu page per role (
 3. Create the operator account (see [Guide 4](#guide-4--run-the-platform)), create plans, then onboard schools.
 4. Each school adds its own Razorpay, SMS (DLT) and WhatsApp credentials under **Settings**. Point the Razorpay webhook at the URL shown there.
 5. Persist `STORAGE_DIR` (uploaded documents) and include it and the database in backups.
-6. Replace the placeholder content in `src/website/content/placeholder.ts` before the website goes public.
-7. **Store apps (optional):** the Capacitor shell in [`mobile/`](mobile/README.md) loads `https://<your-domain>/dashboard`, so the app opens on sign-in or the dashboard, never the marketing site.
+6. Placeholder testimonials and customer numbers in `src/website/content/placeholder.ts` stay hidden unless `NEXT_PUBLIC_SHOW_SAMPLE_CONTENT=1`; replace them with real, consented data before showing them.
+7. **Search and ads:** Search Console verification, GA4 / Google Ads tags with consent, the lead conversion and campaign attribution are configured with environment variables — follow [docs/marketing/GOOGLE_ADS_SETUP.md](docs/marketing/GOOGLE_ADS_SETUP.md).
+8. **Store apps (optional):** the Capacitor shell in [`mobile/`](mobile/README.md) loads `https://<your-domain>/dashboard`, so the app opens on sign-in or the dashboard, never the marketing site.
 
 ## Project layout
 

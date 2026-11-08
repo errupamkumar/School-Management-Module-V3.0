@@ -3,15 +3,35 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
-import { ArrowRight, CalendarCheck, Check, ChevronDown, Loader2, LogIn, Rocket, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CalendarCheck, Check, ChevronDown, Loader2, LogIn, Mail, Phone, Rocket, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FEATURES } from '../content/features';
 import { SITE } from '../content/site';
 import { INDIAN_STATES, LEAD_BOARDS, LEAD_ROLES, STUDENT_BANDS, leadSchema } from '../lead-schema';
+import { readAttribution, track, trackLead } from '../analytics';
+import { COMPANY, telHref } from '../content/company';
 import { Field } from './form-field';
 
 type Interest = 'trial' | 'demo';
 type Errors = Partial<Record<string, string>>;
+
+/** Pre-filled email with everything the visitor typed, for when the form cannot reach the server. */
+function fallbackMailto(v: Record<string, string>, interest: Interest, features: string[]) {
+  const lines = [
+    `Request: ${interest === 'demo' ? 'Book a live demo' : 'Start free trial'}`,
+    `School: ${v.schoolName}`,
+    `Name: ${v.contactName}${v.role ? ` (${v.role})` : ''}`,
+    `Email: ${v.email}`,
+    `Mobile: ${v.phone}`,
+    `City / State: ${[v.city, v.state].filter(Boolean).join(', ')}`,
+    `Board: ${v.board}`,
+    `Students: ${v.students}`,
+    `Interested in: ${features.map((f) => FEATURES.find((x) => x.slug === f)?.short ?? f).join(', ')}`,
+    '',
+    v.message,
+  ];
+  return `mailto:${COMPANY.email}?subject=${encodeURIComponent(`Vidyalaya ${interest === 'demo' ? 'demo' : 'trial'} request — ${v.schoolName}`)}&body=${encodeURIComponent(lines.join('\n'))}`;
+}
 
 function Success({ name, interest }: { name: string; interest: Interest }) {
   return (
@@ -57,6 +77,7 @@ export function LeadForm({ initialInterest = 'trial', initialFeatures = [] }: { 
   const [formError, setFormError] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  const [fallback, setFallback] = React.useState(false);
 
   const set = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setV((x) => ({ ...x, [k]: e.target.value }));
@@ -67,7 +88,8 @@ export function LeadForm({ initialInterest = 'trial', initialFeatures = [] }: { 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setFormError(null);
-    const payload = { ...v, interest, features, consent, source: `${window.location.pathname}${window.location.search}`.slice(0, 200) };
+    setFallback(false);
+    const payload = { ...v, interest, features, consent, source: `${window.location.pathname}${window.location.search}`.slice(0, 200), attribution: readAttribution() };
     const parsed = leadSchema.safeParse(payload);
     if (!parsed.success) {
       const next: Errors = {};
@@ -85,11 +107,16 @@ export function LeadForm({ initialInterest = 'trial', initialFeatures = [] }: { 
       const json = (await res.json().catch(() => ({}))) as { success?: boolean; error?: string; details?: Errors };
       if (!res.ok || !json.success) {
         if (json.details) setErrors(json.details);
+        // Server trouble (not a validation problem): offer direct contact so the request is not lost.
+        if (res.status >= 500) setFallback(true);
         throw new Error(json.error ?? 'Could not send your request. Please try again.');
       }
+      trackLead(interest);
       setDone(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
+      if (err instanceof TypeError) setFallback(true); // network failure
+      track('lead_submit_failed', { reason: (err as Error).message.slice(0, 80) });
       setFormError((err as Error).message);
     } finally {
       setBusy(false);
@@ -209,16 +236,36 @@ export function LeadForm({ initialInterest = 'trial', initialFeatures = [] }: { 
             }}
             className="mt-0.5 size-4 shrink-0 rounded border-slate-300 dark:border-white/20 accent-indigo-600"
           />
-          <span>I agree that Vidyalaya may contact me by phone, WhatsApp or email about this request. My details are used only for this purpose.</span>
+          <span>
+            I agree that Vidyalaya may contact me by phone, WhatsApp or email about this request. My details are used only for this purpose, as described in the{' '}
+            <Link href="/privacy" target="_blank" className="font-semibold text-indigo-700 underline-offset-2 hover:underline dark:text-indigo-300">
+              Privacy Policy
+            </Link>
+            .
+          </span>
         </label>
         {errors.consent && <p className="mt-1.5 text-xs font-medium text-rose-600 dark:text-rose-400">{errors.consent}</p>}
       </div>
 
       <AnimatePresence>
-        {formError && (
-          <motion.p role="alert" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-500/10 px-4 py-3 text-sm text-rose-700">
+        {formError && !fallback && (
+          <motion.p role="alert" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
             {formError}
           </motion.p>
+        )}
+        {fallback && (
+          <motion.div role="alert" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100">
+            <p className="font-semibold">We couldn’t send your request just now.</p>
+            <p className="mt-1">Your details are still here — send them to us directly and we will reply within one working day:</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <a href={fallbackMailto(v, interest, features)} className="web-btn web-btn-primary px-4 py-2.5">
+                <Mail /> Email my request
+              </a>
+              <a href={telHref(COMPANY.phones[0])} className="web-btn web-btn-secondary px-4 py-2.5">
+                <Phone /> {COMPANY.phones[0]}
+              </a>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 

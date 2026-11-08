@@ -106,12 +106,15 @@ export interface Feature {
   capabilities: { icon: LucideIcon; title: string; text: string }[];
   steps: { title: string; text: string }[];
   roles: { role: string; text: string }[];
+  /** Search title (≤ 60 chars) and description (≤ 160 chars) when they should differ from the page copy. */
+  seo?: { title: string; description: string };
 }
 
 export const FEATURES: Feature[] = [
   // --------------------------------------------------------------- Administration
   {
     slug: 'admissions',
+    seo: { title: 'School Admission Software & Enquiry CRM', description: 'Capture every school enquiry, follow up on time and enrol in one click. Online admission form for parents. CBSE, ICSE and State Board schools.' },
     title: 'Admissions & Enquiry CRM',
     short: 'Admissions',
     category: 'admin',
@@ -364,6 +367,7 @@ export const FEATURES: Feature[] = [
   },
   {
     slug: 'attendance',
+    seo: { title: 'Student Attendance Software with Parent SMS Alerts', description: 'Mark class attendance in under a minute. Absent alerts to parents by SMS and app, ID-card scanning, monthly registers and staff attendance.' },
     title: 'Student & Staff Attendance',
     short: 'Attendance',
     category: 'academics',
@@ -449,6 +453,7 @@ export const FEATURES: Feature[] = [
   },
   {
     slug: 'exams',
+    seo: { title: 'School Exam & Report Card Software for CBSE, ICSE', description: 'Enter marks once and print report cards, ranks and remarks. Gradebook, class tests, question paper builder and online exams for schools.' },
     title: 'Exams, Report Cards & Gradebook',
     short: 'Exams & results',
     category: 'academics',
@@ -535,6 +540,7 @@ export const FEATURES: Feature[] = [
   // ---------------------------------------------------------------------- Finance
   {
     slug: 'fees',
+    seo: { title: 'School Fee Management System with UPI Payments', description: 'Fee structures, monthly invoices, a fast fee counter and online UPI payments with instant receipts. Defaulter reminders by SMS and WhatsApp.' },
     title: 'Fees & Online Payments',
     short: 'Fees',
     category: 'finance',
@@ -667,6 +673,7 @@ export const FEATURES: Feature[] = [
   },
   {
     slug: 'parent-app',
+    seo: { title: 'School App for Parents & Students (Android, iPhone)', description: 'Attendance, homework, results, fees by UPI and live school-bus tracking in one parent app — in 12 Indian languages, with phone alerts.' },
     title: 'Parent & Student App',
     short: 'Parent app',
     category: 'communication',
@@ -757,6 +764,7 @@ export const FEATURES: Feature[] = [
   // ------------------------------------------------------------------- Operations
   {
     slug: 'transport',
+    seo: { title: 'School Bus GPS Tracking & Transport Software', description: 'Every school bus on one live map, arrival time for parents, a driver app, routes and stops, and reminders before fitness, insurance and PUC expire.' },
     title: 'Transport & Live GPS Tracking',
     short: 'Transport',
     category: 'operations',

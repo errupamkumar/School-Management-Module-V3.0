@@ -8,12 +8,14 @@ import { SectionHeading } from '@/website/components/section';
 import { PricingCards } from '@/website/components/pricing-cards';
 import { Faq } from '@/website/components/faq';
 import { CtaBand } from '@/website/components/cta-band';
+import { JsonLd, faqLd, softwareLd } from '@/website/structured-data';
 
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Pricing',
+  title: 'School ERP Pricing & Plans',
   description: `Vidyalaya plans for every size of school. Compare all ${FACTS.modules} modules by plan.`,
+  alternates: { canonical: '/pricing' },
 };
 
 export default async function PricingPage() {
@@ -72,6 +74,7 @@ export default async function PricingPage() {
         </section>
       )}
 
+      <JsonLd data={[softwareLd(plans), faqLd(FAQS.slice(0, 5))]} />
       <Faq items={FAQS.slice(0, 5)} />
       <CtaBand title="Not sure which plan fits?" lead="Tell us about your school and we will recommend the right plan — and set it up for you." />
     </>

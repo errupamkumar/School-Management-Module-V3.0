@@ -5,7 +5,13 @@
  * written for the design. The schools and people are fictional. Swap them for
  * real, consented customer data before publishing. (Real contact details are
  * in ./company.ts.)
+ *
+ * Hidden unless NEXT_PUBLIC_SHOW_SAMPLE_CONTENT=1: fictional testimonials and
+ * customer numbers must not reach real visitors (and break Google Ads'
+ * misrepresentation policy). Without it the website shows only product facts.
  */
+
+export const SHOW_SAMPLE_CONTENT = process.env.NEXT_PUBLIC_SHOW_SAMPLE_CONTENT === '1';
 
 /** Commercial promises shown next to the sign-up buttons. */
 export const OFFER = ['Free set-up and data import', 'No credit card needed', 'Cancel any time'] as const;

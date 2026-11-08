@@ -5,6 +5,7 @@ import { featuresIn } from '../content/features';
 import { COMPANY, telHref } from '../content/company';
 import { Logo } from './logo';
 import { PoweredBy } from './powered-by';
+import { CookieSettingsButton } from './consent-banner';
 
 export function SiteFooter() {
   return (
@@ -86,9 +87,18 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {SITE.product}. {FACTS.modules} modules · {FACTS.languages} languages · Made in India for Indian schools.
           </p>
-          <p className="flex items-center gap-2">
-            <ShieldCheck className="size-4 text-emerald-400" /> Data hosted in India · DPDP Act 2023 ready
-          </p>
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-1" aria-label="Legal">
+            <Link href="/privacy" className="transition hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition hover:text-white">
+              Terms of Use
+            </Link>
+            <CookieSettingsButton className="transition hover:text-white" />
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="size-4 text-emerald-400" /> Data hosted in India · DPDP Act 2023 ready
+            </span>
+          </nav>
           <PoweredBy />
         </div>
       </div>

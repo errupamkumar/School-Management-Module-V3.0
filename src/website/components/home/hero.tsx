@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react';
 import { ArrowRight, BadgeIndianRupee, Bus, CalendarCheck, CheckCircle2, ChevronRight, PlayCircle, Star } from 'lucide-react';
 import { FACTS, SITE } from '../../content/site';
-import { ADOPTION } from '../../content/placeholder';
+import { ADOPTION, SHOW_SAMPLE_CONTENT } from '../../content/placeholder';
 import { BrowserFrame, PhoneFrame } from '../screen-frame';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -113,6 +113,16 @@ export function Hero() {
             </Link>
           </motion.p>
 
+          {!SHOW_SAMPLE_CONTENT && (
+            <motion.ul className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-slate-600 dark:text-slate-300 lg:justify-start" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}>
+              {[`${FACTS.modules} modules`, `${FACTS.languages} Indian languages`, 'Parent & student app', 'UPI fee payments'].map((t) => (
+                <li key={t} className="flex items-center gap-1.5">
+                  <CheckCircle2 className="size-4 text-emerald-500" /> {t}
+                </li>
+              ))}
+            </motion.ul>
+          )}
+          {SHOW_SAMPLE_CONTENT && (
           <motion.div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}>
             <div className="flex -space-x-2.5">
               {AVATARS.map(([initials, color]) => (
@@ -133,6 +143,7 @@ export function Hero() {
               </p>
             </div>
           </motion.div>
+          )}
         </div>
 
         {/* Product composition */}

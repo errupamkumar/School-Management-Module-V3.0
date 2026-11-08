@@ -2,14 +2,21 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Inter, Noto_Sans_Devanagari } from 'next/font/google';
 import { Providers } from '@/components/providers';
+import { siteUrl } from '@/website/site-url';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const devanagari = Noto_Sans_Devanagari({ subsets: ['devanagari'], weight: ['400', '500', '600', '700'], variable: '--font-hindi', display: 'swap' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
   title: { default: 'Vidyalaya — School ERP', template: '%s · Vidyalaya' },
   description: 'Cloud school management software for Indian schools: admissions, fees, attendance, exams, transport and parent app.',
   applicationName: 'Vidyalaya',
+  // Search Console / Bing Webmaster ownership checks (meta-tag method).
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } : undefined,
+  },
   appleWebApp: { capable: true, title: 'Vidyalaya', statusBarStyle: 'default' },
   icons: { apple: '/icons/apple-touch-icon.png' },
 };

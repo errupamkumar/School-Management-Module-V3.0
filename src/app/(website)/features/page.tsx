@@ -8,8 +8,9 @@ import { FeatureGrid } from '@/website/components/feature-grid';
 import { CtaBand } from '@/website/components/cta-band';
 
 export const metadata: Metadata = {
-  title: 'Features',
+  title: 'School ERP Features — Admissions, Fees, Attendance, Exams',
   description: `All ${FEATURES.length} Vidyalaya solutions across ${FACTS.modules} modules — admissions, fees, attendance, exams, transport, hostel, payroll, parent app and more.`,
+  alternates: { canonical: '/features' },
 };
 
 export default function FeaturesPage() {

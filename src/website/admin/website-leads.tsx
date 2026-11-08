@@ -34,6 +34,7 @@ interface Lead {
   features: string[] | null;
   message: string | null;
   source: string | null;
+  attribution: Partial<Record<'utm_source' | 'utm_medium' | 'utm_campaign' | 'utm_term' | 'utm_content' | 'gclid' | 'gbraid' | 'wbraid' | 'landing' | 'referrer', string>> | null;
   status: LeadStatus;
   notes: string | null;
   createdAt: string;
@@ -42,6 +43,16 @@ interface Lead {
 const STATUS_LABEL: Record<LeadStatus, string> = { NEW: 'New', CONTACTED: 'Contacted', DEMO_DONE: 'Demo done', CONVERTED: 'Converted', CLOSED: 'Closed' };
 const STATUS_TONE: Record<LeadStatus, Tone> = { NEW: 'brand', CONTACTED: 'info', DEMO_DONE: 'warning', CONVERTED: 'success', CLOSED: 'neutral' };
 const STATUS_OPTIONS = LEAD_STATUSES.map((s) => ({ value: s, label: STATUS_LABEL[s] }));
+
+/** "Google Ads · campaign · keyword", "google / organic", a referring site, or "Direct". */
+function channel(lead: Lead): string {
+  const a = lead.attribution ?? {};
+  const paid = a.gclid || a.gbraid || a.wbraid;
+  const parts = [paid ? 'Google Ads' : [a.utm_source, a.utm_medium].filter(Boolean).join(' / '), a.utm_campaign, a.utm_term && `“${a.utm_term}”`].filter(Boolean);
+  if (parts.length) return `${parts.join(' · ')}${a.landing ? ` → ${a.landing}` : ''}`;
+  if (a.referrer) return `${a.referrer}${a.landing ? ` → ${a.landing}` : ''}`;
+  return a.landing ? `Direct → ${a.landing}` : 'Direct';
+}
 
 function LeadDialog({ lead, onClose }: { lead: Lead; onClose: () => void }) {
   const invalidate = useInvalidate();
@@ -92,8 +103,12 @@ function LeadDialog({ lead, onClose }: { lead: Lead; onClose: () => void }) {
             {lead.board ?? '—'} · {lead.students ?? '—'}
           </p>
           <p>
-            <span className="block text-xs text-ink-faint">Came from</span>
+            <span className="block text-xs text-ink-faint">Sent from</span>
             <span className="font-mono text-xs">{lead.source ?? '—'}</span>
+          </p>
+          <p className="sm:col-span-2">
+            <span className="block text-xs text-ink-faint">How they found us</span>
+            {channel(lead)}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -185,6 +200,7 @@ export function WebsiteLeads() {
               </div>
             ),
           },
+          { id: 'channel', header: 'Source', cell: ({ row: { original: l } }) => <span className="line-clamp-2 max-w-[16rem] text-xs text-ink-soft">{channel(l)}</span> },
           { accessorKey: 'interest', header: 'Wants', cell: ({ row: { original: l } }) => <Badge tone={l.interest === 'demo' ? 'info' : 'brand'}>{l.interest === 'demo' ? 'Demo' : 'Free trial'}</Badge> },
           { accessorKey: 'status', header: 'Status', cell: ({ row: { original: l } }) => <Badge tone={STATUS_TONE[l.status]}>{STATUS_LABEL[l.status]}</Badge> },
         ]}

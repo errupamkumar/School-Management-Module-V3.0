@@ -4,6 +4,7 @@ import { SITE } from '../content/site';
 import { Logo } from './logo';
 import { PoweredBy } from './powered-by';
 import { ThemeToggle } from './theme-toggle';
+import { CookieSettingsButton } from './consent-banner';
 
 /** Frame of the sign-in and sign-up pages: the website's look, one focused card. */
 export function AuthShell({ children }: { children: React.ReactNode }) {
@@ -26,8 +27,17 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
       <main className="relative z-10 flex flex-1 justify-center px-4 py-8 sm:items-center sm:py-12">{children}</main>
 
       <footer className="web-container relative z-10 flex flex-col items-center gap-3 py-6 text-xs text-slate-500 dark:text-slate-400 sm:flex-row sm:justify-between">
-        <p className="text-center sm:text-left">
-          © {new Date().getFullYear()} {SITE.product} · Data hosted in India · DPDP Act 2023 ready
+        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:justify-start">
+          <span>
+            © {new Date().getFullYear()} {SITE.product} · Data hosted in India
+          </span>
+          <Link href="/privacy" className="hover:text-indigo-700 dark:hover:text-indigo-300">
+            Privacy
+          </Link>
+          <Link href="/terms" className="hover:text-indigo-700 dark:hover:text-indigo-300">
+            Terms
+          </Link>
+          <CookieSettingsButton className="hover:text-indigo-700 dark:hover:text-indigo-300" />
         </p>
         <PoweredBy />
       </footer>

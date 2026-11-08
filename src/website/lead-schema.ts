@@ -36,6 +36,13 @@ export const leadSchema = z.object({
   /** Honeypot: hidden from people, filled by bots. */
   website: z.string().max(200).optional(),
   source: optionalText(200),
+  /** Campaign data captured on the visitor's landing page (src/website/analytics.ts). */
+  attribution: z
+    .object(
+      Object.fromEntries(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'landing', 'referrer', 'first_seen'].map((k) => [k, z.string().trim().max(300).optional()])),
+    )
+    .strip()
+    .optional(),
 });
 
 export type LeadInput = z.input<typeof leadSchema>;

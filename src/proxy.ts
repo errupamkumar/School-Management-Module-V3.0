@@ -9,16 +9,22 @@ import { authSecret } from '@/server/env';
  */
 
 const PUBLIC_PREFIXES = ['/login', '/apply', '/verify', '/news/', '/alumni-join/', '/api/auth', '/api/public', '/_next', '/favicon', '/robots.txt', '/sw.js', '/manifest.webmanifest', '/icons/', '/offline.html'];
-// Marketing website pages (src/app/(website)); `/` itself is handled below.
-const WEBSITE_PATHS = ['/features', '/pricing', '/get-started'];
-const isWebsitePath = (p: string) => WEBSITE_PATHS.some((w) => p === w || p.startsWith(`${w}/`));
+// Marketing website pages (src/app/(website)) and their generated share images; `/` is handled below.
+const WEBSITE_PATHS = ['/features', '/pricing', '/get-started', '/privacy', '/terms', '/opengraph-image', '/twitter-image'];
+const isWebsitePath = (p: string) => WEBSITE_PATHS.some((w) => p === w || p.startsWith(`${w}/`) || p.startsWith(`${w}-`));
 const PASSWORD_CHANGE_ALLOWED = ['/change-password', '/api/me', '/api/auth'];
 
 export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
-  if (pathname === '/' || isWebsitePath(pathname) || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return NextResponse.next();
+  if (isWebsitePath(pathname) || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return NextResponse.next();
 
   const token = (await getToken({ req, secret: authSecret() })) as { sub?: string; role?: string; mcp?: boolean } | null;
+
+  if (pathname === '/') {
+    // Signed-out visitors get the (cached) website; signed-in users go to their workspace.
+    if (!token?.sub) return NextResponse.next();
+    return NextResponse.redirect(new URL(token.mcp ? '/change-password' : token.role === 'PLATFORM_ADMIN' ? '/platform' : '/dashboard', req.url));
+  }
 
   if (pathname.startsWith('/api/')) {
     // API routes authenticate themselves and return JSON errors.

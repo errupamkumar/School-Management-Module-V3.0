@@ -173,6 +173,7 @@ model WebsiteLead {
   features    Json? // website feature slugs the visitor picked
   message     String?           @db.Text
   source      String? // page that sent the visitor
+  attribution Json? // first-touch campaign data: utm_*, gclid, landing page, referrer
   status      WebsiteLeadStatus @default(NEW)
   notes       String?           @db.Text
   ip          String?

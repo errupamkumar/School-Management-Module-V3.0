@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 import { ArrowRight } from 'lucide-react';
-import { authOptions } from '@/server/auth';
 import { FACTS, SITE } from '@/website/content/site';
+import { SHOW_SAMPLE_CONTENT } from '@/website/content/placeholder';
+import { JsonLd, faqLd, organizationLd, softwareLd, websiteLd } from '@/website/structured-data';
 import { FEATURES } from '@/website/content/features';
 import { getPublicPlans } from '@/website/server/plans';
 import { SectionHeading } from '@/website/components/section';
@@ -25,34 +24,24 @@ import { Security } from '@/website/components/home/security';
 import { HowItWorks } from '@/website/components/home/how-it-works';
 import { Testimonials } from '@/website/components/home/testimonials';
 
-export const dynamic = 'force-dynamic';
+// Static and cached at the edge; refreshed every 5 minutes for live plan prices.
+// Signed-in users never see it: src/proxy.ts sends them to their workspace.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: { absolute: 'Vidyalaya — School ERP & school management software for India' },
+  title: { absolute: 'School Management Software & ERP for Indian Schools | Vidyalaya' },
   description: SITE.description,
-  openGraph: { title: 'Vidyalaya — School ERP for India', description: SITE.description, type: 'website', images: ['/website/screens/03-dashboard-admin.webp'] },
+  alternates: { canonical: '/' },
+  openGraph: { title: 'Vidyalaya — School ERP & management software for Indian schools', description: SITE.description, type: 'website', siteName: SITE.product, locale: 'en_IN', url: '/' },
+  twitter: { card: 'summary_large_image', title: 'Vidyalaya — School ERP for Indian schools', description: SITE.description },
 };
 
-/** Signed-in users go straight to their workspace, exactly as before the website existed. */
-async function signedInDestination(): Promise<string | null> {
-  try {
-    const session = await getServerSession(authOptions);
-    const user = session?.user as { role?: string; mustChangePassword?: boolean } | undefined;
-    if (!user) return null;
-    if (user.mustChangePassword) return '/change-password';
-    return user.role === 'PLATFORM_ADMIN' ? '/platform' : '/dashboard';
-  } catch {
-    return null;
-  }
-}
-
 export default async function Home() {
-  const destination = await signedInDestination();
-  if (destination) redirect(destination);
   const plans = await getPublicPlans();
 
   return (
     <>
+      <JsonLd data={[organizationLd(), websiteLd(), softwareLd(plans), faqLd()]} />
       <Hero />
       <TrustBar />
       <Stats />
@@ -88,7 +77,7 @@ export default async function Home() {
       <Languages />
       <Security />
       <HowItWorks />
-      <Testimonials />
+      {SHOW_SAMPLE_CONTENT && <Testimonials />}
 
       <section id="pricing" className="scroll-mt-20 bg-gradient-to-b from-white dark:from-slate-950 via-indigo-50/40 dark:via-indigo-950/30 to-white dark:to-slate-950 py-20 lg:py-28">
         <div className="web-container">

@@ -8,6 +8,7 @@ import { Capabilities, FeatureHero, PlanAvailability, Roles, Steps } from '@/web
 import { FeatureTile } from '@/website/components/feature-grid';
 import { Stagger, StaggerItem } from '@/website/components/motion';
 import { CtaBand } from '@/website/components/cta-band';
+import { JsonLd, breadcrumbLd, featureLd } from '@/website/structured-data';
 
 export const revalidate = 300;
 export const dynamicParams = false;
@@ -19,10 +20,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const f = FEATURE_MAP[(await params).slug];
   if (!f) return {};
+  const title = f.seo?.title ?? `${f.title} — School ERP`;
+  const description = f.seo?.description ?? f.summary;
   return {
-    title: f.title,
-    description: f.summary,
-    openGraph: { title: `${f.title} · Vidyalaya School ERP`, description: f.tagline, images: [`/website/screens/${f.screens[0].id}.webp`] },
+    title,
+    description,
+    alternates: { canonical: `/features/${f.slug}` },
+    openGraph: { title: `${title} | Vidyalaya`, description: f.tagline, type: 'website', locale: 'en_IN', url: `/features/${f.slug}` },
+    twitter: { card: 'summary_large_image', title: `${title} | Vidyalaya`, description: f.tagline },
   };
 }
 
@@ -33,6 +38,16 @@ export default async function FeaturePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Features', path: '/features' },
+            { name: f.title, path: `/features/${f.slug}` },
+          ]),
+          featureLd(f),
+        ]}
+      />
       <FeatureHero f={f} />
 
       <section className="web-container py-20 lg:py-24">
