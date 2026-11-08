@@ -36,6 +36,8 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         hindi: ['var(--font-hindi)', 'var(--font-sans)', 'sans-serif'],
+        // Headline face of the marketing website (src/website); falls back to the app font elsewhere.
+        display: ['var(--font-display)', 'var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: '0.875rem',
@@ -57,5 +59,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- this config is CommonJS
+  plugins: [require('./src/website/tailwind-plugin.js')],
 };

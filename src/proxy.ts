@@ -9,11 +9,14 @@ import { authSecret } from '@/server/env';
  */
 
 const PUBLIC_PREFIXES = ['/login', '/apply', '/verify', '/news/', '/alumni-join/', '/api/auth', '/api/public', '/_next', '/favicon', '/robots.txt', '/sw.js', '/manifest.webmanifest', '/icons/', '/offline.html'];
+// Marketing website pages (src/app/(website)); `/` itself is handled below.
+const WEBSITE_PATHS = ['/features', '/pricing', '/get-started'];
+const isWebsitePath = (p: string) => WEBSITE_PATHS.some((w) => p === w || p.startsWith(`${w}/`));
 const PASSWORD_CHANGE_ALLOWED = ['/change-password', '/api/me', '/api/auth'];
 
 export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
-  if (pathname === '/' || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return NextResponse.next();
+  if (pathname === '/' || isWebsitePath(pathname) || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return NextResponse.next();
 
   const token = (await getToken({ req, secret: authSecret() })) as { sub?: string; role?: string; mcp?: boolean } | null;
 

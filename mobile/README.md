@@ -17,7 +17,9 @@ Prerequisites: Node 20+, **Android Studio** (for Android) and/or **Xcode on a Ma
 cd mobile
 npm install
 # 1. Point the shell at your deployment
-#    edit capacitor.config.json → "server.url": "https://erp.yourschool.in"
+#    edit capacitor.config.json → "server.url": "https://erp.yourschool.in/dashboard"
+#    (keep /dashboard: the site root is the public marketing website; /dashboard opens
+#    the app, or the login screen when signed out — same as the installable app)
 #    edit "appId" (e.g. in.yourschool.erp) and "appName"
 npm run add:android      # creates mobile/android
 npm run add:ios          # creates mobile/ios (macOS only)

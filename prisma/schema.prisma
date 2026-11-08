@@ -148,6 +148,41 @@ model SubscriptionPlan {
   schools School[]
 }
 
+enum WebsiteLeadStatus {
+  NEW
+  CONTACTED
+  DEMO_DONE
+  CONVERTED
+  CLOSED
+}
+
+/// "Start free trial / Book a demo" requests from the public website (src/website).
+/// Platform-level: not tied to a school. Reviewed in the platform console.
+model WebsiteLead {
+  id          String            @id @default(cuid())
+  interest    String            @default("trial") // trial | demo
+  schoolName  String
+  contactName String
+  role        String?
+  email       String
+  phone       String
+  city        String?
+  state       String?
+  board       String?
+  students    String? // size band, e.g. "300 – 1,000"
+  features    Json? // website feature slugs the visitor picked
+  message     String?           @db.Text
+  source      String? // page that sent the visitor
+  status      WebsiteLeadStatus @default(NEW)
+  notes       String?           @db.Text
+  ip          String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
+}
+
 model School {
   id                     String            @id @default(cuid())
   code                   String            @unique // entered on the login screen

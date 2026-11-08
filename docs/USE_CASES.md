@@ -42,6 +42,16 @@ Every use case below is **verified by an automated end-to-end test** that runs t
 | [UC-25](#uc-25--month-end-export-to-tally) | Month-end export to Tally | Accountant | — |
 | [UC-26](#uc-26--install-the-app-and-receive-phone-alerts) | Install the app and receive phone alerts | Any user | — |
 | [UC-27](#uc-27--choose-the-schools-languages) | Choose the school's languages | Owner / Principal | All users |
+| [UC-28](#uc-28--visitor-entry-and-early-leave-gate-pass) | Visitor entry and early-leave gate pass | Front Office | Guard, Parent |
+| [UC-29](#uc-29--timed-online-test-with-automatic-marking) | Timed online test with automatic marking | Teacher | Student, Parent |
+| [UC-30](#uc-30--ptm-poll-and-trip-consent-form) | PTM poll and trip consent form | Principal/Admin | Parent, Teacher |
+| [UC-31](#uc-31--advance-payment-and-one-off-charges) | Advance payment and one-off charges | Accountant | Parent |
+| [UC-32](#uc-32--moving-from-the-old-software) | Moving from the old software | Principal/Admin, Accountant | — |
+| [UC-33](#uc-33--discipline-incident-with-parent-communication) | Discipline incident with parent communication | Teacher | Principal/Admin, Parent |
+| [UC-34](#uc-34--compliance-documents-and-renewals) | Compliance documents and renewals | Principal/Admin | Staff, Parents |
+| [UC-35](#uc-35--school-news-on-the-public-website) | School news on the public website | Teacher, Principal/Admin | Public |
+| [UC-36](#uc-36--alumni-network-and-placement-drives) | Alumni network and placement drives | Placement cell | Alumni, Student, Parent |
+| [UC-37](#uc-37--integrations-school-email-single-sign-on-bigbluebutton-accounting) | Integrations: school email, single sign-on, BigBlueButton, accounting | Owner / Principal | — |
 
 ---
 
@@ -642,19 +652,198 @@ Every use case below is **verified by an automated end-to-end test** that runs t
 
 ---
 
+## UC-28 — Visitor entry and early-leave gate pass
+
+| | |
+|---|---|
+| **Goal** | Know who is on campus, and release a child during school hours only to an authorised adult, with the parent informed. |
+| **Primary actor** | Front Office |
+| **Supporting actors** | Guard (Other Staff), Parent |
+| **Verified by** | `gap-features.ts` › *Gate: visitor register, gate pass with parent alerts, guard checkout* |
+
+**Main flow**
+
+1. A visitor arrives. Front Office clicks **New visitor**, enters name, mobile, purpose and whom to meet, records the ID type with its last four digits, and clicks **Check in**. A numbered pass (V000123) prints with a QR code.
+2. When the visitor leaves, the guard taps **Check out**. **Still inside** always shows who is on campus.
+3. A mother comes to take her child to the dentist. Front Office opens **Student gate passes → Issue gate pass**, picks the student and records the reason and who is collecting.
+4. The parent is notified straight away (“Gate pass issued … call the school if you did not arrange this”).
+5. At the gate the guard taps **Left**; the parent gets “has left school with … at 11:42”.
+
+**Exception flows:** a full ID number (12 digits) is refused (*400*); a pass cannot be used twice or cancelled after the child left (*409*); teachers can view but not issue passes (*403*); families never see the visitor register (*403*).
+
+---
+
+## UC-29 — Timed online test with automatic marking
+
+| | |
+|---|---|
+| **Goal** | Run a unit test online, mark objective answers instantly and publish results with a review. |
+| **Primary actor** | Teacher |
+| **Supporting actors** | Student, Parent |
+| **Verified by** | `gap-features.ts` › *Online exams: timed attempt, no answer key leak, auto + manual marking, results* |
+
+**Main flow**
+
+1. The teacher clicks **New online exam**, picks class/section, subject, window and duration, optional negative marking, and ticks questions from the question bank. It saves as a draft.
+2. **Publish** notifies students and parents.
+3. During the window the student clicks **Start exam**. Questions appear in a shuffled order without the answer key; answers save every few seconds; the timer submits automatically at the end.
+4. MCQ, true/false and fill-in-the-blank answers are marked at once; the teacher marks written answers under **Answer sheets**.
+5. **Publish results**: the student sees the score and a question-by-question review; the parent sees the score.
+
+**Exception flows:** draft exams cannot be opened (*404*); starting before the window (*400*); a second attempt after submitting (*409*); parents cannot take the exam (*403*); results cannot be published while written answers are unmarked (*409*); timing is locked once anyone has started (*409*); a mark above the question's maximum (*400*).
+
+---
+
+## UC-30 — PTM poll and trip consent form
+
+| | |
+|---|---|
+| **Goal** | Collect parents' choices and consent without paper slips. |
+| **Primary actor** | Principal/Admin |
+| **Supporting actors** | Parent, Teacher |
+| **Verified by** | `gap-features.ts` › *Polls & forms: audience, one vote each, anonymous results, closing* |
+
+**Main flow**
+
+1. The admin creates a **Quick poll** (“Which Saturday suits you for the PTM?”) for parents of selected classes, and a **Form** for trip consent with food preference and emergency contact.
+2. Parents in the audience are notified, vote in one tap and see live results; they fill in the form in a dialog.
+3. The admin opens **Results**, exports the responses, and **Closes** the form on the last date.
+
+**Exception flows:** each person answers once unless editing is allowed (*409*); people outside the audience cannot see or answer (*404*); invalid options (*400*); closed forms (*400*). Anonymous forms never show names in results or exports.
+
+---
+
+## UC-31 — Advance payment and one-off charges
+
+| | |
+|---|---|
+| **Goal** | Accept money beyond the dues and use it automatically; bill one-off items outside the fee structure. |
+| **Primary actor** | Accountant |
+| **Supporting actors** | Parent |
+| **Verified by** | `gap-features.ts` › *Advance fees: overpayment kept, used on the next invoice; switchable* |
+
+**Main flow**
+
+1. A parent pays ₹500 more than the dues at the counter. The receipt notes “Advance ₹500 kept for future fees”; the family's Fees page shows the advance.
+2. The accountant raises an **Instant invoice** (“Science City trip”, ₹300) for the class. The advance pays it immediately and the invoice shows *Paid*.
+3. The next monthly run uses whatever advance remains.
+
+**Business rules:** the advance is never stored as a separate balance — it is always receipts minus allocations, so cancelling a receipt (which reverses everything it paid, including later uses of its advance) can never leave it wrong. Receipt cancellation and advance use lock the same rows in the same order.
+
+**Exception flows:** with *Accept advance fees* off, paying with no dues is refused (*409*); online gateway payments never create advance; teachers cannot raise invoices (*403*).
+
+---
+
+## UC-32 — Moving from the old software
+
+| | |
+|---|---|
+| **Goal** | Bring opening dues, past receipts, staff and the library catalogue across from spreadsheets. |
+| **Primary actor** | Principal/Admin, Accountant |
+| **Verified by** | `gap-features.ts` › *Imports: fee dues/receipts, staff and books — checked before writing* |
+
+**Main flow:** download each template, fill it in Excel, upload, click **Check file**. The system lists every bad row (unknown admission number, impossible date such as 31/02/2026, unknown payment mode, invalid PAN). When every row is valid, **Import** writes them: dues become invoices, receipts are allocated oldest-first like counter collection, staff are added without logins, and books with the same title + author or ISBN add copies.
+
+**Exception flows:** nothing is written while any row is invalid; future-dated receipts are refused; roles without the module's create right are refused (*403*).
+
+---
+
+## UC-33 — Discipline incident with parent communication
+
+| | |
+|---|---|
+| **Goal** | Keep a fair, consistent record of incidents and involve parents when appropriate. |
+| **Primary actor** | Teacher |
+| **Supporting actors** | Principal/Admin, Parent |
+| **Verified by** | `gap-features.ts` › *Discipline: record, share or hide from family, resolve* |
+
+**Main flow:** the teacher records the incident (category from the school's list, severity, what happened). If shared, the parent is notified and sees it in the app; private staff notes stay internal. The admin records the action taken and marks it **Resolved**.
+
+**Exception flows:** categories outside the school's list (*400*); students cannot record incidents (*403*).
+
+---
+
+## UC-34 — Compliance documents and renewals
+
+| | |
+|---|---|
+| **Goal** | Never miss a licence renewal; share policies with the right people only. |
+| **Primary actor** | Principal/Admin |
+| **Supporting actors** | Teachers, Staff, Parents |
+| **Verified by** | `gap-features.ts` › *Documents: role-based access, versions and expiry alerts*; *Tasks: assign staff, progress rolls up, comments, access*; *Reminders: personal vs broadcast rights, scheduler sends once* |
+
+**Main flow**
+
+1. The admin uploads the Fire NOC to *Compliance & licences* with a **valid till** date, shared with admin and teachers; the child-protection policy is shared with everyone including parents.
+2. Thirty days before expiry a **Renewals due** banner appears. The admin creates a **Task** for the estate manager with a due date, and a **Reminder** for themselves a week before.
+3. The new certificate is uploaded with **Edit**; it becomes version 2.
+
+**Exception flows:** roles a document is not shared with can neither list nor open the file (*403*); only managers upload managed documents (*400*).
+
+---
+
+## UC-35 — School news on the public website
+
+| | |
+|---|---|
+| **Goal** | Publish reviewed school news inside the app and on a public page. |
+| **Primary actor** | Teacher (author), Principal/Admin (editor) |
+| **Verified by** | `gap-features.ts` › *News & blog: review before publishing, public news page and cover images* |
+
+**Main flow:** a teacher writes a post with a cover photo and clicks **Send for review**. The editor requests a change; the author is notified, edits and resubmits. The editor publishes it with **Also show on the public news page**. With the page turned on, anyone can read it at `/news/<school code>` without signing in.
+
+**Business rules:** unpublished posts are invisible to families; authors cannot edit published posts; only covers of public posts are served publicly; the public page shows no internal ids.
+
+---
+
+## UC-36 — Alumni network and placement drives
+
+| | |
+|---|---|
+| **Goal** | Stay connected with former students and help current students into internships. |
+| **Primary actor** | Principal/Admin (placement cell) |
+| **Supporting actors** | Alumni, Student, Parent |
+| **Verified by** | `gap-features.ts` › *Alumni: directory, former students, public self-registration with approval*; *Placements: eligible students apply, shortlist and selection notify the family* |
+
+**Main flow**
+
+1. The admin adds passed-out students to the alumni directory in one step and shares the self-registration link; entries wait for approval.
+2. The placement cell posts a drive for eligible classes. Students apply in one tap; staff shortlist and select; the student and parent are notified at each step.
+
+**Exception flows:** students cannot create drives (*403*); selected students cannot withdraw online (*409*); self-registration needs an email or phone (*400*) and is closed unless the school turns it on (*404*).
+
+---
+
+## UC-37 — Integrations: school email, single sign-on, BigBlueButton, accounting
+
+| | |
+|---|---|
+| **Goal** | Use the school's existing accounts and tools. |
+| **Primary actor** | Owner / Principal |
+| **Verified by** | `gap-features.ts` › *Email channel…*, *SSO, App Frame and BigBlueButton settings*, *QuickBooks, Paybooks, data export and the report builder*; unit tests for SSO policy, BBB signing and export formats |
+
+**Main flow:** set up SMTP and send a test email; turn on Google/Microsoft sign-in limited to the school's domain; add the BigBlueButton server so live classes get personal moderator/viewer links; export the month's journal for QuickBooks and the attendance/LOP sheet for Paybooks; add Google Classroom and DIKSHA under **Apps**.
+
+**Business rules:** passwords and secrets are write-only (never shown again); SSO signs in only existing active users whose verified email matches, never creates accounts; the full data export is owner-only, excludes credentials and is limited to 3 an hour.
+
+**Limits (honest):** Google/Microsoft sign-in and BigBlueButton need the school's or operator's own OAuth apps / server — they were verified with unit tests and configuration checks, not against live Google, Microsoft or BBB services. Paybooks and QuickBooks are file imports, not live API connections.
+
+---
+
 ## Appendix A — Verification
 
 Run these against the demo school with the dev server running:
 
 ```bash
 npm run test:api                       # 114 checks: auth, RBAC samples, tenant isolation, family scope, settings, platform
-npx tsx tests/api/rbac-matrix.ts       # 869 checks: every role × every module × view/create/edit, platform and anonymous lockout
+npx tsx tests/api/rbac-matrix.ts       # 1170 checks: every role × every module (52 modules) × view/create/edit, platform and anonymous lockout
 npx tsx tests/api/workflows.ts         # 112 checks: the cross-role journeys above; cleans up after itself
 npx tsx tests/api/features.ts          # 77 checks: live tracking, hostel, languages, phone push, Tally export
-npx vitest run tests/unit              # 314 unit tests
+npx tsx tests/api/gap-features.ts      # 216 checks: UC-28 – UC-37 and every other 2026-10 module; ends with a fee ledger invariant check
+npx vitest run tests/unit              # 418 unit tests
 ```
 
-Result on 18 October 2026, against a production build: API 113/113, permissions 869/869, new features 77/77, unit 314/314, and every workflow journey except online payment. That flow uses the payment sandbox, which production builds disable by design; it passed against the development server the same day.
+Result on 18 October 2026, against a production build: API 114/114, permissions 1170/1170, new modules 216/216, earlier features 77/77, unit 418/418, a browser smoke test of every new screen for six roles at 375 px and 1280 px (118 visits, no errors or overflow), and every workflow journey except online payment. That flow uses the payment sandbox, which production builds disable by design; it passed against the development server the same day (112/112).
 
 ## Appendix B — Roles referenced
 

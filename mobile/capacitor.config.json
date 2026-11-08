@@ -3,7 +3,7 @@
   "appName": "Vidyalaya",
   "webDir": "www",
   "server": {
-    "url": "https://YOUR-DEPLOYMENT-DOMAIN",
+    "url": "https://YOUR-DEPLOYMENT-DOMAIN/dashboard",
     "cleartext": false,
     "androidScheme": "https"
   },

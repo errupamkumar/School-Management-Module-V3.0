@@ -12,6 +12,7 @@ import { Badge, Card, CardBody, CardHeader, LoadingBlock, StatCard, type Tone } 
 import { DataTable } from '@/components/ui/data-table';
 import { Checkbox, Input, Select } from '@/components/ui/form';
 import { Dialog, Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger, Tabs, TabPanel, usePrompt } from '@/components/ui/overlay';
+import { WebsiteLeads } from '@/website/admin/website-leads';
 
 interface Stats {
   schools: Record<string, number>;
@@ -433,6 +434,7 @@ export default function PlatformPage() {
             { value: 'overview', label: 'Overview' },
             { value: 'schools', label: 'Schools' },
             { value: 'plans', label: 'Plans' },
+            { value: 'leads', label: 'Website leads' },
           ]}
         >
           <TabPanel value="overview">
@@ -440,6 +442,9 @@ export default function PlatformPage() {
           </TabPanel>
           <TabPanel value="schools">{plans.data ? <Schools plans={plans.data.plans} /> : <LoadingBlock />}</TabPanel>
           <TabPanel value="plans">{plans.data ? <Plans plans={plans.data.plans} catalog={plans.data.catalog} /> : <LoadingBlock />}</TabPanel>
+          <TabPanel value="leads">
+            <WebsiteLeads />
+          </TabPanel>
         </Tabs>
         <p className="mt-8 flex items-center justify-center gap-1.5 text-xs text-ink-faint">
           <Building2 className="size-3.5" /> Every action here is audited. School data is never shown in this console.

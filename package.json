@@ -23,7 +23,8 @@
     "test:api": "tsx tests/api/run.ts",
     "test:e2e": "playwright test",
     "docs:pdf": "node scripts/generate-pdf-guide.js",
-    "platform:operator": "tsx prisma/create-operator.ts"
+    "platform:operator": "tsx prisma/create-operator.ts",
+    "website:screens": "node scripts/website-screens.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.2",
@@ -54,6 +55,7 @@
     "jspdf-autotable": "^3.8.2",
     "leaflet": "^1.9.4",
     "lucide-react": "1.59.0",
+    "motion": "14.6.0",
     "next": "16.3.8",
     "next-auth": "4.24.15",
     "nodemailer": "^7.0.7",

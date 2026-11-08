@@ -319,9 +319,10 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 820px; font-si
         <div class="tile"><span class="tag">Where we lead</span><ul>
           <li>India compliance built in: DPDP consent and an immutable audit log, DLT templates, UDISE+, APAAR and RTE reports.</li>
           <li>Live bus tracking that works with a driver's phone or any standard GPS tracker, with “bus approaching” alerts to parents.</li>
-          <li>Hostel and Tally export in the same product, with no add-ons to buy.</li>
+          <li>Hostel, Tally, QuickBooks, online exams and gate management in the same product, with no add-ons to buy.</li>
           <li>Published, per-school pricing with a free trial. No sales call needed to know the cost.</li>
-          <li>Granular role permissions (view, add, edit, delete per module) with row-level scope, verified by 845 automated checks.</li>
+          <li>Granular role permissions (view, add, edit, delete per module) with row-level scope, verified by 1,170 automated permission checks across 52 modules.</li>
+          <li>All 61 modules of a full-suite ERP checklist (core, standard, premium and ultimate tiers), including online exams, gate management, document manager, alumni, polls, SSO, QuickBooks, Paybooks and BigBlueButton, each switchable per school.</li>
           <li>QR-verifiable certificates, admission CRM with a public form, and a POS store in the same product.</li>
         </ul></div>
         <div class="tile"><span class="tag">Where we trail today</span><ul>
@@ -402,6 +403,20 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 820px; font-si
       { shot: '51-store', m: 1, role: 'Store Manager', title: 'Uniform and book store POS', body: 'Scan or tap items, bill with GST, and stock updates instantly.' },
       { shot: '52-certificates', m: 3, role: 'Front Office', title: 'Certificates with a QR code', body: 'TC, bonafide and character certificates are frozen at issue, serial-numbered and verifiable by anyone.' },
       { shot: '71-hostel-rooms', m: 4, role: 'Principal', title: 'Hostel rooms and beds', body: 'Occupancy at a glance, gender-checked allotment, and the room fee added to the monthly invoice automatically.' } ] },
+    { time: '11:30', title: 'Midday on campus', who: 'Front Office', steps: [
+      { shot: '80-gate-visitors', m: 1, role: 'Front Office', title: 'Every visitor on record', body: 'Check visitors in with a numbered pass and QR code. The guard checks them out, and “On campus now” always shows who is inside.' },
+      { shot: '81-gate-pass', m: 2, role: 'Front Office', title: 'Early leave, safely', body: 'A gate pass records who collects the child and why. The parent is told when the pass is issued and again when the child leaves.' },
+      { shot: '84-online-exam-take', m: 1, role: 'Student', title: 'Online tests that mark themselves', body: 'Timed, shuffled tests from the question bank. Answers save as students type, objective questions are marked instantly, and the answer key never reaches the device.' },
+      { shot: '85-polls-family', m: 1, role: 'Parent', title: 'Polls and consent forms', body: 'PTM slots, trip consent and surveys for exactly the right parents. Live results, one answer each, anonymous when needed.' },
+      { shot: '82-discipline', m: 3, role: 'Principal', title: 'A fair discipline record', body: 'Incidents with severity and action taken. The school decides, per incident, whether parents see it.' } ] },
+    { time: '15:00', title: 'Office, community and integrations', who: 'Principal', steps: [
+      { shot: '95-instant-invoice', m: 3, role: 'Accountant', title: 'One-off fees and advance payments', body: 'Bill a trip or costume without touching the fee structure. Money paid in advance is kept and used on the next invoices automatically.' },
+      { shot: '91-documents', m: 1, role: 'Principal', title: 'Licences never lapse', body: 'Fire NOC, affiliation and permits with expiry dates and a renewals banner. Policies open only for the roles they are shared with.' },
+      { shot: '90-tasks', m: 2, role: 'Principal', title: 'Work handed out and tracked', body: 'Tasks for one or many staff with priorities, due dates, progress and comments.' },
+      { shot: '89-blog', m: 2, role: 'Principal', title: 'School news, reviewed and public', body: 'Teachers and students write; editors review; chosen posts appear on a public news page for the website.' },
+      { shot: '93-alumni', m: 3, role: 'Principal', title: 'Alumni and placements', body: 'Former students, their careers and mentors, with self-registration. Placement drives with applications and selection alerts.' },
+      { shot: '96-report-builder', m: 1, role: 'Principal', title: 'Build any report', body: 'Pick the data, the columns and the filters, then export or save and share. You only ever see what your role allows.' },
+      { shot: '97-settings-integrations', m: 1, role: 'Owner', title: 'Your accounts, your tools', body: 'Google or Microsoft sign-in, school email, BigBlueButton, QuickBooks and Paybooks exports, your own apps inside the menu, and a full data export.' } ] },
     { time: '18:00', title: 'Control and oversight', who: 'Owner', steps: [
       { shot: '58-access-control', m: 1, role: 'Owner', title: 'Decide who can do what', body: 'Switch modules on or off for the school, and set view, add, edit and delete per role. Changes apply within seconds.' },
       { shot: '59-audit-log', m: 2, role: 'Owner', title: 'Every change has a name on it', body: 'Who changed what, when, and from where. Entries cannot be edited or deleted.' },
@@ -498,6 +513,13 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 820px; font-si
     ['Tally export', 'accounting integration', [S.y('Tally XML vouchers + ledgers'), S.u(), S.u(), S.u(), S.u(), S.y('Tally listed')]],
     ['QR-verifiable certificates', '', [S.y(), S.u(), S.u(), S.u(), S.u(), S.u()]],
     ['DPDP consent & audit log', 'immutable change history', [S.y(), S.u(), S.u(), S.u(), S.p('Encrypted store'), S.u()]],
+    ['Online exams', 'timed, auto-marked', [S.y('Timed, shuffled, auto + manual marking'), S.u(), S.y('Ultimate plan'), S.y('Online tests'), S.u(), S.u()]],
+    ['Gate & visitor management', 'visitor passes, gate passes', [S.y('Visitor passes + student gate passes, parent alerts'), S.u(), S.y('Ultimate plan'), S.u(), S.u(), S.u()]],
+    ['Polls, forms & discussions', '', [S.y('Polls, form builder, forums'), S.u(), S.y('Premium / standard plans'), S.u(), S.u(), S.u()]],
+    ['Alumni & placements', '', [S.y('Directory, self-registration, drives'), S.u(), S.y('Ultimate / standard plans'), S.u(), S.u(), S.u()]],
+    ['Document manager', 'roles, versions, expiry', [S.y('Roles, versions, renewal alerts'), S.u(), S.y('Ultimate plan'), S.u(), S.u(), S.u()]],
+    ['Google / Microsoft sign-in', '', [S.y('Google Workspace + Microsoft 365'), S.u(), S.y('Premium / ultimate plans'), S.u(), S.u(), S.u()]],
+    ['QuickBooks & payroll export', '', [S.y('QuickBooks CSV/IIF, Paybooks files'), S.u(), S.y('Ultimate plan'), S.u(), S.u(), S.u()]],
     ['Published pricing', '', [S.y('From ₹999/mo'), S.y('Free'), S.p('Varies by listing'), S.p('Freemium'), S.n('On request'), S.n('On request')]],
   ];
   const head = `<thead><tr><th scope="col">Capability</th>${VENDORS.map((v, i) => `<th scope="col"${i === 0 ? ' class="us"' : ''}>${v}</th>`).join('')}</tr></thead>`;
@@ -516,7 +538,7 @@ table.matrix { border-collapse: collapse; width: 100%; min-width: 820px; font-si
     ['Entab pricing page', 'https://entab.in/school-management-software-price.html'],
     ['Fedena on Software Advice', 'https://www.softwareadvice.com/school-management/fedena-profile/'],
   ];
-  $('sources').innerHTML = 'Sources (accessed 18 Oct 2026): ' + SRC.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ') + '. Vidyalaya capabilities are taken from the product itself.';
+  $('sources').innerHTML = 'Sources (accessed 18 Oct 2026): ' + SRC.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(' · ') + '. Fedena plan tiers in the newer rows come from Fedena’s published module list (core, standard, premium, ultimate). Vidyalaya capabilities are taken from the product itself.';
 
   // Positioning map: x = breadth of built-in operations, y = ease of starting (price transparency, free entry).
   const P = [
