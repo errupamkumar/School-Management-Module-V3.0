@@ -15,7 +15,8 @@ export function verifyPassword(plain: string, hash: string): Promise<boolean> {
 
 // A real hash so failed lookups cost the same as failed password checks,
 // which keeps login timing from revealing whether a username exists.
-const DUMMY_HASH = bcrypt.hashSync('timing-equaliser', BCRYPT_COST);
+// Precomputed (cost 12, random plaintext): hashing at import would block every cold start for ~0.4 s.
+const DUMMY_HASH = '$2b$12$vl/TSmMeOAkrNMxVsz1RpuJUOpJk/CHUiK4bDAlXrP78M.O9u7wEC';
 export async function burnPasswordCheck(plain: string): Promise<void> {
   await bcrypt.compare(plain, DUMMY_HASH);
 }

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Bot, Copy, Loader2, RotateCcw, Send, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { api, useApiQuery } from '@/lib/api-client';
-import { cn } from '@/lib/utils';
+import { cn, firstName } from '@/lib/utils';
 import { useApp } from '@/components/shell/app-context';
 import { Button } from '@/components/ui/button';
 import { Avatar, Card, EmptyState, LoadingBlock, PageHeader, Progress } from '@/components/ui/display';
@@ -126,7 +126,7 @@ export default function AiAssistantPage() {
                 <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-violet-600 text-white shadow-lg">
                   <Sparkles className="size-7" />
                 </span>
-                <p className="mt-3 text-lg font-semibold">Namaste, {me.user.name.split(' ')[0]}! How can I help?</p>
+                <p className="mt-3 text-lg font-semibold">Namaste, {firstName(me.user.name)}! How can I help?</p>
                 <p className="text-sm text-ink-faint">Ask in English or Hindi.</p>
                 <div className="mt-5 grid gap-2 sm:grid-cols-2">
                   {s.suggestions.map((q) => (

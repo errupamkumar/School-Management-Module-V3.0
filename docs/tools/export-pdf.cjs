@@ -9,7 +9,7 @@ const { createRequire } = require('module');
 const req = createRequire(path.join(__dirname, '..', '..', 'package.json'));
 const puppeteer = req('puppeteer-core');
 
-const [, , inHtml, outPdf, title = 'Vidyalaya ERP'] = process.argv;
+const [, , inHtml, outPdf, title = 'Vidyalaya ERP', footer = 'Vidyalaya ERP · v2.0 · October 2026'] = process.argv;
 const DOCS = path.join(__dirname, '..');
 const body = fs.readFileSync(inHtml, 'utf8')
   // Images are referenced relative to docs/; make them absolute for the renderer.
@@ -53,7 +53,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
     printBackground: true,
     displayHeaderFooter: true,
     headerTemplate: `<div style="font:8px sans-serif;color:#6c7a72;width:100%;padding:0 15mm;text-align:right">${title}</div>`,
-    footerTemplate: '<div style="font:8px sans-serif;color:#6c7a72;width:100%;padding:0 15mm;display:flex;justify-content:space-between"><span>Vidyalaya ERP · v2.0 · October 2026</span><span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>',
+    footerTemplate: `<div style="font:8px sans-serif;color:#6c7a72;width:100%;padding:0 15mm;display:flex;justify-content:space-between"><span>${footer}</span><span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>`,
     margin: { top: '18mm', bottom: '18mm', left: '15mm', right: '15mm' },
   });
   await browser.close();

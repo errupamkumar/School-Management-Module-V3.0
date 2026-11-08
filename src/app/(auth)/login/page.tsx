@@ -14,6 +14,7 @@ const ERRORS: Record<string, string> = {
   LOCKED: 'Too many failed attempts. Try again in 15 minutes or ask your administrator to reset your password.',
   SUSPENDED: 'This school account is suspended. Please contact support.',
   RATE_LIMITED: 'Too many login attempts from this network. Please wait a few minutes.',
+  UNAVAILABLE: 'Sign-in is temporarily unavailable. Please try again in a few minutes.',
   SSO_SCHOOL: 'This sign-in option is not turned on for that school. Use your username and password.',
   SSO_EMAIL: 'Your account provider did not confirm your email address.',
   SSO_DOMAIN: 'Sign in with your school email address.',

@@ -6,7 +6,8 @@ import { expect, test, type Page } from '@playwright/test';
  * failed API calls (4xx/5xx other than intentional 404s).
  */
 const PASSWORD = process.env.SEED_PASSWORD || 'Demo@12345';
-const ROLES = ['admin', 'teacher', 'accountant', 'parent', 'student'];
+// E2E_ROLES=owner,reception,... checks other demo logins.
+const ROLES = (process.env.E2E_ROLES || 'admin,teacher,accountant,parent,student').split(',').map((r) => r.trim()).filter(Boolean);
 
 async function signIn(page: Page, username: string) {
   await page.goto('/login');

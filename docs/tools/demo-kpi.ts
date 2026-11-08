@@ -6,7 +6,8 @@
  * same services the seed uses, because it back-dates attendance and ledger
  * entries (the API only allows "now"). Every step checks what already exists,
  * so it is safe to re-run; run it again on a later day to refresh the "today"
- * cards (attendance, collections, birthdays).
+ * cards (attendance, collections, birthdays). The live site's day is the UTC
+ * day (it starts at 05:30 IST), so run the daily refresh after 05:30 IST.
  *
  *   npx tsx docs/tools/demo-kpi.ts                   DEMO top-up + sample schools
  *   npx tsx docs/tools/demo-kpi.ts --no-samples      DEMO top-up only
@@ -32,7 +33,8 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
 // Mark both when they differ so the cards are filled wherever the app runs.
 const NOW = new Date();
 const TODAY = utc(NOW.getFullYear(), NOW.getMonth() + 1, NOW.getDate());
-const TODAYS = [...new Set([TODAY.getTime(), utc(NOW.getUTCFullYear(), NOW.getUTCMonth() + 1, NOW.getUTCDate()).getTime()])].map((t) => new Date(t));
+const UTC_TODAY = utc(NOW.getUTCFullYear(), NOW.getUTCMonth() + 1, NOW.getUTCDate());
+const TODAYS = [...new Set([TODAY.getTime(), UTC_TODAY.getTime()])].map((t) => new Date(t));
 const EARLIEST_TODAY = new Date(Math.min(...TODAYS.map((d) => d.getTime())));
 const Y = TODAY.getUTCFullYear();
 const M = TODAY.getUTCMonth() + 1;
@@ -169,7 +171,8 @@ async function attendance(db: TenantDb, schoolId: string, markedById: string) {
 /** "Collected today": settle a few of this month's open invoices through the fee service. */
 async function collectionsToday(db: TenantDb, schoolId: string, settings: SchoolSettings, collector: { id: string; name: string }) {
   const want = 8;
-  const have = await db.feePayment.count({ where: { status: 'SUCCESS', paidAt: { gte: EARLIEST_TODAY } } });
+  // Receipts are stamped "now", which is in the current UTC day: the day the dashboard on Vercel calls today.
+  const have = await db.feePayment.count({ where: { status: 'SUCCESS', paidAt: { gte: UTC_TODAY } } });
   if (have >= want) return log(`collections today: ${have} receipts already`);
   const open = await db.feeInvoice.findMany({ where: { period: PERIOD, status: { in: ['UNPAID', 'PARTIAL'] } }, orderBy: { dueDate: 'asc' }, take: want - have, select: { id: true, studentId: true, total: true, paidAmount: true } });
   let sum = 0;
@@ -252,7 +255,26 @@ async function accounts(db: TenantDb, schoolId: string, settings: SchoolSettings
       slips++;
     }
   }
-  log(`accounts: +${entries} ledger entries, +${slips} salary slips`);
+  // The seed staffs DEMO like a 500-pupil school but bills 200, so expenses outrun fees. Top each
+  // month up with term instalments of development charges to a modest surplus.
+  let devHead = (await db.accountHead.findFirst({ where: { name: 'Development & Annual Charges', type: 'INCOME' } }))?.id;
+  devHead ??= (await db.accountHead.create({ data: { schoolId, name: 'Development & Annual Charges', type: 'INCOME' } })).id;
+  let topUps = 0;
+  for (let i = 5; i >= 0; i--) {
+    const from = monthStart(-i);
+    const to = monthStart(-i + 1);
+    if (await db.ledgerEntry.count({ where: { headId: devHead, date: { gte: from, lt: to } } })) continue;
+    const sums = await db.ledgerEntry.groupBy({ by: ['type'], where: { date: { gte: from, lt: to } }, _sum: { amount: true } });
+    const sum = (t: string) => Number(sums.find((s) => s.type === t)?._sum.amount ?? 0);
+    const gap = Math.round((sum('EXPENSE') * 1.12 - sum('INCOME')) / 1000) * 1000;
+    if (gap <= 0) continue;
+    const lastDay = i === 0 ? TODAY.getUTCDate() : new Date(to.getTime() - DAY).getUTCDate();
+    await db.ledgerEntry.create({
+      data: { schoolId, headId: devHead, type: 'INCOME', amount: fromPaise(gap * 100), date: utc(from.getUTCFullYear(), from.getUTCMonth() + 1, Math.min(lastDay, int(1, 10))), description: `Development & annual charges — ${MONTHS[from.getUTCMonth()]}`, mode: 'BANK_TRANSFER', party: 'Parents (term instalment)', createdById: accountantId },
+    });
+    topUps++;
+  }
+  log(`accounts: +${entries} ledger entries, +${slips} salary slips, +${topUps} development-charge instalments`);
 }
 
 /** "Birthdays today": move a couple of birthdays to today if nobody has one. */

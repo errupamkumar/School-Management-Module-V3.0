@@ -16,7 +16,7 @@ import { slugify } from '@/server/services/blog';
 import { settingsSchema } from '@/server/settings';
 import { MODULE_MAP, defaultPerm, grantCeiling } from '@/lib/modules';
 import { NAV } from '@/lib/navigation';
-import { periodLabel } from '@/lib/utils';
+import { firstName, periodLabel } from '@/lib/utils';
 
 describe('audiences', () => {
   const aud = { roles: ['PARENT', 'TEACHER'] as never[], classIds: ['c5'] };
@@ -258,5 +258,13 @@ describe('new modules and settings', () => {
     expect(periodLabel('2026-10')).toBe('Oct 2026');
     expect(periodLabel('X-abc', 'Science trip')).toBe('Science trip');
     expect(periodLabel('X-abc')).toBe('One-off fee');
+  });
+  it('greets people by first name, not by their title', () => {
+    expect(firstName('Dr. Anand Swaroop Pathak')).toBe('Anand');
+    expect(firstName('Smt Sunita Devi')).toBe('Sunita');
+    expect(firstName('Prof. Rao')).toBe('Rao');
+    expect(firstName('Meenakshi Sinha')).toBe('Meenakshi');
+    expect(firstName('Dr.')).toBe('Dr.');
+    expect(firstName('  Kiran  ')).toBe('Kiran');
   });
 });

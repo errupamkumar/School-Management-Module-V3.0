@@ -19,11 +19,100 @@ export const LOGIN_ERRORS = {
   LOCKED: `Too many failed attempts. Try again in ${LOCK_MINUTES} minutes or ask your administrator to reset your password.`,
   SUSPENDED: 'This school account is suspended. Please contact support.',
   RATE_LIMITED: 'Too many login attempts from this network. Please wait a few minutes.',
+  UNAVAILABLE: 'Sign-in is temporarily unavailable. Please try again in a few minutes.',
 } as const;
 
 function headerValue(headers: Record<string, unknown> | undefined, name: string): string {
   const v = headers?.[name];
   return Array.isArray(v) ? String(v[0] ?? '') : String(v ?? '');
+}
+
+type Credentials = Partial<Record<'schoolCode' | 'identifier' | 'password', string>> | undefined;
+
+async function credentialsUser(credentials: Credentials, req: unknown) {
+  const schoolCode = (credentials?.schoolCode ?? '').trim().toUpperCase().slice(0, 32);
+  const identifier = (credentials?.identifier ?? '').trim().slice(0, 120);
+  const password = credentials?.password ?? '';
+  if (!identifier || !password || password.length > 200) throw new Error('INVALID');
+
+  const headers = (req as { headers?: Record<string, unknown> })?.headers;
+  const ip = headerValue(headers, 'x-forwarded-for').split(',')[0].trim() || 'unknown';
+  const userAgent = headerValue(headers, 'user-agent');
+
+  const [byIp, byAccount] = await Promise.all([
+    rateLimit(`login:ip:${ip}`, 30, 15 * 60),
+    rateLimit(`login:acct:${schoolCode}:${identifier.toLowerCase()}`, 10, 15 * 60),
+  ]);
+  if (!byIp.ok || !byAccount.ok) throw new Error('RATE_LIMITED');
+
+  let schoolId: string | null = null;
+  if (schoolCode) {
+    const school = await prisma.school.findUnique({ where: { code: schoolCode }, select: { id: true, status: true } });
+    if (!school) {
+      await burnPasswordCheck(password);
+      throw new Error('INVALID');
+    }
+    if (school.status === 'SUSPENDED' || school.status === 'CANCELLED') throw new Error('SUSPENDED');
+    schoolId = school.id;
+  }
+
+  const idLower = identifier.toLowerCase();
+  const user = await prisma.user.findFirst({
+    where: {
+      schoolId,
+      ...(schoolId ? {} : { role: 'PLATFORM_ADMIN' }),
+      OR: [{ username: idLower }, { email: idLower }, { phone: identifier }],
+    },
+  });
+
+  if (!user || !user.isActive) {
+    await burnPasswordCheck(password);
+    await writeAudit({ schoolId, action: 'LOGIN_FAILED', entity: 'User', summary: `Unknown or inactive account "${identifier}"`, ip, userAgent });
+    throw new Error('INVALID');
+  }
+
+  if (user.lockedUntil && user.lockedUntil > new Date()) throw new Error('LOCKED');
+
+  const valid = await verifyPassword(password, user.passwordHash);
+  if (!valid) {
+    const failed = user.failedLoginCount + 1;
+    const lock = failed >= MAX_FAILED_ATTEMPTS;
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        failedLoginCount: lock ? 0 : failed,
+        lockedUntil: lock ? new Date(Date.now() + LOCK_MINUTES * 60_000) : null,
+      },
+    });
+    await writeAudit({
+      schoolId,
+      userId: user.id,
+      userName: user.name,
+      role: user.role,
+      action: lock ? 'ACCOUNT_LOCKED' : 'LOGIN_FAILED',
+      entity: 'User',
+      entityId: user.id,
+      ip,
+      userAgent,
+    });
+    throw new Error(lock ? 'LOCKED' : 'INVALID');
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { failedLoginCount: 0, lockedUntil: null, lastLoginAt: new Date() },
+  });
+  await writeAudit({ schoolId, userId: user.id, userName: user.name, role: user.role, action: 'LOGIN', entity: 'User', entityId: user.id, ip, userAgent });
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    schoolId: user.schoolId,
+    sv: user.sessionVersion,
+    mcp: user.mustChangePassword,
+  } as never;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -39,89 +128,15 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        const schoolCode = (credentials?.schoolCode ?? '').trim().toUpperCase().slice(0, 32);
-        const identifier = (credentials?.identifier ?? '').trim().slice(0, 120);
-        const password = credentials?.password ?? '';
-        if (!identifier || !password || password.length > 200) throw new Error('INVALID');
-
-        const headers = (req as { headers?: Record<string, unknown> })?.headers;
-        const ip = headerValue(headers, 'x-forwarded-for').split(',')[0].trim() || 'unknown';
-        const userAgent = headerValue(headers, 'user-agent');
-
-        const [byIp, byAccount] = await Promise.all([
-          rateLimit(`login:ip:${ip}`, 30, 15 * 60),
-          rateLimit(`login:acct:${schoolCode}:${identifier.toLowerCase()}`, 10, 15 * 60),
-        ]);
-        if (!byIp.ok || !byAccount.ok) throw new Error('RATE_LIMITED');
-
-        let schoolId: string | null = null;
-        if (schoolCode) {
-          const school = await prisma.school.findUnique({ where: { code: schoolCode }, select: { id: true, status: true } });
-          if (!school) {
-            await burnPasswordCheck(password);
-            throw new Error('INVALID');
-          }
-          if (school.status === 'SUSPENDED' || school.status === 'CANCELLED') throw new Error('SUSPENDED');
-          schoolId = school.id;
+        try {
+          return await credentialsUser(credentials, req);
+        } catch (e) {
+          // NextAuth copies the message into the error URL, so only our own codes may pass;
+          // anything else (database down, misconfiguration) is logged and reported generically.
+          if (e instanceof Error && e.message in LOGIN_ERRORS) throw e;
+          console.error('[auth] sign-in failed', e);
+          throw new Error('UNAVAILABLE');
         }
-
-        const idLower = identifier.toLowerCase();
-        const user = await prisma.user.findFirst({
-          where: {
-            schoolId,
-            ...(schoolId ? {} : { role: 'PLATFORM_ADMIN' }),
-            OR: [{ username: idLower }, { email: idLower }, { phone: identifier }],
-          },
-        });
-
-        if (!user || !user.isActive) {
-          await burnPasswordCheck(password);
-          await writeAudit({ schoolId, action: 'LOGIN_FAILED', entity: 'User', summary: `Unknown or inactive account "${identifier}"`, ip, userAgent });
-          throw new Error('INVALID');
-        }
-
-        if (user.lockedUntil && user.lockedUntil > new Date()) throw new Error('LOCKED');
-
-        const valid = await verifyPassword(password, user.passwordHash);
-        if (!valid) {
-          const failed = user.failedLoginCount + 1;
-          const lock = failed >= MAX_FAILED_ATTEMPTS;
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              failedLoginCount: lock ? 0 : failed,
-              lockedUntil: lock ? new Date(Date.now() + LOCK_MINUTES * 60_000) : null,
-            },
-          });
-          await writeAudit({
-            schoolId,
-            userId: user.id,
-            userName: user.name,
-            role: user.role,
-            action: lock ? 'ACCOUNT_LOCKED' : 'LOGIN_FAILED',
-            entity: 'User',
-            entityId: user.id,
-            ip,
-            userAgent,
-          });
-          throw new Error(lock ? 'LOCKED' : 'INVALID');
-        }
-
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { failedLoginCount: 0, lockedUntil: null, lastLoginAt: new Date() },
-        });
-        await writeAudit({ schoolId, userId: user.id, userName: user.name, role: user.role, action: 'LOGIN', entity: 'User', entityId: user.id, ip, userAgent });
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          schoolId: user.schoolId,
-          sv: user.sessionVersion,
-          mcp: user.mustChangePassword,
-        } as never;
       },
     }),
     ...(ssoProviderConfigured('google') ? [GoogleProvider({ clientId: process.env.GOOGLE_CLIENT_ID!.trim(), clientSecret: process.env.GOOGLE_CLIENT_SECRET!.trim() })] : []),

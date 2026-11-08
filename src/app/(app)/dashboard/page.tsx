@@ -25,7 +25,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import { useApiQuery } from '@/lib/api-client';
-import { cn, compactINR, formatDate, formatDateTime, formatINR, formatNumber } from '@/lib/utils';
+import { cn, compactINR, firstName, formatDate, formatDateTime, formatINR, formatNumber } from '@/lib/utils';
 import { useLang } from '@/components/providers';
 import { useApp } from '@/components/shell/app-context';
 import { Badge, Card, CardBody, CardHeader, EmptyState, ErrorState, LoadingBlock, Progress, StatCard, StatusBadge } from '@/components/ui/display';
@@ -101,7 +101,7 @@ function Greeting({ subtitle }: { subtitle?: React.ReactNode }) {
       <div>
         <p className="text-sm text-ink-soft">{formatDate(new Date(), 'long')}</p>
         <h1 className="mt-0.5 text-2xl font-bold tracking-tight">
-          {greet}, {me.user.name.split(' ')[0]} 👋
+          {greet}, {firstName(me.user.name)} 👋
         </h1>
         {subtitle && <p className="mt-1 text-sm text-ink-soft">{subtitle}</p>}
       </div>

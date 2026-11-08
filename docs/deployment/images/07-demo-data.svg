@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="t d">
+  <title id="t">Where the demo data comes from</title>
+  <desc id="d">prisma/seed.ts creates the base data once. docs/tools/demo-kpi.ts tops it up and can be re-run every day. Together they fill every dashboard: school, teacher, parent and student, and the platform console.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <style>
+      text { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; fill: #1e293b; }
+      .title { font-size: 19px; font-weight: 700; }
+      .h { font-size: 14px; font-weight: 700; }
+      .mono { font-family: Consolas, 'Courier New', monospace; font-size: 12px; font-weight: 700; }
+      .sub { font-size: 11.5px; fill: #64748b; }
+      .li { font-size: 12px; }
+      .run { stroke: #475569; stroke-width: 1.8; fill: none; }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="959" height="399" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="28" y="40" class="title">Where the demo data comes from</text>
+
+  <rect x="28" y="62" width="264" height="312" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="46" y="90" class="mono" style="fill:#334155">prisma/seed.ts</text>
+  <text x="46" y="108" class="sub">base data · run once · 89 min over the network</text>
+  <g class="li">
+    <text x="46" y="140">• Platform operator + schools DEMO, GVS</text>
+    <text x="46" y="166">• 208 students, 22 DEMO staff</text>
+    <text x="46" y="192">• 1,664 fee invoices (April → now)</text>
+    <text x="46" y="218">• 1,480 fee payments with receipts</text>
+    <text x="46" y="244">• 30 working days of attendance</text>
+    <text x="46" y="270">• 6 exams, 2,544 marks, 714 timetable slots</text>
+    <text x="46" y="296">• Library, store, transport, admissions</text>
+    <text x="46" y="322">• Notices, events, homework, leave</text>
+    <text x="46" y="348">• Salaries and expenses April–September</text>
+  </g>
+
+  <rect x="348" y="62" width="264" height="312" rx="12" fill="#f5f3ff" stroke="#a78bfa"/>
+  <text x="366" y="90" class="mono" style="fill:#5b21b6">docs/tools/demo-kpi.ts</text>
+  <text x="366" y="108" class="sub">top-up · safe to re-run · about 2 min</text>
+  <g class="li">
+    <text x="366" y="140">• Today’s student and staff attendance</text>
+    <text x="366" y="166">• Today’s fee receipts</text>
+    <text x="366" y="192">• October–now expenses, rent, scrap sale</text>
+    <text x="366" y="218">• October salaries (22 slips)</text>
+    <text x="366" y="244">• Development charges → monthly surplus</text>
+    <text x="366" y="270">• 6 new admissions, 2 birthdays today</text>
+    <text x="366" y="296">• Homework, live classes, enquiries</text>
+    <text x="366" y="322">• Pending leave requests</text>
+    <text x="366" y="348">• 9 sample schools for the platform</text>
+  </g>
+
+  <rect x="668" y="62" width="264" height="312" rx="12" fill="#f0fdf4" stroke="#22c55e"/>
+  <text x="686" y="90" class="h" style="fill:#166534">Dashboards that fill up</text>
+  <text x="686" y="108" class="sub">live values on 8–9 November 2026</text>
+  <g class="li">
+    <text x="686" y="140" font-weight="700">School owner</text>
+    <text x="686" y="160">200 students · 92% present today</text>
+    <text x="686" y="180">₹2.22 L collected this month</text>
+    <text x="686" y="200">surplus in every month · 5 pending lists</text>
+    <text x="686" y="230" font-weight="700">Teacher</text>
+    <text x="686" y="250">own classes, attendance marked</text>
+    <text x="686" y="280" font-weight="700">Parent and student</text>
+    <text x="686" y="300">attendance %, dues, homework, live class</text>
+    <text x="686" y="330" font-weight="700">Platform console</text>
+    <text x="686" y="350">11 schools · ₹28,995 MRR · 2 trials ending</text>
+  </g>
+
+  <path d="M292 218 H346" class="run" marker-end="url(#arrow)"/>
+  <path d="M612 218 H666" class="run" marker-end="url(#arrow)"/>
+</svg>

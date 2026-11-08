@@ -67,6 +67,13 @@ export function fullName(p: { firstName?: string | null; lastName?: string | nul
   return `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim();
 }
 
+const TITLE = /^(dr|mr|mrs|ms|miss|prof|shri|sri|smt|kumari|km|er|adv)\.?$/i;
+/** First name for greetings, skipping a leading title such as "Dr." or "Smt.". */
+export function firstName(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 && TITLE.test(parts[0]) ? parts[1] : parts[0];
+}
+
 export function initials(name: string): string {
   return name
     .split(/\s+/)

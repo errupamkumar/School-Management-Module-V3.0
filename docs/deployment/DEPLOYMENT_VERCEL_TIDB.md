@@ -28,7 +28,7 @@ This guide records how the live site was connected to a production database, fro
 | Settings | Vercel environment variables | The database address and the security keys, injected at build and run time |
 | Admin tools | Prisma CLI and Vercel CLI on the developer laptop | Create tables, load demo data, change settings, redeploy |
 
-Why TiDB Cloud: the app needs MySQL, Vercel runs many short-lived serverless functions that each open their own connections, and TiDB Cloud Starter is free to start, handles that connection pattern, and uses a publicly trusted TLS certificate, so no certificate file has to be uploaded to Vercel. Aiven or Railway MySQL would also work; only the SSL part of the connection string changes (see [Troubleshooting](#7-troubleshooting)).
+Why TiDB Cloud: the app needs MySQL, Vercel runs many short-lived serverless functions that each open their own connections, and TiDB Cloud Starter is free to start, handles that connection pattern, and uses a publicly trusted TLS certificate, so no certificate file has to be uploaded to Vercel. Aiven or Railway MySQL would also work; only the SSL part of the connection string changes (see [Troubleshooting](#8-troubleshooting)).
 
 ---
 
@@ -133,7 +133,7 @@ Your database is now in sync with your Prisma schema. Done in 75.67s
 Notes:
 
 - `--skip-generate` is only needed while a local `npm run dev` is running: Windows locks Prisma's engine file. The generated client is already up to date from the last install.
-- **The seed is slow over the internet.** It writes row by row (admissions, invoices, payments, timetable), and every write is a round trip from India to Singapore. It took **SEED_DURATION** here. It only has to run once. It refuses to run when `NODE_ENV=production` unless `SEED_ALLOW_DEMO=1` is also set.
+- **The seed is slow over the internet.** It writes row by row (admissions, invoices, payments, timetable), and every write is a round trip from India to Singapore. It took **about 89 minutes** (5,356 s) here, compared with about a minute against a local MySQL server. It only has to run once. It refuses to run when `NODE_ENV=production` unless `SEED_ALLOW_DEMO=1` is also set.
 - The seed skips a school that already exists, so running it twice does not duplicate data. To start over, drop and recreate the database (`npx prisma db push --force-reset --skip-generate`), which deletes everything in it.
 
 ### Step 5 — Set the Vercel environment variables
@@ -231,11 +231,66 @@ curl -s -b j $B/api/auth/session                                     # expect "r
 
 ## 4. Demo data and KPIs
 
-DEMO_DATA_SECTION
+The seed builds a realistic school, but some dashboard cards depend on *today* or on months the seed does not cover, so a fresh seed shows empty “today” cards and a gap after September. `docs/tools/demo-kpi.ts` fills those gaps.
+
+![The seed creates the base data once; the demo-kpi top-up adds today's data and later months; together they fill the school, teacher, family and platform dashboards](images/07-demo-data.svg)
+
+```powershell
+$env:DATABASE_URL = "mysql://…TiDB connection string…"
+npx tsx docs/tools/demo-kpi.ts                    # DEMO top-up + 9 sample schools
+npx tsx docs/tools/demo-kpi.ts --no-samples       # DEMO top-up only (the daily refresh)
+npx tsx docs/tools/demo-kpi.ts --remove-samples   # delete the sample schools again
+Remove-Item Env:DATABASE_URL
+```
+
+What fills each card:
+
+| Dashboard card | Comes from | Top-up adds |
+|---|---|---|
+| Students, staff, class strength | seed | 6 admissions this month, through the real admission service |
+| Present today, absent today, staff today | seed covers the last 30 working days, not today | today's marks for every student and employee |
+| Collected today, this month, payment modes | seed payments up to today | 8 receipts today, through the real fee service |
+| Income vs expense (6 months) | seed: fees, plus expenses and salaries April–September | October onward expenses, rent and scrap income, October salaries, and monthly development-charge income so each month ends in a small surplus |
+| Pending: leave, enquiries, books, stock, vehicles | seed | fresh enquiries and leave requests |
+| Birthdays today | random dates of birth | moves two students' birthdays to today |
+| Family: homework, live classes | seed (a few sections) | homework due this week in every section, 4 upcoming live classes |
+| Platform: schools, MRR, trials | DEMO and GVS only | 9 sample schools: 6 active, 3 on trial, 1 suspended |
+
+**Run it every day you demo.** “Today” on the live site is the UTC day, which starts at **05:30 IST**, so run the `--no-samples` refresh after 05:30 IST. It skips anything already present, so running it twice changes nothing. The sample schools have no user accounts, and `--remove-samples` refuses to delete any school that has one.
+
+The live dashboards after the top-up (8 November 2026):
+
+![Owner dashboard with every card filled: 200 students, 92% present today, fee collection trend, income above expense in every month, pending lists, absentees, receipts and birthdays](images/kpi-owner.webp)
+
+![Parent dashboard: attendance this month, fees due, homework due, latest exam result, live class and notices](images/kpi-parent.webp)
+
+![Platform console: 7 paying schools, 3 on trial with 2 ending this week, Rs 28,995 monthly recurring revenue, 2,629 active students](images/kpi-platform.webp)
+
+The timetable cards read “No classes today” in these screenshots because 8 November 2026 is a Sunday. The greeting still says “Dr.” instead of “Anand” until the greeting fix is deployed (QA report, bug 7).
 
 ---
 
-## 5. Environment variable reference
+## 5. Performance: run the functions next to the database
+
+Right after go-live, the site was correct but slow: `/api/me` took about 3.8 s and the owner dashboard about 12 s, even for a single user. The same build next to its database answers in 26 ms and 124 ms.
+
+![Bar chart, log scale: GET /api/me 3.76 s live vs 26 ms in QA; GET /api/dashboard 12.1 s live vs 124 ms in QA; sign-in 11.1 s live vs 822 ms in QA](../qa/images/perf-live-vs-qa.svg)
+
+The cause is placement, not code. The Vercel project ran its functions in **Washington, D.C. (`iad1`)**, Vercel's default region, while the database is in **Singapore**. Every query crosses the world and back, about a quarter of a second each, and a dashboard makes dozens of them. A query from India takes about 120 ms, and from inside Singapore it takes a few milliseconds.
+
+**Fix (ready, needs one push):** `vercel.json` in the repository pins the functions to Singapore:
+
+```json
+{ "$schema": "https://openapi.vercel.sh/vercel.json", "regions": ["sin1"] }
+```
+
+It takes effect with the next deployment from `main`. The same setting is in the dashboard under **Project → Settings → Functions → Function Region**. Choose the region of the database: if the database moves to Mumbai, use `bom1`.
+
+The full QA, security and load-test results are in [docs/qa/QA_REPORT.md](../qa/QA_REPORT.md).
+
+---
+
+## 6. Environment variable reference
 
 **Set in Production:**
 
@@ -257,7 +312,7 @@ DEMO_DATA_SECTION
 | `GOOGLE_CLIENT_ID`/`SECRET`, `AZURE_AD_CLIENT_ID`/`SECRET`/`TENANT_ID` | Single sign-on with Google or Microsoft |
 | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_BING_SITE_VERIFICATION` | Canonical links and search-console verification |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID`, `NEXT_PUBLIC_GOOGLE_ADS_ID`, `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL` | Analytics and ads conversion tracking (see `docs/marketing/GOOGLE_ADS_SETUP.md`) |
-| `STORAGE_DIR`, `MAX_FILE_SIZE` | Where uploads are stored; see the file-upload limitation in [section 8](#8-security-checklist-and-open-items) |
+| `STORAGE_DIR`, `MAX_FILE_SIZE` | Where uploads are stored; see the file-upload limitation in [section 9](#9-security-checklist-and-open-items) |
 
 **Keep unset in production:** `NEXT_PUBLIC_DEMO_MODE`, `PAYMENT_SANDBOX`, `NEXT_PUBLIC_SHOW_SAMPLE_CONTENT` (the last one shows fictional testimonials and customer numbers, which breaks Google Ads policy).
 
@@ -265,7 +320,7 @@ Variables whose name starts with `NEXT_PUBLIC_` are built into the pages, so the
 
 ---
 
-## 6. Day-to-day operations
+## 7. Day-to-day operations
 
 | Task | How |
 |---|---|
@@ -280,7 +335,7 @@ Variables whose name starts with `NEXT_PUBLIC_` are built into the pages, so the
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
@@ -298,7 +353,7 @@ Variables whose name starts with `NEXT_PUBLIC_` are built into the pages, so the
 
 ---
 
-## 8. Security checklist and open items
+## 9. Security checklist and open items
 
 **Do now:**
 
@@ -311,8 +366,10 @@ Variables whose name starts with `NEXT_PUBLIC_` are built into the pages, so the
 
 | Item | Why it matters | Suggested fix |
 |---|---|---|
+| Functions run far from the database | Every query crosses from Washington to Singapore, so pages take 4–12 s (section 5). | **Fixed in code, waiting for deploy:** `vercel.json` pins functions to `sin1`. |
+| Known-password demo accounts on the live site | `platform` controls every school and every website lead, and its password is the published demo password. | Change the `platform` password (and the DEMO owner's) before real schools sign up. |
 | File uploads do not work on Vercel | Uploads are written to `./storage` next to the app. On Vercel that folder is read-only and only a temporary folder is writable, so uploads fail or are lost. | Move uploads to object storage (for example S3, Cloudflare R2 or Vercel Blob) before real schools upload files. |
 | “Data hosted in India” on the website footer | The database is in Singapore. | Recreate the cluster in an India region if TiDB offers one for your plan, or change the footer text. |
-| Database errors leak into the sign-in error URL | When the database fails, the raw Prisma message ends up in `/api/auth/error?error=…`, visible to anyone. | Show a generic “Service unavailable” message and log the details on the server. |
-| The sign-in form reports outages as wrong passwords | It sent this whole investigation in the wrong direction at first. | Same fix as above: a separate message when the server cannot reach the database. |
+| Database errors leak into the sign-in error URL | When the database failed, the raw Prisma message ended up in `/api/auth/error?error=…`, visible to anyone. | **Fixed in code, waiting for deploy:** unexpected errors are logged on the server and reported as `UNAVAILABLE`. |
+| The sign-in form reported outages as wrong passwords | It sent this whole investigation in the wrong direction at first. | **Fixed in code, waiting for deploy:** the form now says “Sign-in is temporarily unavailable”. |
 | Demo data lives in the production database | Real schools will share the database with the DEMO and GVS schools and the sample schools. | Before launch, remove the sample schools (`--remove-samples`). Decide whether DEMO stays as a public demo school. |
