@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-labelledby="t d">
+  <title id="t">Production architecture</title>
+  <desc id="d">Users reach the Next.js app on Vercel over HTTPS. The app reads its settings from Vercel environment variables and talks to a TiDB Cloud Starter database in AWS Singapore over TLS. GitHub pushes trigger Vercel builds; the developer laptop manages the database schema and Vercel settings.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <style>
+      text { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; fill: #1e293b; }
+      .title { font-size: 19px; font-weight: 700; }
+      .sub { font-size: 12.5px; fill: #64748b; }
+      .h { font-size: 14px; font-weight: 700; }
+      .t { font-size: 12.5px; }
+      .s { font-size: 11.5px; fill: #475569; }
+      .mono { font-family: Consolas, 'Courier New', monospace; font-size: 11.5px; fill: #334155; }
+      .lbl { font-size: 11.5px; fill: #334155; font-weight: 600; }
+      .run { stroke: #475569; stroke-width: 1.8; fill: none; }
+      .ops { stroke: #64748b; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="959" height="559" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="28" y="40" class="title">Production architecture</text>
+  <text x="28" y="61" class="sub">https://school-management-module-v3-0.vercel.app · as deployed on 8 November 2026</text>
+
+  <!-- Users -->
+  <rect x="28" y="118" width="170" height="112" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="113" y="148" class="h" text-anchor="middle">Users</text>
+  <text x="113" y="171" class="t" text-anchor="middle">Parents · students</text>
+  <text x="113" y="189" class="t" text-anchor="middle">staff · website visitors</text>
+  <text x="113" y="212" class="s" text-anchor="middle">Browser or mobile app</text>
+
+  <!-- Vercel -->
+  <rect x="250" y="88" width="420" height="276" rx="14" fill="#fafafa" stroke="#0f172a" stroke-width="1.5"/>
+  <path d="M250 124 V102 a14 14 0 0 1 14 -14 H656 a14 14 0 0 1 14 14 V124 Z" fill="#0f172a"/>
+  <text x="268" y="112" class="h" style="fill:#ffffff">▲ Vercel · Production</text>
+  <text x="652" y="112" class="s" style="fill:#cbd5e1" text-anchor="end">project school-management-module-v3-0</text>
+
+  <rect x="270" y="138" width="380" height="44" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="460" y="165" class="t" text-anchor="middle">Edge network · HTTPS · domain alias</text>
+
+  <rect x="270" y="194" width="380" height="84" rx="8" fill="#f5f3ff" stroke="#a78bfa"/>
+  <text x="460" y="219" class="h" text-anchor="middle">Next.js 16 app (serverless functions)</text>
+  <text x="460" y="241" class="t" text-anchor="middle">Website · /login · dashboards · /api/* · NextAuth</text>
+  <text x="460" y="262" class="s" text-anchor="middle">Prisma Client, generated during the build</text>
+
+  <rect x="270" y="288" width="380" height="68" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="460" y="309" class="h" text-anchor="middle">Environment variables (sensitive)</text>
+  <text x="460" y="328" class="mono" text-anchor="middle">DATABASE_URL · NEXTAUTH_SECRET</text>
+  <text x="460" y="345" class="mono" text-anchor="middle">NEXTAUTH_URL · DATA_ENCRYPTION_KEY</text>
+  <path d="M460 288 V280" class="run" marker-end="url(#arrow)"/>
+
+  <!-- TiDB -->
+  <rect x="722" y="118" width="210" height="216" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="827" y="147" class="h" text-anchor="middle">TiDB Cloud · Starter</text>
+  <text x="827" y="172" class="t" text-anchor="middle">AWS ap-southeast-1</text>
+  <text x="827" y="190" class="t" text-anchor="middle">(Singapore)</text>
+  <text x="827" y="216" class="t" text-anchor="middle">MySQL-compatible · v8.5</text>
+  <text x="827" y="240" class="t" text-anchor="middle">Database: vidyalaya</text>
+  <text x="827" y="264" class="t" text-anchor="middle">Port 4000 · TLS required</text>
+  <text x="827" y="290" class="s" text-anchor="middle">110 tables from</text>
+  <text x="827" y="307" class="s" text-anchor="middle">prisma/schema.prisma</text>
+
+  <!-- GitHub -->
+  <rect x="250" y="420" width="214" height="100" rx="12" fill="#f8fafc" stroke="#334155"/>
+  <text x="357" y="448" class="h" text-anchor="middle">GitHub</text>
+  <text x="357" y="470" class="mono" text-anchor="middle">errupamkumar/</text>
+  <text x="357" y="487" class="mono" text-anchor="middle">School-Management-Module-V3.0</text>
+  <text x="357" y="508" class="s" text-anchor="middle">branch: main</text>
+
+  <!-- Laptop -->
+  <rect x="560" y="420" width="372" height="100" rx="12" fill="#f8fafc" stroke="#334155"/>
+  <text x="746" y="448" class="h" text-anchor="middle">Developer laptop (Windows · VS Code)</text>
+  <text x="746" y="470" class="t" text-anchor="middle">Prisma CLI: db push · seed · demo-kpi</text>
+  <text x="746" y="489" class="t" text-anchor="middle">Vercel CLI: link · env add · redeploy</text>
+  <text x="746" y="508" class="s" text-anchor="middle">Local MySQL 8 for development</text>
+
+  <!-- Runtime traffic -->
+  <path d="M198 168 H268" class="run" marker-end="url(#arrow)"/>
+  <text x="223" y="158" class="lbl" text-anchor="middle">HTTPS</text>
+  <path d="M650 236 H720" class="run" marker-end="url(#arrow)"/>
+  <text x="686" y="226" class="lbl" text-anchor="middle">Prisma</text>
+  <text x="686" y="258" class="lbl" text-anchor="middle">TLS</text>
+
+  <!-- Deployment and admin -->
+  <path d="M357 420 V366" class="ops" marker-end="url(#arrow)"/>
+  <text x="366" y="392" class="lbl">push to main → build</text>
+  <path d="M560 470 H466" class="ops" marker-end="url(#arrow)"/>
+  <text x="513" y="462" class="lbl" text-anchor="middle">git push</text>
+  <path d="M610 420 V366" class="ops" marker-end="url(#arrow)"/>
+  <text x="619" y="392" class="lbl">Vercel CLI</text>
+  <path d="M870 420 V336" class="ops" marker-end="url(#arrow)"/>
+  <text x="862" y="372" class="lbl" text-anchor="end">schema + data</text>
+  <text x="862" y="388" class="lbl" text-anchor="end">over TLS</text>
+
+  <!-- Legend -->
+  <path d="M28 544 H58" class="run"/>
+  <text x="66" y="548" class="s">runtime traffic</text>
+  <path d="M170 544 H200" class="ops"/>
+  <text x="208" y="548" class="s">deployment and admin</text>
+</svg>

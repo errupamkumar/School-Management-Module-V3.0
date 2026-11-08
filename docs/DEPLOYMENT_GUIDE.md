@@ -1,6 +1,8 @@
 # Vidyalaya School Management System — Free Cloud Deployment Guide
 **Zero Payment Details Required • Free for 30+ Days (or Forever)**
 
+> **Outdated:** this guide describes PostgreSQL on Neon, but the app now uses MySQL (Prisma `provider = "mysql"` plus MySQL-specific queries). For the current production setup on Vercel with TiDB Cloud, follow [deployment/DEPLOYMENT_VERCEL_TIDB.md](deployment/DEPLOYMENT_VERCEL_TIDB.md).
+
 ---
 
 ## 1. Executive Summary & Recommended Architecture

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 270" width="960" height="270" role="img" aria-labelledby="t d">
+  <title id="t">Seven steps from a broken login to a live database</title>
+  <desc id="d">1 Diagnose, 2 Create the TiDB cluster, 3 Build the connection string, 4 Create tables and load data, 5 Set Vercel environment variables, 6 Redeploy, 7 Verify. Steps 2 and 3 are done in the browser by the account owner; the others from the terminal.</desc>
+  <defs>
+    <style>
+      text { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; fill: #1e293b; }
+      .title { font-size: 19px; font-weight: 700; }
+      .num { font-size: 17px; font-weight: 700; fill: #ffffff; }
+      .h { font-size: 13px; font-weight: 700; }
+      .t { font-size: 11.5px; fill: #475569; }
+      .chip { font-size: 11px; font-weight: 600; fill: #334155; }
+      .leg { font-size: 12px; fill: #475569; }
+      .owner { fill: #f59e0b; }
+      .term { fill: #7c3aed; }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="959" height="269" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="28" y="40" class="title">Seven steps from a broken login to a live database</text>
+  <circle cx="620" cy="35" r="7" class="owner"/>
+  <text x="632" y="39" class="leg">in the browser (account owner)</text>
+  <circle cx="818" cy="35" r="7" class="term"/>
+  <text x="830" y="39" class="leg">from the terminal</text>
+
+  <line x1="92" y1="104" x2="867" y2="104" stroke="#cbd5e1" stroke-width="3"/>
+
+  <g text-anchor="middle">
+    <circle cx="92.5" cy="104" r="22" class="term"/><text x="92.5" y="110" class="num">1</text>
+    <text x="92.5" y="154" class="h">Diagnose</text>
+    <text x="92.5" y="174" class="t">curl the live API,</text>
+    <text x="92.5" y="190" class="t">saw Prisma’s error</text>
+    <rect x="52.5" y="206" width="80" height="22" rx="11" fill="#f1f5f9"/><text x="92.5" y="221" class="chip">2 min</text>
+
+    <circle cx="221.5" cy="104" r="22" class="owner"/><text x="221.5" y="110" class="num">2</text>
+    <text x="221.5" y="154" class="h">Create cluster</text>
+    <text x="221.5" y="174" class="t">TiDB Cloud Starter</text>
+    <text x="221.5" y="190" class="t">AWS Singapore</text>
+    <rect x="181.5" y="206" width="80" height="22" rx="11" fill="#f1f5f9"/><text x="221.5" y="221" class="chip">5 min</text>
+
+    <circle cx="350.5" cy="104" r="22" class="owner"/><text x="350.5" y="110" class="num">3</text>
+    <text x="350.5" y="154" class="h">Connection string</text>
+    <text x="350.5" y="174" class="t">Connect → Generate</text>
+    <text x="350.5" y="190" class="t">password, save file</text>
+    <rect x="310.5" y="206" width="80" height="22" rx="11" fill="#f1f5f9"/><text x="350.5" y="221" class="chip">2 min</text>
+
+    <circle cx="479.5" cy="104" r="22" class="term"/><text x="479.5" y="110" class="num">4</text>
+    <text x="479.5" y="154" class="h">Tables + data</text>
+    <text x="479.5" y="174" class="t">prisma db push,</text>
+    <text x="479.5" y="190" class="t">seed, demo-kpi</text>
+    <rect x="429.5" y="206" width="100" height="22" rx="11" fill="#fef3c7"/><text x="479.5" y="221" class="chip">76 s + seed</text>
+
+    <circle cx="608.5" cy="104" r="22" class="term"/><text x="608.5" y="110" class="num">5</text>
+    <text x="608.5" y="154" class="h">Vercel settings</text>
+    <text x="608.5" y="174" class="t">vercel login · link</text>
+    <text x="608.5" y="190" class="t">env add (4 variables)</text>
+    <rect x="568.5" y="206" width="80" height="22" rx="11" fill="#f1f5f9"/><text x="608.5" y="221" class="chip">3 min</text>
+
+    <circle cx="737.5" cy="104" r="22" class="term"/><text x="737.5" y="110" class="num">6</text>
+    <text x="737.5" y="154" class="h">Redeploy</text>
+    <text x="737.5" y="174" class="t">vercel redeploy</text>
+    <text x="737.5" y="190" class="t">--target production</text>
+    <rect x="697.5" y="206" width="80" height="22" rx="11" fill="#f1f5f9"/><text x="737.5" y="221" class="chip">2 min</text>
+
+    <circle cx="866.5" cy="104" r="22" class="term"/><text x="866.5" y="110" class="num">7</text>
+    <text x="866.5" y="154" class="h">Verify</text>
+    <text x="866.5" y="174" class="t">API + real sign-in</text>
+    <text x="866.5" y="190" class="t">as DEMO / owner</text>
+    <rect x="826.5" y="206" width="80" height="22" rx="11" fill="#dcfce7"/><text x="866.5" y="221" class="chip">✓ 1 min</text>
+  </g>
+  <text x="28" y="254" class="leg">Step 5 starts with “vercel login”, which the account owner approves in the browser. The demo seed is the slow part: every row is a network round trip to Singapore.</text>
+</svg>
